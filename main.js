@@ -27,8 +27,6 @@ function init(){
         visible: true,
         title: 'buildingsGeoJSON'
     })
-
-    determineColor("data/map.geojson")
-
-    map.addLayer(buildingsGeoJSON);
+    //map.addLayer(buildingsGeoJSON);
+    drawShapesOnMap("./data/map.geojson",map)
 }
