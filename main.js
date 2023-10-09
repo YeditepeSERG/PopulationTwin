@@ -1,4 +1,7 @@
 window.onload = init;
+
+const pathOfMap = './data/map2.geojson';
+
 function init(){
     const map = new ol.Map({
         view : new ol.View({
@@ -24,7 +27,7 @@ function init(){
 
     const buildingsGeoJSON = new ol.layer.VectorImage({
         source: new ol.source.Vector({
-            url: './data/map.geojson',
+            url: pathOfMap,
             format: new ol.format.GeoJSON()
         }),
         opacity: 0.8,
@@ -35,7 +38,7 @@ function init(){
 
     map.addLayer(buildingsGeoJSON);
 
-    drawShapesOnMap("./data/map.geojson", map);
+    drawShapesOnMap(pathOfMap, map);
 
     var layers = map.getLayers();
         layers.forEach(function(layer) {

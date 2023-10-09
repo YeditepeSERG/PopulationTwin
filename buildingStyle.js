@@ -70,8 +70,9 @@ function drawShapesOnMap(path, map){
                 console.log("Features:");
                 layer.getSource().getFeatures().forEach((f, i) => {
                     const style = getStyleByPopulation(f.getProperties().Population)
+                    console.log('another fucking');
                     f.setStyle(style)
-                    console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
+                    //console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
                 });  
             }
         });
