@@ -63,8 +63,9 @@ function drawShapesOnMap(path, map){
     .then(response => response.json())
     .then(data => {
         const format = new ol.format.GeoJSON();
-        const features = format.readFeatures(data)
+        const features = format.readFeatures(data);
         let style, population;
+        let allFeatures = [];
 
         let vectorLayer = new ol.layer.Vector({
             source: new ol.source.Vector(),
@@ -78,35 +79,33 @@ function drawShapesOnMap(path, map){
             population = feature.getProperties().Population;
             style = getStyleByPopulation(population);
 
-            let newFeature = new ol.Feature({
-                type: "Feature",
-                geometry: {type: "Polygon", coordinates: new ol.geom.Polygon([feature.getGeometry().getCoordinates()])},
-                Population: feature.getProperties().Population,
-                Name: feature.getProperties().Name,
-            });
-
-            newFeature.setStyle(style);
-            vectorLayer.getSource().addFeatures([newFeature]);
+            feature.setStyle(style);
+            allFeatures.push(feature);
         });
+        
+        vectorLayer.getSource().addFeatures(allFeatures);
         map.addLayer(vectorLayer);
     
         let layers = map.getLayers();
-            layers.forEach(function(layer, i) {
-                console.log("Layer "+ i + ": ",layer.get('title'));
-                if (layer.get('title') != "StandartLayer"){
-                    console.log("Features:");
-                    layer.getSource().getFeatures().forEach((f, i) => {
-                        console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population ,"\nColor: ",f.getStyle().getFill().getColor(), "\nCoordinates: ", f.getGeometry().getCoordinates()) 
-                    });  
-                }
+        layers.forEach(function(layer, i) {
+            console.log("Layer "+ i + ": ",layer.get('title'));
+            if (layer.get('title') != "StandartLayer"){
+                console.log("Features:");
+                layer.getSource().getFeatures().forEach((f, i) => {
+                    
+                    console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population ,"\nColor: ",f.getStyle().getFill().getColor(), "\nCoordinates: ", f.getGeometry().getCoordinates()) 
+                });  
+            }
         });
+
     })
     .catch(error => console.error('Error:', error));
 }
 
-function changeStyleByPopulation(features){
-    //var features = layer.getSource().getFeatures();
-    console.log(features);
+function changeStyleByPopulation(source){
+    console.log(source);
+    let features = source.getFeatures();
+    console.log(features);    
     features.forEach(feature => {
         let population = feature.getProperties().Population;
         let style = getStyleByPopulation(population);
