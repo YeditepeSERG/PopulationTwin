@@ -37,7 +37,7 @@ function init(){
 
     //buildingsGeoJSON.setStyle(getStyleByPopulation(1500));
 
-    //drawShapesOnMap("./data/map.geojson", map);
+    drawShapesOnMap("./data/map.geojson", map);
 
     changeStyleByPopulation(buildingsGeoJSON.getSource())
 

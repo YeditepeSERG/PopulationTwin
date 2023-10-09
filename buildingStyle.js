@@ -75,11 +75,12 @@ function drawShapesOnMap(path, map){
             title: "VectorLayer"
         });
 
+        console.log("this is features :" + features.length)
+
         features.forEach((feature) => {
             population = feature.getProperties().Population;
             style = getStyleByPopulation(population);
-
-            feature.setStyle(style);
+            console.log("this is feature : " + feature)
             allFeatures.push(feature);
         });
         
@@ -91,9 +92,12 @@ function drawShapesOnMap(path, map){
             console.log("Layer "+ i + ": ",layer.get('title'));
             if (layer.get('title') != "StandartLayer"){
                 console.log("Features:");
+                let sum = 0;
                 layer.getSource().getFeatures().forEach((f, i) => {
-                    
-                    console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population ,"\nColor: ",f.getStyle().getFill().getColor(), "\nCoordinates: ", f.getGeometry().getCoordinates()) 
+                    const style = getStyleByPopulation(sum)
+                    sum = sum + 500
+                    f.setStyle(style)
+                    console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
                 });  
             }
         });
@@ -104,6 +108,7 @@ function drawShapesOnMap(path, map){
 
 function changeStyleByPopulation(source){
     console.log(source);
+
     let features = source.getFeatures();
     console.log(features);    
     features.forEach(feature => {
