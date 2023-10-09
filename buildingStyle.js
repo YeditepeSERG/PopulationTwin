@@ -62,40 +62,14 @@ function drawShapesOnMap(path, map){
     fetch(path)
     .then(response => response.json())
     .then(data => {
-        const format = new ol.format.GeoJSON();
-        const features = format.readFeatures(data);
-        let style, population;
-        let allFeatures = [];
-
-        let vectorLayer = new ol.layer.Vector({
-            source: new ol.source.Vector(),
-            opacity: 0.8,
-            visible: true,
-            zIndex: 2,
-            title: "VectorLayer"
-        });
-
-        console.log("this is features :" + features.length)
-
-        features.forEach((feature) => {
-            population = feature.getProperties().Population;
-            style = getStyleByPopulation(population);
-            console.log("this is feature : " + feature)
-            allFeatures.push(feature);
-        });
-        
-        vectorLayer.getSource().addFeatures(allFeatures);
-        map.addLayer(vectorLayer);
     
         let layers = map.getLayers();
         layers.forEach(function(layer, i) {
             console.log("Layer "+ i + ": ",layer.get('title'));
             if (layer.get('title') != "StandartLayer"){
                 console.log("Features:");
-                let sum = 0;
                 layer.getSource().getFeatures().forEach((f, i) => {
-                    const style = getStyleByPopulation(sum)
-                    sum = sum + 500
+                    const style = getStyleByPopulation(f.getProperties().Population)
                     f.setStyle(style)
                     console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
                 });  
@@ -106,10 +80,7 @@ function drawShapesOnMap(path, map){
     .catch(error => console.error('Error:', error));
 }
 
-function changeStyleByPopulation(source){
-    console.log(source);
-
-    let features = source.getFeatures();
+function changeStyleByPopulation(features){
     console.log(features);    
     features.forEach(feature => {
         let population = feature.getProperties().Population;

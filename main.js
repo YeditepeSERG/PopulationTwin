@@ -35,11 +35,7 @@ function init(){
 
     map.addLayer(buildingsGeoJSON);
 
-    //buildingsGeoJSON.setStyle(getStyleByPopulation(1500));
-
     drawShapesOnMap("./data/map.geojson", map);
-
-    changeStyleByPopulation(buildingsGeoJSON.getSource())
 
     var layers = map.getLayers();
         layers.forEach(function(layer) {
