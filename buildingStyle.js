@@ -77,7 +77,6 @@ function drawShapesOnMap(path, map){
 
     })
     .catch(error => console.error('Error:', error));
-    popupMaker(path,  map)
 }
 
 function changeStyleByPopulation(features){

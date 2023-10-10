@@ -7,6 +7,7 @@ function init(){
     const buildingsGeoJSON = loadGeoJSON(pathOfMap);
     map.addLayer(buildingsGeoJSON);
     drawShapesOnMap(pathOfMap, map);
+    setPopup(map);
 }
 
 function createMap(){
@@ -47,4 +48,37 @@ function loadGeoJSON(path){
         title: 'buildingsGeoJSON',
     });
     return buildingsGeoJSON;
+}
+
+function setPopup(map){
+    let container = document.getElementById('popup');
+    let content = document.getElementById('popup-content');
+    let closer = document.getElementById('popup-closer');
+    
+    let overlay = new ol.Overlay({
+      element: container,
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
+    });
+
+    map.addOverlay(overlay)
+
+    map.on('click', (e)=>{
+      map.forEachFeatureAtPixel(e.pixel, feature=>{
+          console.log(feature);
+          console.log(e.coordinate)
+          infoTxt = `<p>${e.coordinate}</p><code>`
+          content.innerHTML = infoTxt;
+          overlay.setPosition(e.coordinate);
+          console.log(content)
+      });
+    });
+
+    var layers = map.getLayers();
+        layers.forEach(function(layer) {
+        console.log("main: ",layer.get('title'));
+    });
 }
