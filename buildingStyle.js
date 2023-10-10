@@ -82,28 +82,27 @@ function drawShapesOnMap(path, map){
     popupMaker(path,  map)
 }
 
-function popupMaker(path, map) {
-
-    let container = document.createElement("popup")
-    container.innerHTML = "hello"
-    console.log(container)
-    container.style.color = 'blue'
-    container.style.font = "arial"
-    container.style.fontSize = '15'
+//Pop-up making test.
+// function popupMaker(path, map) {
+//     let container = document.createElement("popup")
+//     container.innerHTML = "hello"
+//     console.log(container)
+//     container.style.color = 'blue'
+//     container.style.font = "arial"
+//     container.style.fontSize = '15'
     
-    const overlay = new ol.Overlay({
-        element: container,
-        autoPan: {
-          animation: {
-            duration: 250,
-          },
-        },
-      });
+//     const overlay = new ol.Overlay({
+//         element: container,
+//         autoPan: {
+//           animation: {
+//             duration: 250,
+//           },
+//         },
+//       });
     
-    overlay.setPosition([3245075.5956414873, 5008280.403576283])
-    map.addOverlay(overlay)
-
-} 
+//     overlay.setPosition([3245075.5956414873, 5008280.403576283])
+//     map.addOverlay(overlay)
+// } 
 
 function changeStyleByPopulation(features){
     console.log(features);    
