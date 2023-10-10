@@ -62,16 +62,23 @@ function drawShapesOnMap(path, map){
     fetch(path)
     .then(response => response.json())
     .then(data => {
-    
-        let layers = map.getLayers();
-        layers.forEach(function(layer, i) {
-            if (layer.get('title') != "StandartLayer"){
-                layer.getSource().getFeatures().forEach((f, i) => {
-                    const style = getStyleByPopulation(f.getProperties().Population)
-                    f.setStyle(style)
-                });  
+
+    let layers = map.getLayers();
+    layers.forEach(function(layer, i) {
+        if (layer.get('title') != "StandartLayer"){
+            let features;
+            features = layer.getSource().getFeatures()
+
+            if(features.length == 0) {
+                location.reload()
             }
-        });
+            
+            features.forEach((f, i) => {
+                const style = getStyleByPopulation(f.getProperties().Population)
+                f.setStyle(style)
+            });  
+        }
+    });
 
     })
     .catch(error => console.error('Error:', error));
