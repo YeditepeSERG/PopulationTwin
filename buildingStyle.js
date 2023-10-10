@@ -70,16 +70,40 @@ function drawShapesOnMap(path, map){
                 console.log("Features:");
                 layer.getSource().getFeatures().forEach((f, i) => {
                     const style = getStyleByPopulation(f.getProperties().Population)
-                    console.log('another fucking');
                     f.setStyle(style)
-                    //console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
+                    
+                    // console.log("Index: "+i,"\nFeature: ",f,"\nProperties: ",f.getProperties(),"\nPopulation: ",f.getProperties().Population , "\nCoordinates: ", f.getGeometry().getCoordinates()) 
                 });  
             }
         });
 
     })
     .catch(error => console.error('Error:', error));
+    popupMaker(path,  map)
 }
+
+function popupMaker(path, map) {
+
+    let container = document.createElement("popup")
+    container.innerHTML = "hello"
+    console.log(container)
+    container.style.color = 'blue'
+    container.style.font = "arial"
+    container.style.fontSize = '15'
+    
+    const overlay = new ol.Overlay({
+        element: container,
+        autoPan: {
+          animation: {
+            duration: 250,
+          },
+        },
+      });
+    
+    overlay.setPosition([3245075.5956414873, 5008280.403576283])
+    map.addOverlay(overlay)
+
+} 
 
 function changeStyleByPopulation(features){
     console.log(features);    

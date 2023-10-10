@@ -40,6 +40,27 @@ function init(){
 
     drawShapesOnMap(pathOfMap, map);
 
+    //Selected area test start .
+    const selectedStyle = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(255, 255, 255, 0.6)',
+        }),
+        stroke: new ol.style.Stroke({
+          color: 'rgba(255, 255, 255, 0.7)',
+          width: 2,
+        }),
+      });
+    const select = new ol.interaction.Select({
+        style: function (feature) {
+            console.log('the selected feature is : ' + feature.getProperties().Name )
+          const color = feature.get('COLOR_BIO') || '#eeeeee';
+          selectedStyle.getFill().setColor(color);
+          return selectedStyle;
+        },
+      });
+      map.addInteraction(select);
+    //Selected area test end.
+
     var layers = map.getLayers();
         layers.forEach(function(layer) {
         console.log("main: ",layer.get('title'));
