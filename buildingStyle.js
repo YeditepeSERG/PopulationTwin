@@ -65,9 +65,7 @@ function drawShapesOnMap(path, map){
     
         let layers = map.getLayers();
         layers.forEach(function(layer, i) {
-            console.log("Layer "+ i + ": ",layer.get('title'));
             if (layer.get('title') != "StandartLayer"){
-                console.log("Features:");
                 layer.getSource().getFeatures().forEach((f, i) => {
                     const style = getStyleByPopulation(f.getProperties().Population)
                     f.setStyle(style)
@@ -77,13 +75,4 @@ function drawShapesOnMap(path, map){
 
     })
     .catch(error => console.error('Error:', error));
-}
-
-function changeStyleByPopulation(features){
-    console.log(features);    
-    features.forEach(feature => {
-        let population = feature.getProperties().Population;
-        let style = getStyleByPopulation(population);
-        feature.setStyle(style)
-    })
 }

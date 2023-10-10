@@ -68,17 +68,25 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature=>{
-          console.log(feature);
-          console.log(e.coordinate)
-          infoTxt = `<p>${e.coordinate}</p><code>`
-          content.innerHTML = infoTxt;
-          overlay.setPosition(e.coordinate);
-          console.log(content)
+        console.log(feature.values_);
+
+        infoTxt = `<p>`
+        for (var key in feature.values_){
+          if(key == "geometry"){
+            continue;
+          }
+          infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+        }
+        infoTxt = infoTxt + `</p><code>`;
+
+        content.innerHTML = infoTxt;
+        overlay.setPosition(e.coordinate);
       });
     });
 
-    var layers = map.getLayers();
-        layers.forEach(function(layer) {
-        console.log("main: ",layer.get('title'));
-    });
+    closer.onclick = function () {
+      overlay.setPosition(undefined);
+      closer.blur();
+      return false;
+    };
 }
