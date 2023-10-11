@@ -58,51 +58,13 @@ function getStyleByPopulation(population){
     return style;
 }
 
-//DUMMY SOLUTION
-function drawShapesOnMap(path, map){
-    fetch(path)
-    .then(response => response.json())
-    .then(data => {
-        fetch(path).then(response=> response.json()).then(data=>{
-            let layers = map.getLayers();
-            layers.forEach(function(layer, i) {
-                if (layer.get('title') != "StandartLayer"){
-                    features = layer.getSource().getFeatures()
-        
-                    features.forEach((f, i) => {
-                        const style = getStyleByPopulation(f.getProperties().Population)
-                        f.setStyle(style)
-                    });  
-                }
-            });
-        })
-    })
-    .catch(error => console.error('Error:', error));
+function drawShapesOnMap(layer){
+    let delayTime = 20;
+    setTimeout(() => {
+        features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const style = getStyleByPopulation(feature.getProperties().Population)
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
 }
-
-//FIRST DUMMY SOLUTION
-// function drawShapesOnMap(path, map){
-//     fetch(path)
-//     .then(response => response.json())
-//     .then(data => {
-
-//     let layers = map.getLayers();
-//     layers.forEach(function(layer, i) {
-//         if (layer.get('title') != "StandartLayer"){
-//             let features;
-//             features = layer.getSource().getFeatures()
-
-//             if(features.length == 0) {
-//                 location.reload()
-//             }
-
-//             features.forEach((f, i) => {
-//                 const style = getStyleByPopulation(f.getProperties().Population)
-//                 f.setStyle(style)
-//             });  
-//         }
-//     });
-
-//     })
-//     .catch(error => console.error('Error:', error));
-// }

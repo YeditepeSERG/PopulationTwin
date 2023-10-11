@@ -6,7 +6,7 @@ function init(){
     const map = createMap();
     const buildingsGeoJSON = loadGeoJSON(pathOfMap);
     map.addLayer(buildingsGeoJSON);
-    drawShapesOnMap(pathOfMap, map);
+    drawShapesOnMap(buildingsGeoJSON);
     setPopup(map);
 }
 
