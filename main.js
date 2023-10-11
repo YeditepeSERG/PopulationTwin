@@ -27,11 +27,37 @@ function createMap(){
         title: "StandartLayer"
     });
 
-    map.addLayer(standartLayer);
+    
+    const humaniterianLayer = new ol.layer.Tile({
+        source: new ol.source.OSM({
+          url: ' https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+        }),
+        visible: false,
+        zIndex: 1,
+        title: "HumaiterianLayer"
+    });
 
+    const baseLayerGroup = new ol.layer.Group({
+      layers: [ standartLayer, humaniterianLayer]
+    });
+
+    const baseLayerElements = document.querySelectorAll('.sidebar > input[type=radio]');
+    console.log(baseLayerElements);
+    for(let baseLayerElement of baseLayerElements){
+      baseLayerElement.addEventListener('change',function(){
+        let baseLayerElementValue = this.values;
+        baseLayerGroup.getLayers().forEach(function(element,index,array){
+          let baseLayerTitle = element.get('title');
+          element.setVisible(baseLayerTitle === baseLayerElementValue);
+          console.log(baseLayerTitle+" "+baseLayerElementValue);
+        })
+      })
+    }
     map.on('click',function(e){
         console.log(e.coordinate)
     });
+
+    map.addLayer(baseLayerGroup);
 
     return map;
 }
