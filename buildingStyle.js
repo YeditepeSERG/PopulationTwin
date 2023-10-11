@@ -1,31 +1,3 @@
-let populationRanges = [
-    {
-        "Density": "EXTREMEHIGH",
-        "Color": "red",
-        "MinPop": 2000
-    },
-    {
-        "Density": "HIGH",
-        "Color": "orange",
-        "MinPop": 1200
-    },
-    {
-        "Density": "MID",
-        "Color": "yellow",
-        "MinPop": 800
-    },
-    {
-        "Density": "LOW",
-        "Color": "green",
-        "MinPop": 400
-    },
-    {
-        "Density": "EXTREMELOW",
-        "Color": "grey",
-        "MinPop": 0
-    }
-]
-
 function getColorByPopulation(population){
     for(var i=0; i<populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
@@ -64,6 +36,17 @@ function drawShapesOnMap(layer){
         features = layer.getSource().getFeatures();
         features.forEach((feature) => {
             const style = getStyleByPopulation(feature.getProperties().Population)
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
+}
+
+function drawShapesOnMapForBuilding(layer){
+    let delayTime = 50;
+    setTimeout(() => {
+        features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const style = feature.getProperties().getStyle();
             feature.setStyle(style)
         });  
     }, delayTime); 
