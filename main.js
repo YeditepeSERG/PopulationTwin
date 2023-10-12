@@ -55,14 +55,65 @@ function createMap(){
         source: new ol.source.OSM(),
         visible: true,
         zIndex: 1,
-        title: "StandartLayer"
+        title: "OSMStandard"
     });
 
-    map.addLayer(standartLayer);
+    
+    const humaniterianLayer = new ol.layer.Tile({
+        source: new ol.source.OSM({
+          url: ' https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+        }),
+        visible: false,
+        zIndex: 1,
+        title: "OSMHumanitarian"
+    });
 
+    const key = '0GaezYjFLpwM2dMexGjy';
+    const roadLayer = new ol.layer.Tile({
+        source: new ol.source.XYZ({
+          url: 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=' + key,
+        }),
+        visible: false,
+        zIndex: 1,
+        title: "XYZRoad",
+    });
+
+    const aerialLayer = new ol.layer.Tile({
+        source: new ol.source.XYZ({
+          url: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + key,
+        }),
+        visible: false,
+        zIndex: 1,
+        title: "XYZAeriel",
+    });
+
+    const baseLayerGroup = new ol.layer.Group({
+      layers: [ standartLayer, humaniterianLayer, roadLayer, aerialLayer]
+    });
+
+    const baseLayerElements = document.querySelectorAll('.sidebar > select');
+    for(let baseLayerElement of baseLayerElements){
+      baseLayerElement.addEventListener('change',function(){
+        let baseLayerElementValue = this.value;
+        baseLayerGroup.getLayers().forEach(function(element,index,array){
+          let baseLayerTitle = element.get('title');
+          element.setVisible(baseLayerTitle === baseLayerElementValue);
+          if(baseLayerTitle == baseLayerElementValue){
+            //element.setVisible(true);
+            console.log(element.get('title'));
+          }
+          else{
+            //element.setVisible(false);
+            console.log(element.get('title'));
+          }
+        })
+      })
+    }
     map.on('click',function(e){
         console.log(e.coordinate)
     });
+
+    map.addLayer(baseLayerGroup);
 
     return map;
 }

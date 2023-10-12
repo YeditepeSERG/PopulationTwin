@@ -31,7 +31,7 @@ function getStyleByPopulation(population){
 }
 
 function drawShapesOnMap(layer){
-    let delayTime = 20;
+    let delayTime = 100;
     setTimeout(() => {
         features = layer.getSource().getFeatures();
         features.forEach((feature) => {
