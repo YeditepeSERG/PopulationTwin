@@ -42,7 +42,7 @@ function drawShapesOnMap(layer){
 }
 
 function drawShapesOnMapForBuilding(layer){
-    let delayTime = 50;
+    let delayTime = 100;
     setTimeout(() => {
         features = layer.getSource().getFeatures();
         features.forEach((feature) => {
