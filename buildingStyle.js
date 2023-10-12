@@ -1,4 +1,38 @@
-function getColorByPopulation(population){
+import {Style, Fill, Stroke} from "ol/style.js"
+let populationRanges = [
+    {
+        "Risk": 4,
+        "Density": "EXTREMEHIGH",
+        "Color": "red",
+        "MinPop": 2000
+    },
+    {
+        "Risk": 3,
+        "Density": "HIGH",
+        "Color": "orange",
+        "MinPop": 1200
+    },
+    {
+        "Risk": 2,
+        "Density": "MID",
+        "Color": "yellow",
+        "MinPop": 800
+    },
+    {
+        "Risk": 1,
+        "Density": "LOW",
+        "Color": "green",
+        "MinPop": 400
+    },
+    {
+        "Risk": 0,
+        "Density": "EXTREMELOW",
+        "Color": "grey",
+        "MinPop": 0
+    }
+]
+let features;
+export function getColorByPopulation(population){
     for(var i=0; i<populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
             return populationRanges[i].Color;
@@ -7,30 +41,24 @@ function getColorByPopulation(population){
     return null;
 }
 
-function getStyleByPopulation(population){
+export function getStyleByPopulation(population){
     var fillColor = getColorByPopulation(population);
     var strokeColor = "black";
     var strokeWidth = 1.2;
-    var text = population.toString();
-    var textFont = "bold 10px serif";
 
-    const style = new ol.style.Style({
-        fill: new ol.style.Fill({
+    const style = new Style({
+        fill: new Fill({
             color: fillColor,
         }),
-        stroke: new ol.style.Stroke({
+        stroke: new Stroke({
             color: strokeColor,
             width: strokeWidth
         }),
-        text: new ol.style.Text({
-            text: text,
-            font: textFont
-        })
     });
     return style;
 }
 
-function drawShapesOnMap(layer){
+export function drawShapesOnMap(layer){
     let delayTime = 100;
     setTimeout(() => {
         features = layer.getSource().getFeatures();
@@ -41,7 +69,7 @@ function drawShapesOnMap(layer){
     }, delayTime); 
 }
 
-function drawShapesOnMapForBuilding(layer){
+export function drawShapesOnMapForBuilding(layer){
     let delayTime = 100;
     setTimeout(() => {
         features = layer.getSource().getFeatures();

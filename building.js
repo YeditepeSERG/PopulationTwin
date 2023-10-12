@@ -1,35 +1,6 @@
-let populationRanges = [
-    {
-        "Risk": 4,
-        "Density": "EXTREMEHIGH",
-        "Color": "red",
-        "MinPop": 2000
-    },
-    {
-        "Risk": 3,
-        "Density": "HIGH",
-        "Color": "orange",
-        "MinPop": 1200
-    },
-    {
-        "Risk": 2,
-        "Density": "MID",
-        "Color": "yellow",
-        "MinPop": 800
-    },
-    {
-        "Risk": 1,
-        "Density": "LOW",
-        "Color": "green",
-        "MinPop": 400
-    },
-    {
-        "Risk": 0,
-        "Density": "EXTREMELOW",
-        "Color": "grey",
-        "MinPop": 0
-    }
-]
+import {Fill, Stroke, Style} from 'ol/style.js';
+
+
 
 let buildingList = [
     {
@@ -118,11 +89,11 @@ function getStyleByColor(fillColor){
     var strokeColor = "black";
     var strokeWidth = 1.2;
 
-    const style = new ol.style.Style({
-        fill: new ol.style.Fill({
+    const style = new Style({
+        fill: new Fill({
             color: fillColor,
         }),
-        stroke: new ol.style.Stroke({
+        stroke: new Stroke({
             color: strokeColor,
             width: strokeWidth
         }),

@@ -1,19 +1,28 @@
-window.onload = init;
+import LayerGroup from "ol/layer/Group";
+import OSM from 'ol/source/OSM.js';
+import VectorImageLayer from 'ol/layer/VectorImage.js';
+import VectorSource from "ol/source/Vector";
+import GeoJSON from 'ol/format/GeoJSON.js';
+import Map from 'ol/Map.js';
+import View from 'ol/View.js'
+import TileLayer from "ol/layer/Tile";
+import XYZ from 'ol/source/XYZ.js';
+import Overlay from 'ol/Overlay.js';
+
+import { drawShapesOnMap } from "./buildingStyle";
 
 const pathOfMap = './data/map2.geojson';
 
-function init(){
-    const map = createMap();
-    const buildingsGeoJSON = loadGeoJSON(pathOfMap);
-  
-    map.addLayer(buildingsGeoJSON);
-    drawShapesOnMap(buildingsGeoJSON);
-    setPopup(map);
-}
+const map = createMap();
+const buildingsGeoJSON = loadGeoJSON(pathOfMap);
+
+map.addLayer(buildingsGeoJSON);
+drawShapesOnMap(buildingsGeoJSON)
+setPopup(map);
 
 function createMap(){
-    const map = new ol.Map({
-        view : new ol.View({
+    const map = new Map({
+        view : new View({
             center: [3245075.5956414873, 5008280.403576283],
             zoom: 17,
             maxZoom: 20
@@ -21,16 +30,16 @@ function createMap(){
         target: 'js-map'
     });
 
-    const standartLayer = new ol.layer.Tile({
-        source: new ol.source.OSM(),
+    const standartLayer = new TileLayer({ // kontrol , Tile idi
+        source: new OSM(),
         visible: true,
         zIndex: 1,
         title: "OSMStandard"
     });
 
     
-    const humaniterianLayer = new ol.layer.Tile({
-        source: new ol.source.OSM({
+    const humaniterianLayer = new TileLayer({
+        source: new OSM({
           url: ' https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
         }),
         visible: false,
@@ -39,8 +48,8 @@ function createMap(){
     });
 
     const key = '0GaezYjFLpwM2dMexGjy';
-    const roadLayer = new ol.layer.Tile({
-        source: new ol.source.XYZ({
+    const roadLayer = new TileLayer({
+        source: new XYZ({
           url: 'https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=' + key,
         }),
         visible: false,
@@ -48,8 +57,8 @@ function createMap(){
         title: "XYZRoad",
     });
 
-    const aerialLayer = new ol.layer.Tile({
-        source: new ol.source.XYZ({
+    const aerialLayer = new TileLayer({
+        source: new XYZ({
           url: 'https://api.maptiler.com/tiles/satellite/{z}/{x}/{y}.jpg?key=' + key,
         }),
         visible: false,
@@ -57,7 +66,7 @@ function createMap(){
         title: "XYZAeriel",
     });
 
-    const baseLayerGroup = new ol.layer.Group({
+    const baseLayerGroup = new LayerGroup({ // test et bozulabilir. Degisik isimlendirme oldu node paketinde
       layers: [ standartLayer, humaniterianLayer, roadLayer, aerialLayer]
     });
 
@@ -81,10 +90,10 @@ function createMap(){
 }
 
 function loadGeoJSON(path){
-    const buildingsGeoJSON = new ol.layer.VectorImage({
-        source: new ol.source.Vector({
+    const buildingsGeoJSON = new VectorImageLayer({
+        source: new VectorSource({
             url: path,
-            format: new ol.format.GeoJSON()
+            format: new GeoJSON()
         }),
         opacity: 0.8,
         visible: true,
@@ -99,7 +108,7 @@ function setPopup(map){
     let content = document.getElementById('popup-content');
     let closer = document.getElementById('popup-closer');
     
-    let overlay = new ol.Overlay({
+    let overlay = new Overlay({
       element: container,
       autoPan: {
         animation: {
