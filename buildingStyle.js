@@ -1,4 +1,5 @@
 import {Style, Fill, Stroke} from "ol/style.js"
+
 let populationRanges = [
     {
         "Risk": 4,
@@ -31,7 +32,7 @@ let populationRanges = [
         "MinPop": 0
     }
 ]
-let features;
+
 export function getColorByPopulation(population){
     for(var i=0; i<populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
@@ -61,20 +62,9 @@ export function getStyleByPopulation(population){
 export function drawShapesOnMap(layer){
     let delayTime = 100;
     setTimeout(() => {
-        features = layer.getSource().getFeatures();
+        let features = layer.getSource().getFeatures();
         features.forEach((feature) => {
             const style = getStyleByPopulation(feature.getProperties().Population)
-            feature.setStyle(style)
-        });  
-    }, delayTime); 
-}
-
-export function drawShapesOnMapForBuilding(layer){
-    let delayTime = 100;
-    setTimeout(() => {
-        features = layer.getSource().getFeatures();
-        features.forEach((feature) => {
-            const style = feature.getProperties().getStyle();
             feature.setStyle(style)
         });  
     }, delayTime); 

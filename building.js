@@ -1,6 +1,37 @@
 import {Fill, Stroke, Style} from 'ol/style.js';
 
-
+let populationRanges = [
+    {
+        "Risk": 4,
+        "Density": "EXTREMEHIGH",
+        "Color": "red",
+        "MinPop": 2000
+    },
+    {
+        "Risk": 3,
+        "Density": "HIGH",
+        "Color": "orange",
+        "MinPop": 1200
+    },
+    {
+        "Risk": 2,
+        "Density": "MID",
+        "Color": "yellow",
+        "MinPop": 800
+    },
+    {
+        "Risk": 1,
+        "Density": "LOW",
+        "Color": "green",
+        "MinPop": 400
+    },
+    {
+        "Risk": 0,
+        "Density": "EXTREMELOW",
+        "Color": "grey",
+        "MinPop": 0
+    }
+]
 
 let buildingList = [
     {
@@ -13,7 +44,7 @@ let buildingList = [
     }    
 ]
 
-class Building{
+export class Building{
     constructor(buildingType, name, population){
         this.buildingType = buildingType;
         this.name = name;
@@ -57,7 +88,6 @@ class Building{
     }
 }
 
-
 function determineRiskScale(population){
     for(var i=0; i<=populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
@@ -99,4 +129,15 @@ function getStyleByColor(fillColor){
         }),
     });
     return style;
+}
+
+export function drawShapesOnMapForBuilding(layer){
+    let delayTime = 100;
+    setTimeout(() => {
+        let features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const style = feature.getProperties().getStyle();
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
 }
