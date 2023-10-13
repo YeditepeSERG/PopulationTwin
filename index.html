@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Population Map</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="inputPopup/popup.css">
 </head>
 <body>
     <header class="main-header">
@@ -29,6 +30,21 @@
                 <option value="XYZAeriel">Aerial</option>
               </select>
             </div>
+
+            <button onclick="openForm()">Open Form</button>
+
+            <div class="form-popup" id="myForm">
+              <form class="form-container">
+                <h4 style="color: black; text-align: center;">Building Details</h4>
+                <label for="population" style="color: black;">Name</label>
+                <input type="text" id="name">
+                <label for="population" style="color: black;">Population</label>
+                <input type="text" id="population">
+                <button type="button" class="btn" onclick="closeForm()">Submit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+              </form>
+            </div>
+            <script src="inputPopup/inputForm.js"></script>
           </div>
         </div>
     </header>
