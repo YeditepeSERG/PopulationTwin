@@ -3,7 +3,6 @@ window.onload = init;
 const pathOfMap = './data/map3.geojson';
 
 window.onload = init;
-let version = false;
 
 function init(){
   const map = createMap();
@@ -11,40 +10,7 @@ function init(){
   
   map.addLayer(buildingsGeoJSON);
 
-  if(version){
-    drawShapesOnMap(buildingsGeoJSON);
-  }
-  else{
-    const coor = [
-      [
-        [
-          29.153196148621475,
-          40.97379119725855
-        ],
-        [
-          29.153141861075994,
-          40.973597969634426
-        ],
-        [
-          29.153374521983523,
-          40.973556981883945
-        ],
-        [
-          29.153444320255772,
-          40.97374142656119
-        ],
-        [
-          29.153196148621475,
-          40.97379119725855
-        ]
-      ]
-    ];
-  
-    let newBuilding = new Building("Apartment", "A1", 300);
-    addNewBuildingToJson(newBuilding, coor);
-    newBuilding.display();
-    drawShapesOnMapForBuilding(buildingsGeoJSON)
-  }
+  drawShapesOnMap(buildingsGeoJSON);
   setPopup(map);
 }
 
@@ -149,11 +115,9 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature=>{
-        console.log(feature.values_);
-
         infoTxt = `<p>`
         for (var key in feature.values_){
-          if(key == "geometry"){
+          if(key == "geometry" || key == "imgPath"){
             continue;
           }
           infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;

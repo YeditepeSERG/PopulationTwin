@@ -1,1 +1,43 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"buildingType":"Apartment","name":"A1","population":300,"risk":0,"color":"grey","style":{"geometry_":null,"fill_":{"color_":"grey"},"image_":null,"renderer_":null,"hitDetectionRenderer_":null,"stroke_":{"color_":"black","lineDash_":null,"width_":1.2},"text_":null},"imgPath":null},"geometry":{"coordinates":[[[29.153196148621475,40.97379119725855],[29.153141861075994,40.973597969634426],[29.153374521983523,40.973556981883945],[29.153444320255772,40.97374142656119],[29.153196148621475,40.97379119725855]]],"type":"Polygon"}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "buildingType": "Cafe",
+                "name": "Sera",
+                "population": 50,
+                "risk": 0,
+                "color": "grey",
+                "imgPath": null
+            },
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            29.153196148621475,
+                            40.97379119725855
+                        ],
+                        [
+                            29.153141861075994,
+                            40.973597969634426
+                        ],
+                        [
+                            29.153374521983523,
+                            40.973556981883945
+                        ],
+                        [
+                            29.153444320255772,
+                            40.97374142656119
+                        ],
+                        [
+                            29.153196148621475,
+                            40.97379119725855
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            }
+        }
+    ]
+}

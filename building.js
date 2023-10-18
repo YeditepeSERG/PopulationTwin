@@ -67,32 +67,51 @@ class Building{
         this.population = population;
         this.risk = determineRiskScale(this.population);
         this.color = getColorByRiskScale(this.risk);
-        this.style = getStyleByColor(this.color);
         this.imgPath = getImageByType(this.buildingType);
+    }
+
+    setBuildingType(buildingType){
+        this.buildingType = buildingType;
     }
 
     getBuildingType(){
         return this.buildingType;
     }
 
+    setName(name){
+        this.name = name;
+    }
+
     getName(){
         return this.name;
+    }
+
+    setPopulation(population){
+        population = this.population
     }
 
     getPopulation(){
         return this.population
     }
  
+    setRisk(risk){
+        risk = this.risk;
+    }
+
     getRisk(){
         return this.risk;
     }
     
+    setColor(color){
+        color = this.color;
+    }
+
     getColor(){
         return this.color;
     }
-    
-    getStyle(){
-        return this.style;
+
+    setImgPath(imgPath){
+        imgPath = this.imgPath;
     }
 
     getImgPath(){
@@ -100,7 +119,7 @@ class Building{
     }
 
     display(){
-        console.log("Type: ", this.buildingType, "\nName: ", this.name, "\nPopulation: ", this.population, "\nRisk: ", this.risk, "\nColor: ", this.color, "\nImgPath: ", this.imgPath, "\nStyle: ", this.style);
+        console.log("Type: ", this.getBuildingType, "\nName: ", this.getName, "\nPopulation: ", this.getPopulation, "\nRisk: ", this.getRisk, "\nColor: ", this.getColor, "\nImgPath: ", this.getImgPath);
     }
 }
 
@@ -147,25 +166,21 @@ function getStyleByColor(fillColor){
     return style;
 }
 
+function updateToInfOfBuilding(building, buildingType, name, population){
+    building.setBuildingType(buildingType);
+    building.setName(name);
+    building.setPopulation(population);
+    building.setRisk(determineRiskScale(building.getPopulation));
+    building.setColor(getColorByRiskScale(building.getRisk));
+    building.setImgPath(getImageByType(building.getBuildingType));
+}
+
 function drawShapesOnMap(layer){
     let delayTime = 100;
     setTimeout(() => {
         features = layer.getSource().getFeatures();
         features.forEach((feature) => {
-            const risk = determineRiskScale(feature.getProperties().Population);
-            const color = getColorByRiskScale(risk);
-            const style = getStyleByColor(color);
-            feature.setStyle(style)
-        });  
-    }, delayTime); 
-}
-
-function drawShapesOnMapForBuilding(layer){
-    let delayTime = 100;
-    setTimeout(() => {
-        features = layer.getSource().getFeatures();
-        features.forEach((feature) => {
-            const style = feature.getProperties().getStyle();
+            const style = getStyleByColor(feature.values_.color)
             feature.setStyle(style)
         });  
     }, delayTime); 

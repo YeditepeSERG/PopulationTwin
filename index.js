@@ -42,13 +42,6 @@ app.get('/login.html', (request, response) => {
 
 });
 
-app.get('/download', (request, response) => {
-
-    const file = `${__dirname}/data/map3.geojson`;
-    response.download(file);
-
-});
-
 app.post('/update-json', (request, response) => {
     const { newData, jsonFilePath } = request.body; 
     const jsonData = JSON.stringify(newData);
@@ -57,10 +50,14 @@ app.post('/update-json', (request, response) => {
         if (err) {
             console.error('Error writing file:', err);
         } 
-        else {
-            console.log('Data written to file');
-        }
     });
+    
+});
+
+app.get('/download-json/:path', (request, response) => {
+    const pathOfMap = request.params.path;
+    const file = `${__dirname}${pathOfMap}`;
+    response.download(file);
     
 });
 
