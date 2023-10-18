@@ -1,10 +1,15 @@
 const express = require('express');
 const fs = require('fs');
+const bodyparser = require('body-parser')
 
 const app = express();
 
 app.use(express.static('.'));
 app.use(express.static('inputPopup'));
+
+app.use(bodyparser.urlencoded({ extended: true }))
+app.use(bodyparser.json())
+
 app.get('/', (request, response) => {
     fs.readFile('./index.html', 'utf8', (err,html) => {
         if (err){

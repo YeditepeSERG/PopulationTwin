@@ -6,7 +6,7 @@ function saveNewDataInJson(data){
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ newData:"data", jsonFilePath:pathOfMap })
+        body: JSON.stringify({ newData:data, jsonFilePath:pathOfMap })
     })
 }
 
