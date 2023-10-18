@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Population Map</title>
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./lib/dist/ol.css">
+    <link rel="stylesheet" href="inputPopup/popup.css">
 </head>
 <body>
     <header class="main-header">
@@ -31,6 +31,21 @@
                 <option value="XYZAeriel">Aerial</option>
               </select>
             </div>
+
+            <!--<button onclick="openForm()">Open Form</button>-->
+
+            <div class="form-popup" id="myForm">
+              <form class="form-container">
+                <h4 style="color: black; text-align: center;">Building Details</h4>
+                <label for="population" style="color: black;">Name</label>
+                <input type="text" id="name">
+                <label for="population" style="color: black;">Population</label>
+                <input type="text" id="population">
+                <button type="button" class="btn" onclick="closeForm()">Submit</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+              </form>
+            </div>
+            <script src="inputPopup/inputForm.js"></script>
           </div>
         </div>
     </header>
@@ -41,11 +56,11 @@
       <div id="popup-content"></div>
     </div>
 
-    <script src="./main.js"></script>
-    <script src="./jsonManager.js"></script>
-    <script src="./building.js"></script>
-    <script src="./buildingStyle.js"></script>
-    <script src="./lib/dist/ol.js"></script>
+    <script src="./jsonManager.js" type="module"></script>
+    <script src="./building.js" type="module"></script>
+    <script src="./buildingStyle.js" type="module"></script>
+    <script src="./main.js" type="module"></script>
+
     <footer class="main-footer">
         <div class="container">
           <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg" target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>

@@ -1,3 +1,5 @@
+import {Fill, Stroke, Style} from 'ol/style.js';
+
 let populationRanges = [
     {
         "Risk": 4,
@@ -42,7 +44,7 @@ let buildingList = [
     }    
 ]
 
-class Building{
+export class Building{
     constructor(buildingType, name, population){
         this.buildingType = buildingType;
         this.name = name;
@@ -86,7 +88,6 @@ class Building{
     }
 }
 
-
 function determineRiskScale(population){
     for(var i=0; i<=populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
@@ -118,14 +119,25 @@ function getStyleByColor(fillColor){
     var strokeColor = "black";
     var strokeWidth = 1.2;
 
-    const style = new ol.style.Style({
-        fill: new ol.style.Fill({
+    const style = new Style({
+        fill: new Fill({
             color: fillColor,
         }),
-        stroke: new ol.style.Stroke({
+        stroke: new Stroke({
             color: strokeColor,
             width: strokeWidth
         }),
     });
     return style;
+}
+
+export function drawShapesOnMapForBuilding(layer){
+    let delayTime = 100;
+    setTimeout(() => {
+        let features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const style = feature.getProperties().getStyle();
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
 }
