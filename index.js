@@ -39,11 +39,24 @@ app.get('/login.html', (request, response) => {
 
 app.get('/download', (request, response) => {
 
-    //TO-DO
-    //file path should be constructed with parameter
-    const file = `${__dirname}/data/map2.geojson`;
+    const file = `${__dirname}/data/map3.geojson`;
     response.download(file);
 
+});
+
+app.post('/update-json', (request, response) => {
+    const { newData, jsonFilePath } = request.body; 
+    const jsonData = JSON.stringify(newData);
+
+    fs.writeFile(jsonFilePath, jsonData, (err) => {
+        if (err) {
+            console.error('Error writing file:', err);
+        } 
+        else {
+            console.log('Data written to file');
+        }
+    });
+    
 });
 
 app.listen(process.env.PORT || 3000, ()=> console.log('App avaliable on http://localhost:3000'))

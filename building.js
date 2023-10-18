@@ -2,32 +2,50 @@ let populationRanges = [
     {
         "Risk": 4,
         "Density": "EXTREMEHIGH",
-        "Color": "red",
         "MinPop": 2000
     },
     {
         "Risk": 3,
         "Density": "HIGH",
-        "Color": "orange",
         "MinPop": 1200
     },
     {
         "Risk": 2,
         "Density": "MID",
-        "Color": "yellow",
         "MinPop": 800
     },
     {
         "Risk": 1,
         "Density": "LOW",
-        "Color": "green",
         "MinPop": 400
     },
     {
         "Risk": 0,
         "Density": "EXTREMELOW",
-        "Color": "grey",
         "MinPop": 0
+    }
+]
+
+let listOfColorByRisk = [
+    {
+        "Risk": 4,
+        "Color": "red"
+    },
+    {
+        "Risk": 3,
+        "Color": "orange"
+    },
+    {
+        "Risk": 2,
+        "Color": "yellow"
+    },
+    {
+        "Risk": 1,
+        "Color": "green"
+    },
+    {
+        "Risk": 0,
+        "Color": "grey"
     }
 ]
 
@@ -86,7 +104,6 @@ class Building{
     }
 }
 
-
 function determineRiskScale(population){
     for(var i=0; i<=populationRanges.length; i++){
         if(population >= populationRanges[i].MinPop){
@@ -97,9 +114,9 @@ function determineRiskScale(population){
 }
 
 function getColorByRiskScale(risk){
-    for(var i=0; i<=populationRanges.length; i++){
-        if(risk == populationRanges[i].Risk){
-            return populationRanges[i].Color;
+    for(var i=0; i<=listOfColorByRisk.length; i++){
+        if(risk == listOfColorByRisk[i].Risk){
+            return listOfColorByRisk[i].Color;
         }
     }
     return null;
@@ -128,4 +145,28 @@ function getStyleByColor(fillColor){
         }),
     });
     return style;
+}
+
+function drawShapesOnMap(layer){
+    let delayTime = 100;
+    setTimeout(() => {
+        features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const risk = determineRiskScale(feature.getProperties().Population);
+            const color = getColorByRiskScale(risk);
+            const style = getStyleByColor(color);
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
+}
+
+function drawShapesOnMapForBuilding(layer){
+    let delayTime = 100;
+    setTimeout(() => {
+        features = layer.getSource().getFeatures();
+        features.forEach((feature) => {
+            const style = feature.getProperties().getStyle();
+            feature.setStyle(style)
+        });  
+    }, delayTime); 
 }
