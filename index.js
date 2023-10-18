@@ -26,4 +26,15 @@ app.get('/about.html', (request, response) => {
 
 });
 
+app.get('/login.html', (request, response) => {
+
+    fs.readFile('./login.html', 'utf8', (err,html) => {
+        if (err){
+            response.status(500).send(':(');
+        }
+        response.send(html);
+    })
+
+});
+
 app.listen(process.env.PORT || 3000, ()=> console.log('App avaliable on http://localhost:3000'))
