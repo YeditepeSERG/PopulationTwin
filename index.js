@@ -37,4 +37,13 @@ app.get('/login.html', (request, response) => {
 
 });
 
+app.get('/download', (request, response) => {
+
+    //TO-DO
+    //file path should be constructed with parameter
+    const file = `${__dirname}/data/map2.geojson`;
+    response.download(file);
+
+});
+
 app.listen(process.env.PORT || 3000, ()=> console.log('App avaliable on http://localhost:3000'))
