@@ -1,4 +1,3 @@
-import { pathOfMap } from "./main.js";
 const listOfNotTranferred = ["color", "imgPath"];
 
 function saveNewDataInJson(data){
@@ -12,7 +11,7 @@ function saveNewDataInJson(data){
     })
 }
 
-export function addNewBuildingToJson(newBuilding, coordinatesList){
+function addNewBuildingToJson(newBuilding, coordinatesList){
     fetch(pathOfMap)
     .then(response => response.json())
     .then(data => {

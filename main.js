@@ -1,11 +1,11 @@
-export const pathOfMap = './data/map3.geojson';
+const pathOfMap = './data/map3.geojson';
 
 window.onload = init;
 
-export let loggedIn = false;    //! temporary, import this
-export const map = createMap();
+let loggedIn = false;    //! temporary, import this
+const map = createMap();
 
-export function init(){
+function init(){
   const buildingsGeoJSON = loadGeoJSON(pathOfMap);
   
   map.addLayer(buildingsGeoJSON);

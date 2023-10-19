@@ -1,7 +1,3 @@
-
-import { loggedIn, init, map } from "./main.js";
-import { addNewBuildingToJson } from "./jsonManager.js";
-
 let draw;
 
 document.getElementById("editToggle").onclick = () => {
