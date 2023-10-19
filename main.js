@@ -1,11 +1,11 @@
-window.onload = init;
-
-const pathOfMap = './data/map3.geojson';
+export const pathOfMap = './data/map3.geojson';
 
 window.onload = init;
 
-function init(){
-  const map = createMap();
+export let loggedIn = false;    //! temporary, import this
+export const map = createMap();
+
+export function init(){
   const buildingsGeoJSON = loadGeoJSON(pathOfMap);
   
   map.addLayer(buildingsGeoJSON);
@@ -115,7 +115,11 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature=>{
-        infoTxt = `<p>`
+        if (document.getElementById("editToggle").checked){
+          return
+        } 
+
+        let infoTxt = `<p>`
         for (var key in feature.values_){
           if(key == "geometry" || key == "imgPath"){
             continue;
@@ -135,3 +139,4 @@ function setPopup(map){
       return false;
     };
 }
+

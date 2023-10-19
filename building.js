@@ -55,7 +55,7 @@ let buildingList = [
         "ImgPath": null
     },
     {
-        "Type": "Apartment",
+        "Type": "test",
         "ImgPath": null
     }    
 ]

@@ -1,3 +1,5 @@
+import { pathOfMap } from "./main.js";
+
 function saveNewDataInJson(data){
     fetch('/update-json', 
     {
@@ -9,7 +11,7 @@ function saveNewDataInJson(data){
     })
 }
 
-function addNewBuildingToJson(newBuilding, coordinatesList){
+export function addNewBuildingToJson(newBuilding, coordinatesList){
     fetch(pathOfMap)
     .then(response => response.json())
     .then(data => {
