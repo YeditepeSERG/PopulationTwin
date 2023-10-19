@@ -1,1 +1,43 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"buildingType":"Cafe","name":"Sera","population":50,"risk":0,"color":"grey","imgPath":null},"geometry":{"coordinates":[[[29.153196148621475,40.97379119725855],[29.153141861075994,40.973597969634426],[29.153374521983523,40.973556981883945],[29.153444320255772,40.97374142656119],[29.153196148621475,40.97379119725855]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.149883529093824,40.974867930364724],[29.149153968241773,40.973035048170004],[29.15291335265898,40.974220274786774]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.14975478306111,40.97279541013427],[29.150904914417662,40.971953430192826],[29.151960632147855,40.97287313037319]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.147514602140987,40.9745700096874],[29.14702536715118,40.97383167838805],[29.148244162911183,40.973954734260786]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.154741545930627,40.97459591562347],[29.153728744199512,40.973125722308595],[29.155059119870895,40.973566136297904]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.153085014035938,40.975117439451964],[29.153325339570767,40.97443740350022],[29.15396906973434,40.97494257368447]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.149418945972656,40.97669930923368],[29.14996413542144,40.97547764767896],[29.151698830153386,40.97623807258029]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.144297468148512,40.975851628448424],[29.146957332815965,40.97776018851559],[29.1458834742474,40.97606613459155]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.15758083528845,40.97595260577444],[29.158108608615958,40.97441653949292],[29.159446889235923,40.97508501651973]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.15317191734608,40.973383693455844],[29.156390568163953,40.97336749260526],[29.152163406756483,40.97445294079597],[29.151176353839,40.97204710991048]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.15193810119923,40.973642906523594],[29.155671736147962,40.97442863991253],[29.155371328738294,40.97280856082497]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.157270332720838,40.97369150886041],[29.156036516573987,40.97182839366144],[29.15495290413197,40.97323788565765]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.144864565006465,40.971587417955135],[29.146470628686107,40.97043858242955],[29.147374039904776,40.97139805088645]]],"type":"Polygon"}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "buildingType": "Cafe",
+          "name": "Sera",
+          "population": 50,
+          "risk": 0,
+          "color": "grey",
+          "imgPath": null
+        },
+        "geometry": {
+          "coordinates": [
+            [
+              [
+                29.153196148621475,
+                40.97379119725855
+              ],
+              [
+                29.153141861075994,
+                40.973597969634426
+              ],
+              [
+                29.153374521983523,
+                40.973556981883945
+              ],
+              [
+                29.153444320255772,
+                40.97374142656119
+              ],
+              [
+                29.153196148621475,
+                40.97379119725855
+              ]
+            ]
+          ],
+          "type": "Polygon"
+        }
+      }
+    ]
+  }
