@@ -29,20 +29,29 @@ function addNewBuildingToJson(newBuilding, coordinatesList){
     .catch(error => console.error('Error:', error));
 }
 
-async function downloadJsonFile(){
+async function downloadFileByType(fileType){
     //window.location.href = `download-json/?path=${pathOfMap}`
-    try {
-        const filename = "information_of_buildings.json";
-        const updatedData = await getCleanedJsonData(pathOfMap);
-        downloadJsonData(updatedData, filename)
-      } catch (error) {
-        console.error('Hata:', error);
-      }
+    let filename = `information_of_buildings.${fileType}`;
+    const cleanedJsonData = await getCleanedJsonData(pathOfMap);
+
+    if(fileType == "json"){
+        try{
+            downloadJsonData(cleanedJsonData, filename)
+        }catch (error) {
+            console.error('ERROR:', error);
+        }
+    }
+    else if(fileType == "xml"){
+        try{
+            xmlData = getXMLDataByJsonData(cleanedJsonData);
+            downloadXmlData(xmlData, filename);
+        }catch (error) {
+            console.error('ERROR:', error);
+        }
+    }
 }
 
-function downloadJsonData(data, filename){
-    var json = JSON.stringify(data, null, 2);
-    var blob = new Blob([json], { type: "application/json" });
+function downloadPart(blob, filename){
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -53,19 +62,16 @@ function downloadJsonData(data, filename){
     URL.revokeObjectURL(url);
 }
 
-function getCenterOfBuilding(listOfCoordinates){
-    let n = listOfCoordinates.length - 1;
-    listOfCoordinates = listOfCoordinates.slice(0, n);
-    let x_sum = 0;
-    let y_sum = 0;
+function downloadJsonData(data, filename){
+    var json = JSON.stringify(data, null, 2);
+    var blob = new Blob([json], { type: "application/json" });
+    downloadPart(blob, filename);
+}
 
-    listOfCoordinates.forEach(coordinate => {
-        x_sum += coordinate[0];
-        y_sum += coordinate[1];
-    });
-
-    let center = [x_sum/n, y_sum/n];
-    return center;
+function downloadXmlData(data, filename){
+    var xmlString = new XMLSerializer().serializeToString(data);
+    var blob = new Blob([xmlString], { type: "application/xml" });
+    downloadPart(blob, filename);
 }
 
 function getCleanedJsonData(path){
@@ -102,4 +108,35 @@ function getCleanedJsonData(path){
         })
         .catch(error => reject(error));
     });
+}
+
+function getXMLDataByJsonData(jsonData){
+    var serializer = new XMLSerializer();
+
+    var xmlDoc = document.implementation.createDocument(null, 'root', null);
+    var list = xmlDoc.createElement('ListOfBuilding');
+    xmlDoc.documentElement.appendChild(list);
+    
+    const listOfBuilding = jsonData.ListOfBuilding;
+    
+    listOfBuilding.forEach(building => {
+
+        var item = xmlDoc.createElement('Building');
+
+        for (let key in building){
+
+            var newItem = xmlDoc.createElement(key);
+            newItem.textContent = building[key];
+            item.appendChild(newItem);
+
+        }
+
+        list.appendChild(item);
+    });
+
+    var xmlString = serializer.serializeToString(xmlDoc);
+    var parser = new DOMParser();
+    xmlDoc = parser.parseFromString(xmlString, "application/xml");
+
+    return xmlDoc
 }

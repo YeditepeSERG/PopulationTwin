@@ -185,3 +185,18 @@ function drawShapesOnMap(layer){
         });  
     }, delayTime); 
 }
+
+function getCenterOfBuilding(listOfCoordinates){
+    let n = listOfCoordinates.length - 1;
+    listOfCoordinates = listOfCoordinates.slice(0, n);
+    let x_sum = 0;
+    let y_sum = 0;
+
+    listOfCoordinates.forEach(coordinate => {
+        x_sum += coordinate[0];
+        y_sum += coordinate[1];
+    });
+
+    let center = [x_sum/n, y_sum/n];
+    return center;
+}

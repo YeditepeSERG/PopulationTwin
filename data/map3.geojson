@@ -1,1 +1,77 @@
-{"type":"FeatureCollection","features":[{"type":"Feature","properties":{"buildingType":"Cafe","name":"Sera","population":50,"risk":0,"color":"grey","imgPath":null},"geometry":{"coordinates":[[[29.153196148621475,40.97379119725855],[29.153141861075994,40.973597969634426],[29.153374521983523,40.973556981883945],[29.153444320255772,40.97374142656119],[29.153196148621475,40.97379119725855]]],"type":"Polygon"}},{"type":"Feature","properties":{"buildingType":"test","name":"test name","population":400,"risk":1,"color":"green","imgPath":null},"geometry":{"coordinates":[[[29.152140660186298,40.97329998868889],[29.152197905699417,40.972900366205124],[29.152670182984252,40.973040774273755],[29.152455511491148,40.973386393432406]]],"type":"Polygon"}}]}
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "buildingType": "Cafe",
+                "name": "Sera",
+                "population": 50,
+                "risk": 0,
+                "color": "grey",
+                "imgPath": null
+            },
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            29.153196148621475,
+                            40.97379119725855
+                        ],
+                        [
+                            29.153141861075994,
+                            40.973597969634426
+                        ],
+                        [
+                            29.153374521983523,
+                            40.973556981883945
+                        ],
+                        [
+                            29.153444320255772,
+                            40.97374142656119
+                        ],
+                        [
+                            29.153196148621475,
+                            40.97379119725855
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "buildingType": "test",
+                "name": "test name",
+                "population": 400,
+                "risk": 1,
+                "color": "green",
+                "imgPath": null
+            },
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            29.152140660186298,
+                            40.97329998868889
+                        ],
+                        [
+                            29.152197905699417,
+                            40.972900366205124
+                        ],
+                        [
+                            29.152670182984252,
+                            40.973040774273755
+                        ],
+                        [
+                            29.152455511491148,
+                            40.973386393432406
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            }
+        }
+    ]
+}
