@@ -34,11 +34,16 @@
                         <button onclick="downloadFileByType('json')" type="button" class="btn btn-success btn-block">Export JSON File</button>
                         <button onclick="downloadFileByType('xml')" type="button" class="btn btn-success btn-block">Export XML File</button>
                     -->
-                    <button type="button" class="btn btn-success btn-block">Edit</button>
                 </div>
                 <div class="row m-3 form-check form-switch">
                     <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
                     <label class="form-check-label" for="editToggle">Draw Mode</label>
+                </div>
+                <div class="row m-3">
+                    <button class="btn btn-success btn-block" type="button" id="undoButton">Undo</button>
+                </div>
+                <div class="row m-3">
+                    <button class="btn btn-success btn-block" type="button" id="saveButton">Save</button>
                 </div>
             </div>
         <div class="col-8">

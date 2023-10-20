@@ -1,9 +1,7 @@
 const pathOfMap = './data/map3.geojson';
+const map = createMap();
 
 window.onload = init;
-
-let loggedIn = true;    //! temporary, import this
-const map = createMap();
 
 function init(){
   const buildingsGeoJSON = loadGeoJSON(pathOfMap);
