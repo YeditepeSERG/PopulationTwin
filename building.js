@@ -55,19 +55,32 @@ let buildingList = [
         "ImgPath": null
     },
     {
-        "Type": "test",
+        "Type": "Cafe",
         "ImgPath": null
     }    
 ]
 
 class Building{
     constructor(buildingType, name, population){
+        this.setIDByLastBuilding();
         this.buildingType = buildingType;
         this.name = name;
         this.population = population;
         this.risk = determineRiskScale(this.population);
         this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
+    }
+
+    async setIDByLastBuilding(){
+        this.setID(await getIDOfLastBuilding() + 1);
+    }
+
+    setID(id){
+        this.id = id;
+    }
+
+    getID(){
+        return this.id;
     }
 
     setBuildingType(buildingType){
@@ -199,4 +212,33 @@ function getCenterOfBuilding(listOfCoordinates){
 
     let center = [x_sum/n, y_sum/n];
     return center;
+}
+
+function getIDOfLastBuilding(){
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            if(data.features.length == 0){
+                resolve(0);
+            }
+            let lastFeature = data.features[data.features.length - 1];
+            let id = lastFeature.properties.id;
+            resolve(id);
+        })
+        .catch(error => reject(error));
+    });
+}
+
+function resetAllID(){
+    fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            let listOfFeature = data.features;
+            let id = 1;
+            listOfFeature.forEach(feature => {
+                feature.properties.id = id++;
+            });
+        })
+        .catch(error => console.error('Error:', error));
 }

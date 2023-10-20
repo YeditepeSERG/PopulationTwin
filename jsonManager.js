@@ -1,4 +1,4 @@
-const listOfNotTranferred = ["color", "imgPath"];
+const listOfNotTranferred = ["id", "color", "imgPath"];
 
 function saveNewDataInJson(data){
     fetch('/update-json', 
