@@ -8,7 +8,8 @@ function splitArrayIntoPairs(arr, chunkSize) {
     }, []);
 }
 
-let editToggleButton = document.getElementById("flexSwitchCheckChecked"); 
+let editToggleButton = document.getElementById("editToggle"); 
+editToggleButton.checked = false;
 editToggleButton.onclick = () => {
     if (!loggedIn) {
         editToggleButton.checked = false;
@@ -40,6 +41,10 @@ function addInteraction() {
         xy_coords.forEach((element, i) => {
             xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
         });
+
+        if (!confirm("Do you want to proceed?")) {
+            return;
+        }
 
         let newBuilding = new Building("test", "test name", 400);   //! fix this
         addNewBuildingToJson(newBuilding, [xy_coords]);
