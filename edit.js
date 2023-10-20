@@ -63,6 +63,13 @@ function addInteraction() {
             return;
         }
 
+        feature.setProperties({"buildingType": "Cafe",
+        "name": "Sera",
+        "population": 50,
+        "risk": 0,
+        "color": "grey",
+        "imgPath": null,})
+
         /*
         ! add save button
         let newBuilding = new Building("test", "test name", 400);   //! fix this
