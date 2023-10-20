@@ -15,6 +15,11 @@ function addNewBuildingToJson(newBuilding, coordinatesList){
     fetch(pathOfMap)
     .then(response => response.json())
     .then(data => {
+
+        const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
+        const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
+        newBuilding.setCenter(center_HDMS);
+
         let newFeature = {
             "type": "Feature",
             "properties": newBuilding,
@@ -88,9 +93,6 @@ function getCleanedJsonData(path){
                 const listOfCoordinates = feature.geometry.coordinates[0];
                 let cleanedDataForBuilding = {};
     
-                let centerOfBuilding = getCenterOfBuilding(listOfCoordinates)
-                let center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
-    
                 for (let key in properties) {
     
                     if(listOfNotTranferred.includes(key)){
@@ -98,7 +100,6 @@ function getCleanedJsonData(path){
                     }
     
                     cleanedDataForBuilding[key] = properties[key];
-                    cleanedDataForBuilding["centerCoordinate"] = center_HDMS;
                 }
     
                 updatedData.ListOfBuilding.push(cleanedDataForBuilding);
@@ -174,6 +175,21 @@ function deleteBuildingByID(id){
         listOfFeature.splice(id-1, 1);
         data = resetAllID(data);
         saveNewDataInJson(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function updateToInfOfBuildingByID(id, building){
+    fetch(pathOfMap)
+    .then(response => response.json())
+    .then(data => {
+        let listOfFeature = data.features;
+
+        building.setID(id);
+        building.setCenter(listOfFeature[id-1].properties.center);
+
+        listOfFeature[id-1].properties = building;
+        saveNewDataInJson(data); 
     })
     .catch(error => console.error('Error:', error));
 }

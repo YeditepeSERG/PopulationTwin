@@ -66,6 +66,7 @@ class Building{
         this.buildingType = buildingType;
         this.name = name;
         this.population = population;
+        this.center = null;
         this.risk = determineRiskScale(this.population);
         this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
@@ -100,11 +101,19 @@ class Building{
     }
 
     setPopulation(population){
-        population = this.population
+        population = this.population;
     }
 
     getPopulation(){
-        return this.population
+        return this.population;
+    }
+
+    setCenter(center){
+        this.center = center;
+    }
+
+    getCenter(){
+        return this.center;
     }
  
     setRisk(risk){
