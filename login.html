@@ -8,41 +8,58 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
-    <header class="main-header">
-        <div class="container" style="padding-top: 10px; padding-bottom: 10px;">
-        <h1>Population Map</h1>
-        <nav>
-            <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="login.html">Login</a></li>
-            </ul>
-        </nav>
-        <br>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
+    <a class="navbar-brand p-2" href="#">Population Map</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+        <a class="nav-item nav-link" href="#">Home</a>
+        <a class="nav-item nav-link" href="about.html">About</a>
+        <a class="nav-item nav-link active" href="login.html">Login</a>
         </div>
-    </header>
-
-    <div class="login-form">
-        <h1>Login</h1>
-        <form>
-          <div class="form-group">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" placeholder="Enter your username" required>
-          </div>
-          <div class="form-group">
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" placeholder="Enter your password" required>
-          </div>
-          <button type="submit">Login</button>
-        </form>
     </div>
+  </nav>
 
-    <footer class="main-footer">
-        <div class="container">
-        <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg" target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>
-        <p style="color: mistyrose;">None of the information given in this site represent the correct values!</p>
+  <div style="width: 100%; height: 82%;" class="d-flex align-items-center justify-content-center">
+    <div style="padding: 50px; border: 3px solid rgb(0, 2, 124); border-radius: 5px;">
+    <form>
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example1">Email address</label>
+        <input type="email" id="form2Example1" class="form-control" />
+      </div>
+    
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example2">Password</label>
+        <input type="password" id="form2Example2" class="form-control" />
+      </div>
+    
+      <!-- 2 column grid layout for inline styling -->
+      <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+          <!-- Checkbox -->
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+            <label class="form-check-label" for="form2Example31"> Remember me </label>
+          </div>
         </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+      </div>
+    
+      <!-- Submit button -->
+      <button type="button" class="btn btn-primary btn-block mb-4">Sign in</button>
+    </form>
+  </div>
+  </div>
+
+  <footer class="bg-dark text-white flex-grow">
+    <div class="container p-3">
+      <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg" target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>
+      <p style="color: mistyrose;">None of the information given in this site represent the correct values!</p>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
