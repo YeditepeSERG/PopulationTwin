@@ -29,7 +29,7 @@ const vectorLayer = new ol.layer.VectorImage({
     source: vectorSource,
     style: new ol.style.Style({
         fill: new ol.style.Fill({
-            color: 'green', 
+            color: 'blue',  //! set this according to the color of each future separately
         }),
         stroke: new ol.style.Stroke({
             color: 'black',
@@ -58,10 +58,20 @@ function addInteraction() {
             xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
         });
 
-        //! remove it later
-        if (!confirm("Do you want to proceed?")) {
+        if (!confirm("Do you want to add this building?")) {
             return;
         }
+
+        let defaultProporties = {
+            "buildingType": "",
+            "name": "",
+            "population": 0,
+            "risk": 0,
+            "color": "green",
+            "imgPath": null
+        };
+
+        feature.setProperties(defaultProporties);
 
         /*
         ! add save button
