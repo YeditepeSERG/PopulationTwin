@@ -67,7 +67,7 @@ function addInteraction() {
             "name": "",
             "population": 0,
             "risk": 0,
-            "color": "green",
+            "color": "blue",
             "imgPath": null
         };
 
