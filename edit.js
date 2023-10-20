@@ -24,11 +24,27 @@ editToggleButton.onclick = () => {
 }
 
 let draw;
-const source = new ol.source.Vector({wrapX: false});
+const vectorSource = new ol.source.Vector({wrapX: false});
+const vectorLayer = new ol.layer.VectorImage({
+    source: vectorSource,
+    style: new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: 'green', 
+        }),
+        stroke: new ol.style.Stroke({
+            color: 'black',
+            width: 1.5, 
+        }),
+    }),
+    opacity: 0.8,
+    visible: true,
+    zIndex: 1,
+});
+map.addLayer(vectorLayer);
 
 function addInteraction() {
     draw = new ol.interaction.Draw({
-      source: source,
+      source: vectorSource,
       type: 'Polygon',
     });
     map.addInteraction(draw);
@@ -42,15 +58,19 @@ function addInteraction() {
             xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
         });
 
+        //! remove it later
         if (!confirm("Do you want to proceed?")) {
             return;
         }
 
+        /*
+        ! add save button
         let newBuilding = new Building("test", "test name", 400);   //! fix this
         addNewBuildingToJson(newBuilding, [xy_coords]);
-        setTimeout(init, 100)
+        setTimeout(init, 100)*/
     });
 }
+
 
 /* 
 ! implement undo button/function
