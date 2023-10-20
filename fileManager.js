@@ -140,3 +140,40 @@ function getXMLDataByJsonData(jsonData){
 
     return xmlDoc
 }
+
+function getIDOfLastBuilding(){
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            if(data.features.length == 0){
+                resolve(0);
+            }
+            let lastFeature = data.features[data.features.length - 1];
+            let id = lastFeature.properties.id;
+            resolve(id);
+        })
+        .catch(error => reject(error));
+    });
+}
+
+function resetAllID(data){
+    let listOfFeature = data.features;
+    let id = 1;
+    listOfFeature.forEach(feature => {
+        feature.properties.id = id++;
+    });
+    return data;
+}
+
+function deleteBuildingByID(id){
+    fetch(pathOfMap)
+    .then(response => response.json())
+    .then(data => {
+        let listOfFeature = data.features;
+        listOfFeature.splice(id-1, 1);
+        data = resetAllID(data);
+        saveNewDataInJson(data);
+    })
+    .catch(error => console.error('Error:', error));
+}

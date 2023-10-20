@@ -121,7 +121,7 @@ function setPopup(map){
 
         let infoTxt = `<p>`
         for (var key in feature.values_){
-          if(key == "geometry" || key == "imgPath"){
+          if(listOfNotTranferred.includes(key)){
             continue;
           }
           infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;

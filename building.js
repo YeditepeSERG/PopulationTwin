@@ -213,32 +213,3 @@ function getCenterOfBuilding(listOfCoordinates){
     let center = [x_sum/n, y_sum/n];
     return center;
 }
-
-function getIDOfLastBuilding(){
-    return new Promise((resolve, reject) => {
-        fetch(pathOfMap)
-        .then(response => response.json())
-        .then(data => {
-            if(data.features.length == 0){
-                resolve(0);
-            }
-            let lastFeature = data.features[data.features.length - 1];
-            let id = lastFeature.properties.id;
-            resolve(id);
-        })
-        .catch(error => reject(error));
-    });
-}
-
-function resetAllID(){
-    fetch(pathOfMap)
-        .then(response => response.json())
-        .then(data => {
-            let listOfFeature = data.features;
-            let id = 1;
-            listOfFeature.forEach(feature => {
-                feature.properties.id = id++;
-            });
-        })
-        .catch(error => console.error('Error:', error));
-}
