@@ -2,7 +2,7 @@ const pathOfMap = './data/map3.geojson';
 
 window.onload = init;
 
-let loggedIn = false;    //! temporary, import this
+let loggedIn = true;    //! temporary, import this
 const map = createMap();
 
 function init(){
