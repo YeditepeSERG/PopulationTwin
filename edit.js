@@ -8,7 +8,7 @@ function splitArrayIntoPairs(arr, chunkSize) {
     }, []);
 }
 
-let editToggleButton = document.getElementById("editToggle"); 
+let editToggleButton = document.getElementById("flexSwitchCheckChecked"); 
 editToggleButton.onclick = () => {
     if (!loggedIn) {
         editToggleButton.checked = false;
