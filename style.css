@@ -55,3 +55,89 @@ body {
 .flex-grow {
   flex: 1 0 auto;
 }
+
+/* Style the select element within the sidebar */
+.sidebar select {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 5px;
+  width: 100%;
+}
+
+/* Add a hover effect to the select element */
+.sidebar select:hover {
+  background-color: #2980b9;
+  color: white;
+}
+
+/* Style the dropdown container */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+  width: 100%;
+}
+
+/* Style the export button */
+.export-button {
+  background: transparent;
+  color: #3498db;
+  border: 2px solid #3498db;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+}
+
+.export-button:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+/* Style the selected export option */
+.export-option.selected {
+  background-color: #3498db;
+  color: #fff;
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Style the export options */
+.export-option {
+  padding: 5px;
+  text-decoration: none;
+  display: block;
+  color: #333;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.export-option:hover {
+  background-color: #3498db;
+  color: #fff;
+}
+
+/* Show the dropdown content when hovering over the button */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+

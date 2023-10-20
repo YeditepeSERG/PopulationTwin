@@ -1,54 +1,86 @@
-
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Population Map</title>
+    <title>Admin</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./lib/dist/ol.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
+
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
-      <a class="navbar-brand p-2" href="#">Population Map</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="#">Home</a>
-          <a class="nav-item nav-link" href="about.html">About</a>
-          <a class="nav-item nav-link" href="logout.html">Logout</a>
-          </div>
-      </div>
+        <a class="navbar-brand p-2" href="#">Population Map</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
     </nav>
 
     <div style="height: 82%;">
         <div class="row h-100">
-            <div class="col-2">
-                <h4 class="p-1">Tools</h4>
-                <hr>
-                <div class="row m-3">
-                    <!--
-                        <button onclick="downloadFileByType('json')" type="button" class="btn btn-success btn-block">Export JSON File</button>
-                        <button onclick="downloadFileByType('xml')" type="button" class="btn btn-success btn-block">Export XML File</button>
-                    -->
-                    <button type="button" class="btn btn-success btn-block">Edit</button>
+            <div class="col-2 d-flex justify-content-center">
+                <div style="margin-top: 5%;">
+                    <h4 class="p-1" style="text-align: center;">Tools</h4>
+                    <div class="grid-1">
+                        <div class="sidebar">
+
+                            <select name="maps" id="maps">
+                                <option value="OSMStandard">Standard</option>
+                                <option value="OSMHumanitarian">Humaniterian</option>
+                                <option value="XYZRoad">Road</option>
+                                <option value="XYZAeriel">Aerial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="export-button">Export Data</button>
+                        <div class="dropdown-content">
+                            <a class="export-option" href="#">Export as JSON</a>
+                            <a class="export-option" href="#">Export as XML</a>
+                        </div>
+                    </div>
+                    <div class="row m-3 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
+                        <label class="form-check-label" for="editToggle">Draw Mode</label>
+                    </div>
                 </div>
-                <div class="row m-3 form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
-                    <label class="form-check-label" for="editToggle">Draw Mode</label>
+                <!--
+                    <button onclick="downloadFileByType('json')" type="button" class="btn btn-success btn-block">Export JSON File</button>
+                    <button onclick="downloadFileByType('xml')" type="button" class="btn btn-success btn-block">Export XML File</button>
+                -->
+            </div>
+            <div class="col-8">
+                <div id="js-map" class="map"></div>
+            </div>
+            <div class="col-2 d-flex justify-content-center">
+                <div style="margin-top: 5%; margin-right: 5%;">
+                    <h4 style="text-align: center;">Properties</h4>
+                    <form>
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="building-name">Name</label>
+                            <input type="email" id="building-name" class="form-control" />
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label class="form-label" for="building-population">Population</label>
+                            <input type="password" id="building-population" class="form-control" />
+                        </div>
+                        <button type="button" class="btn btn-dark btn-block mb-4">Save</button>
+                    </form>
                 </div>
             </div>
-        <div class="col-8">
-            <div id="js-map" class="map"></div> 
         </div>
     </div>
 
     <div id="popup" class="ol-popup">
-      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-      <div id="popup-content"></div>
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
     </div>
 
 
@@ -59,11 +91,14 @@
 
     <script src="./edit.js"></script>
 
-    <footer class="bg-dark text-white flex-grow">
+    <footer class="bg-dark text-white flex-grow" style="text-align: center;">
         <div class="container p-3">
-          <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg" target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>
-          <p style="color: mistyrose;">None of the information given in this site represent the correct values!</p>
+            <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg"
+                    target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>
+            <p style="color: mistyrose;">None of the information given in this site represent the correct values!
+            </p>
         </div>
     </footer>
 </body>
+
 </html>
