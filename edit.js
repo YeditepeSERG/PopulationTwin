@@ -54,22 +54,12 @@ editToggleButton.onclick = () => {
 let undoButton = document.getElementById("undoButton");
 undoButton.style.display = 'none';
 undoButton.onclick = () => {
-    if (!editToggleButton.checked) {
-        alert("You need to toggle edit mode in order to use this function.")
-        return;   
-    }
-
     draw.removeLastPoint();
 };
 
 let saveButton = document.getElementById("saveButton");
 saveButton.style.display = 'none';
 saveButton.onclick = () => {
-    if (!editToggleButton.checked) {
-        alert("You need to toggle edit mode in order to use this function.")
-        return;   
-    }
-
     let features = vectorLayer.getSource().getFeatures();
     features.forEach(feature => {
         featureProperties = feature.getProperties();
