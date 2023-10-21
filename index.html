@@ -16,10 +16,27 @@
           <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <style>
+          /* Add a hover effect to the select element */
+          .sidebar select:hover {
+            background-color: #212529;
+            color: white;
+          }
+        </style>
           <div class="navbar-nav">
           <a class="nav-item nav-link active" href="#">Home</a>
           <a class="nav-item nav-link" href="about.html">About</a>
           <a class="nav-item nav-link" href="login.html">Login</a>
+          <div class="grid-1">
+            <div class="sidebar" style="background-color: #212529; color: white;">
+                <select name="maps" id="maps" style="color: white; border-color: white;">
+                    <option value="OSMStandard" style="background-color: #212529; color: white;">Standard</option>
+                    <option value="OSMHumanitarian" style="background-color: #212529; color: white;">Humaniterian</option>
+                    <option value="XYZRoad" style="background-color: #212529; color: white;">Road</option>
+                    <option value="XYZAeriel" style="background-color: #212529; color: white;">Aerial</option>
+                </select>
+            </div>
+          </div>
           </div>
       </div>
     </nav>
