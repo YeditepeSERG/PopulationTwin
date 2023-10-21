@@ -13,34 +13,31 @@ let draw = new ol.interaction.Draw({
 });
 
 draw.on('drawend', function (event) {
-
-    let saveProperties = document.getElementById("saveProperties");
-    saveProperties.onclick = () => {
-        var buildingType = document.getElementById("building-type").value;
-        var buildingName = document.getElementById("building-name").value;
-        var buildingPopulation = parseInt(document.getElementById("building-population").value) || "";    
-
-        let feature = event.feature;
-        let rawProperties = {
-            "buildingType": buildingType,
-            "name": buildingName,
-            "population": buildingPopulation,
-        };
-
-        try {
-            isPropertiesEmpty(rawProperties);
-            feature.setProperties(rawProperties);
-            feature.setStyle(getStyleByColor("white"));
-        } catch (error) {
-            alert(error.message);
-        }
-    }
+    console.log("Event: ", event);
+    let feature = event.feature;
+    setPropertiesToFeature(feature);
+    deleteFeature(feature);
 });
+
+let editToggleUpdateButton = document.getElementById("editToggle-update"); 
+editToggleUpdateButton.checked = false;
+editToggleUpdateButton.onclick = () => {
+    if (editToggleUpdateButton.checked) {
+        editToggleButton.checked = false;
+        map.removeInteraction(draw);
+        undoButton.style.display = 'none';
+        saveButton.style.display = 'none';
+        closeEditNav();
+    } else {
+        closeEditNav();
+    }
+};
 
 let editToggleButton = document.getElementById("editToggle"); 
 editToggleButton.checked = false;
 editToggleButton.onclick = () => {
     if (editToggleButton.checked) {
+        editToggleUpdateButton.checked = false;
         map.addInteraction(draw);
         undoButton.style.display = 'block';
         saveButton.style.display = 'block';
@@ -48,6 +45,7 @@ editToggleButton.onclick = () => {
         map.removeInteraction(draw);
         undoButton.style.display = 'none';
         saveButton.style.display = 'none';
+        closeEditNav();
     } 
 };
 
@@ -62,10 +60,6 @@ saveButton.style.display = 'none';
 saveButton.onclick = () => {
     let features = vectorLayer.getSource().getFeatures();
     features.forEach(feature => {
-        featureProperties = feature.getProperties();
-        featureBuildingType = featureProperties.buildingType;
-        featureName = featureProperties.name;
-        featurePopulation = featureProperties.population;
 
         let coords = feature.getGeometry().flatCoordinates;
         let xy_coords = splitArrayIntoPairs(coords, 2);
@@ -74,9 +68,8 @@ saveButton.onclick = () => {
             xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
         });
 
-        let newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
+        var newBuilding = getNewBuildingByFeature(feature)
         addNewBuildingToJson(newBuilding, [xy_coords]);
-
     });
 
     vectorSource.clear();
@@ -99,4 +92,74 @@ function isPropertiesEmpty(properties){
             throw new Error(`${key} field not entered!`);
         }
     }
+}
+
+function openEditNav(feature) {
+    if (feature) {
+        feature.setStyle(getStyleForEditing());
+    }
+    document.getElementById("mySidebar").style.width = "300px";
+}
+
+function closeEditNav() {
+    const features = vectorLayer.getSource().getFeatures();
+    features.forEach(feature => {
+        feature.setStyle(getStyleByColor("white"));
+    });
+    document.getElementById("mySidebar").style.width = "0";
+}
+
+function setPropertiesToFeature(feature){
+    openEditNav(feature);
+
+    let saveProperties = document.getElementById("saveProperties");
+    saveProperties.onclick = () => {
+        try {
+            var buildingType = document.getElementById("building-type").value;
+            var buildingName = document.getElementById("building-name").value;
+            var buildingPopulation = parseInt(document.getElementById("building-population").value) || "";    
+
+            let rawProperties = {
+                "buildingType": buildingType,
+                "name": buildingName,
+                "population": buildingPopulation,
+            };
+
+            isPropertiesEmpty(rawProperties);
+            feature.setProperties(rawProperties);
+            if(feature.values_.id){
+                var id = feature.values_.id;
+                var building = getNewBuildingByFeature(feature);
+                updateToInfOfBuildingByID(id, building);
+                feature.setStyle(getStyleByColor(building.getColor()));
+            }
+            closeEditNav();
+        } catch (error) {
+            alert(error.message);
+        }
+    }
+}
+
+function deleteFeature(feature){
+    let deleteProperties = document.getElementById("delete");
+    deleteProperties.onclick = () => {
+        if(feature.values_.id){
+            var id = feature.values_.id;
+            deleteBuildingByID(id);
+        }
+        else{
+            vectorLayer.getSource().removeFeature(feature);
+        }
+        closeEditNav();
+    }
+}
+
+function getNewBuildingByFeature(feature){
+    featureProperties = feature.getProperties();
+    featureBuildingType = featureProperties.buildingType;
+    featureName = featureProperties.name;
+    featurePopulation = featureProperties.population;
+
+    const newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
+    return newBuilding;
 }

@@ -112,9 +112,17 @@ function setPopup(map){
     map.addOverlay(overlay)
 
     map.on('click', (e)=>{
-      map.forEachFeatureAtPixel(e.pixel, feature=>{
+      map.forEachFeatureAtPixel(e.pixel, feature => {
         if (window.location.pathname === "/admin.html" && document.getElementById("editToggle").checked){
-          return
+          return;
+        } 
+
+        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
+          closeEditNav();
+          setPropertiesToFeature(feature);
+          overlay.setPosition(undefined);
+          closer.blur();
+          return false;
         } 
 
         let infoTxt = `<p>`

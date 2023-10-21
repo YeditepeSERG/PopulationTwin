@@ -188,13 +188,21 @@ function getStyleByColor(fillColor){
     return style;
 }
 
-function updateToInfOfBuilding(building, buildingType, name, population){
-    building.setBuildingType(buildingType);
-    building.setName(name);
-    building.setPopulation(population);
-    building.setRisk(determineRiskScale(building.getPopulation));
-    building.setColor(getColorByRiskScale(building.getRisk));
-    building.setImgPath(getImageByType(building.getBuildingType));
+function getStyleForEditing(){
+    var fillColor = "white";
+    var strokeColor = "red";
+    var strokeWidth = 3;
+
+    const style = new ol.style.Style({
+        fill: new ol.style.Fill({
+            color: fillColor,
+        }),
+        stroke: new ol.style.Stroke({
+            color: strokeColor,
+            width: strokeWidth
+        }),
+    });
+    return style;
 }
 
 function drawShapesOnMap(layer){

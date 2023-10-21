@@ -171,28 +171,34 @@ function resetAllID(data){
 }
 
 function deleteBuildingByID(id){
-    fetch(pathOfMap)
-    .then(response => response.json())
-    .then(data => {
-        let listOfFeature = data.features;
-        listOfFeature.splice(id-1, 1);
-        data = resetAllID(data);
-        saveNewDataInJson(data);
-    })
-    .catch(error => console.error('Error:', error));
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            let listOfFeature = data.features;
+            listOfFeature.splice(id-1, 1);
+            data = resetAllID(data);
+            saveNewDataInJson(data);
+            resolve("Deleted");
+        })
+        .catch(error => reject(error));
+    });
 }
 
 function updateToInfOfBuildingByID(id, building){
-    fetch(pathOfMap)
-    .then(response => response.json())
-    .then(data => {
-        let listOfFeature = data.features;
-
-        building.setID(id);
-        building.setCenter(listOfFeature[id-1].properties.center);
-
-        listOfFeature[id-1].properties = building;
-        saveNewDataInJson(data); 
-    })
-    .catch(error => console.error('Error:', error));
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            let listOfFeature = data.features;
+    
+            building.setID(id);
+            building.setCenter(listOfFeature[id-1].properties.center);
+    
+            listOfFeature[id-1].properties = building;
+            saveNewDataInJson(data); 
+            resolve("Updated");
+        })
+        .catch(error => reject(error));
+    });
 }
