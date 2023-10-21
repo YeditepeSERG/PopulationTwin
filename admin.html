@@ -122,7 +122,7 @@
         buttonLogout.addEventListener('click', (e) => {
             signOut(auth).then(() => {
                 // Logged out
-                alert('Logged out!');
+                alert('Succesfully logged out!');
                 window.location.href='index.html'
             }).catch((error) => {
                 alert(error);
