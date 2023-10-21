@@ -40,10 +40,19 @@ draw.on('drawend', function (event) {
 let editToggleButton = document.getElementById("editToggle"); 
 editToggleButton.checked = false;
 editToggleButton.onclick = () => {
-    (editToggleButton.checked) ? map.addInteraction(draw) : map.removeInteraction(draw);
+    if (editToggleButton.checked) {
+        map.addInteraction(draw);
+        undoButton.style.display = 'block';
+        saveButton.style.display = 'block';
+    } else {
+        map.removeInteraction(draw);
+        undoButton.style.display = 'none';
+        saveButton.style.display = 'none';
+    } 
 };
 
 let undoButton = document.getElementById("undoButton");
+undoButton.style.display = 'none';
 undoButton.onclick = () => {
     if (!editToggleButton.checked) {
         alert("You need to toggle edit mode in order to use this function.")
@@ -54,6 +63,7 @@ undoButton.onclick = () => {
 };
 
 let saveButton = document.getElementById("saveButton");
+saveButton.style.display = 'none';
 saveButton.onclick = () => {
     if (!editToggleButton.checked) {
         alert("You need to toggle edit mode in order to use this function.")
