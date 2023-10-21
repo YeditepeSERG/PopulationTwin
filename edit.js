@@ -13,28 +13,28 @@ let draw = new ol.interaction.Draw({
 });
 
 draw.on('drawend', function (event) {
-    if (!confirm("Do you want to add this building?")) {
-        setTimeout(() => {
-            vectorSource.removeFeature(event.feature);
-        }, 100);
 
-        //! use existing save button (right side)
+    let saveProperties = document.getElementById("saveProperties");
+    saveProperties.onclick = () => {
+        var buildingType = document.getElementById("building-type").value;
+        var buildingName = document.getElementById("building-name").value;
+        var buildingPopulation = parseInt(document.getElementById("building-population").value) || "";    
 
-        return;
+        let feature = event.feature;
+        let rawProperties = {
+            "buildingType": buildingType,
+            "name": buildingName,
+            "population": buildingPopulation,
+        };
+
+        try {
+            isPropertiesEmpty(rawProperties);
+            feature.setProperties(rawProperties);
+            feature.setStyle(getStyleByColor("white"));
+        } catch (error) {
+            alert(error.message);
+        }
     }
-
-    let feature = event.feature;
-    let defaultProperties = {
-        "buildingType": "Apartment",
-        "name": `id_${feature.ol_uid}`,
-        "population": 0,
-        "risk": undefined,
-        "color": "white",
-        "imgPath": null,
-    };
-
-    feature.setProperties(defaultProperties);
-    feature.setStyle(getStyleByColor(feature.getProperties().color));
 });
 
 let editToggleButton = document.getElementById("editToggle"); 
@@ -77,7 +77,6 @@ saveButton.onclick = () => {
         let newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
         addNewBuildingToJson(newBuilding, [xy_coords]);
 
-        //! BUG: only adds the last building
     });
 
     vectorSource.clear();
@@ -92,4 +91,12 @@ function splitArrayIntoPairs(arr, chunkSize) {
         }
         return result;
     }, []);
+}
+
+function isPropertiesEmpty(properties){
+    for (let key in properties) {
+        if(properties[key] === ""){
+            throw new Error(`${key} field not entered!`);
+        }
+    }
 }

@@ -46,8 +46,8 @@
                     <div class="dropdown">
                         <button class="export-button">Export Data</button>
                         <div class="dropdown-content">
-                            <a class="export-option" href="#">Export as JSON</a>
-                            <a class="export-option" href="#">Export as XML</a>
+                            <a class="export-option" onclick="downloadFileByType('json')">Export as JSON</a>
+                            <a class="export-option" onclick="downloadFileByType('xml')">Export as XML</a>
                         </div>
                     </div>
                     <div class="row m-3 form-check form-switch">
@@ -61,10 +61,6 @@
                         <button class="btn btn-success btn-block" type="button" id="saveButton">Save to Json</button>
                     </div>
                 </div>
-                <!--
-                    <button onclick="downloadFileByType('json')" type="button" class="btn btn-success btn-block">Export JSON File</button>
-                    <button onclick="downloadFileByType('xml')" type="button" class="btn btn-success btn-block">Export XML File</button>
-                -->
             </div>
             <div class="col-8">
                 <div id="js-map" class="map"></div>
@@ -74,14 +70,18 @@
                     <h4 style="text-align: center;">Properties</h4>
                     <form>
                         <div class="form-outline mb-4">
+                            <label class="form-label" for="building-type">Building Type</label>
+                            <input type="text" id="building-type" class="form-control" />
+                        </div>
+                        <div class="form-outline mb-4">
                             <label class="form-label" for="building-name">Name</label>
-                            <input type="email" id="building-name" class="form-control" />
+                            <input type="text" id="building-name" class="form-control" />
                         </div>
                         <div class="form-outline mb-4">
                             <label class="form-label" for="building-population">Population</label>
-                            <input type="password" id="building-population" class="form-control" />
+                            <input type="number" min="0" step="1" id="building-population" class="form-control" />
                         </div>
-                        <button type="button" class="btn btn-dark btn-block mb-4">Save the Building</button>
+                        <button type="button" id="saveProperties" class="btn btn-dark btn-block mb-4">Save the Building</button>
                     </form>
                 </div>
             </div>
