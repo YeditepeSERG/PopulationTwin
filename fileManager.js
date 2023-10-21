@@ -12,26 +12,29 @@ function saveNewDataInJson(data){
 }
 
 function addNewBuildingToJson(newBuilding, coordinatesList){
-    fetch(pathOfMap)
-    .then(response => response.json())
-    .then(data => {
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
 
-        const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
-        const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
-        newBuilding.setCenter(center_HDMS);
+            const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
+            const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
+            newBuilding.setCenter(center_HDMS);
 
-        let newFeature = {
-            "type": "Feature",
-            "properties": newBuilding,
-            "geometry": {
-                "coordinates": coordinatesList,
-                "type":"Polygon"
-            }
-        };
-        data.features.push(newFeature);
-        saveNewDataInJson(data); 
-    })
-    .catch(error => console.error('Error:', error));
+            let newFeature = {
+                "type": "Feature",
+                "properties": newBuilding,
+                "geometry": {
+                    "coordinates": coordinatesList,
+                    "type":"Polygon"
+                }
+            };
+            data.features.push(newFeature);
+            saveNewDataInJson(data); 
+            resolve("Added")
+        })
+        .catch(error => reject(error));
+    });
 }
 
 async function downloadFileByType(fileType){

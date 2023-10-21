@@ -141,3 +141,71 @@ body {
   display: block;
 }
 
+/*Taken and changed from
+https://www.geeksforgeeks.org/how-to-close-sidebar-by-default-using-bootstrap/
+*/
+
+/* The sidebar menu */
+.editbar {
+  height: 100%;
+  /* 100% Full-height */
+  width: 0;
+  /* 0 width */
+  position: fixed;
+  /* Fixed place */
+  z-index: 1;
+  /* Stay on top */
+  top: 0;
+  right: 0;
+  background-color: #212529;
+  /* Disable horizontal scroll */
+  overflow-x: hidden;
+  /* Place content 60px from the top */
+  padding-top: 60px;
+  /* Transition effect to slide
+    in the sidebar */
+  transition: 0.5s;
+}
+/* The sidebar links */
+.editbar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+/* Mouse over the navigation
+links, to change their color */
+.editbar a:hover {
+  color: rgb(214, 42, 42);
+}
+/* Position and style the close
+button at top right corner */
+.editbar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+/* Style page content - pushes the
+page content to the right when the
+sidebar is opened */
+#main {
+  /* If you want a transition effect */
+  transition: margin-left 0.5s;
+  padding: 20px;
+}
+/* On smaller screens, where height is
+less than 450px, change the style of
+the side-nav (less padding and a
+smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+}
