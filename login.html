@@ -76,9 +76,9 @@
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // User loged in
+        // User logged in
         const user = userCredential.user;
-        alert('User loged in!');
+        alert('User logged in!');
         window.location.href='index.html'
     })
     .catch((error) => {
