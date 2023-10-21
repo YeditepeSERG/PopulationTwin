@@ -22,7 +22,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-            <a class="nav-item nav-link" href="logout.html">Logout</a>
+            <button type="button" id="buttonLogout" class="nav-item nav-link" href="logout.html">Logout</button>
             </div>
         </div>
     </nav>
@@ -93,6 +93,36 @@
         <div id="popup-content"></div>
     </div>
 
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBYsmw1O8aEU9SnMPqwS4CNvaaRrLem-nI",
+            authDomain: "populationtwin.firebaseapp.com",
+            databaseURL: "https://populationtwin-default-rtdb.firebaseio.com",
+            projectId: "populationtwin",
+            storageBucket: "populationtwin.appspot.com",
+            messagingSenderId: "155599784115",
+            appId: "1:155599784115:web:44434bcf2eedb72c13c8c6",
+            measurementId: "G-QZH8VMQ93P"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth();
+
+        buttonLogout.addEventListener('click', (e) => {
+            signOut(auth).then(() => {
+                // Logged out
+                alert('Logged out!');
+                window.location.href='index.html'
+            }).catch((error) => {
+                alert(error);
+            });
+
+        });
+
+    </script>
 
     <script src="./lib/dist/ol.js"></script>
     <script src="./fileManager.js"></script>
