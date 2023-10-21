@@ -34,7 +34,6 @@
                     <h4 class="p-1" style="text-align: center;">Tools</h4>
                     <div class="grid-1">
                         <div class="sidebar">
-
                             <select name="maps" id="maps">
                                 <option value="OSMStandard">Standard</option>
                                 <option value="OSMHumanitarian">Humaniterian</option>
@@ -54,6 +53,8 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
                         <label class="form-check-label" for="editToggle">Draw Mode</label>
                     </div>
+                    <button class="btn btn-warning" onclick="openNav()">Edit Menu
+                    </button>
                     <div class="row m-3">
                         <button class="btn btn-success btn-block" type="button" id="undoButton">Undo the Last Point</button>
                     </div>
@@ -62,27 +63,34 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-10">
                 <div id="js-map" class="map"></div>
-            </div>
-            <div class="col-2 d-flex justify-content-center">
-                <div style="margin-top: 5%; margin-right: 5%;">
-                    <h4 style="text-align: center;">Properties</h4>
-                    <form>
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="building-type">Building Type</label>
-                            <input type="text" id="building-type" class="form-control" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="building-name">Name</label>
-                            <input type="text" id="building-name" class="form-control" />
-                        </div>
-                        <div class="form-outline mb-4">
-                            <label class="form-label" for="building-population">Population</label>
-                            <input type="number" min="0" step="1" id="building-population" class="form-control" />
-                        </div>
-                        <button type="button" id="saveProperties" class="btn btn-dark btn-block mb-4">Save the Building</button>
-                    </form>
+                <div id="mySidebar" class="editbar">
+                    <a href="javascript:void(0)" class="closebtn"
+                        onclick="closeNav()">
+                        ×
+                    </a>
+                    <div>
+                        <h4 style="text-align: center; color: white; padding: 20px;">Properties</h4>
+                        <form>
+                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
+                                <label class="form-label" for="building-type">Building Type</label>
+                                <input type="text" id="building-type" class="form-control"/>
+                            </div>
+                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
+                                <label class="form-label" for="building-name">Name</label>
+                                <input type="text" id="building-name" class="form-control"/>
+                            </div>
+                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
+                                <label class="form-label" for="building-population">Population</label>
+                                <input type="number" min="0" step="1" id="building-population" class="form-control"/>
+                            </div>
+                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
+                                <button type="button" id="saveProperties" class="btn btn-success btn-block" >Save</button>
+                                <button type="button" id="delete" class="btn btn-danger btn-block" >Delete</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -109,6 +117,22 @@
             </p>
         </div>
     </footer>
+    <script>
+        function openNav() {
+            document.getElementById(
+                "mySidebar").style.width = "300px";
+            document.getElementById(
+                "main").style.marginLeft = "200px";
+        }
+        /* Set the width of the sidebar to 0
+        and the left margin of the page content to 0 */
+        function closeNav() {
+            document.getElementById(
+                "mySidebar").style.width = "0";
+            document.getElementById(
+                "main").style.marginLeft = "0";
+        }
+    </script>
 </body>
 
 </html>
