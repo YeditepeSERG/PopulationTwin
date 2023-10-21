@@ -1,4 +1,5 @@
-const pathOfMap = './data/map3.geojson';
+//const pathOfMap = './data/map3.geojson';
+const pathOfMap = './data/IstanbulBuildings.geojson';
 const map = createMap();
 
 window.onload = init;
