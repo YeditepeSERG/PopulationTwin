@@ -57,5 +57,37 @@
           <p style="color: mistyrose;">None of the information given in this site represent the correct values!</p>
         </div>
     </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+      import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+  
+      const firebaseConfig = {
+        apiKey: "AIzaSyBYsmw1O8aEU9SnMPqwS4CNvaaRrLem-nI",
+        authDomain: "populationtwin.firebaseapp.com",
+        databaseURL: "https://populationtwin-default-rtdb.firebaseio.com",
+        projectId: "populationtwin",
+        storageBucket: "populationtwin.appspot.com",
+        messagingSenderId: "155599784115",
+        appId: "1:155599784115:web:44434bcf2eedb72c13c8c6",
+        measurementId: "G-QZH8VMQ93P"
+      };
+  
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth();
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/auth.user
+          const uid = user.uid;
+          window.location.href='admin.html'
+        } else {
+          // User is signed out
+          // ...
+          console.log('logged out')
+        }
+      });
+  
+    </script>
 </body>
 </html>

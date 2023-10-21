@@ -119,6 +119,16 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const uid = user.uid;
+            } else {
+                window.location.href = "/index.html";
+            }
+        });
+
         buttonLogout.addEventListener('click', (e) => {
             signOut(auth).then(() => {
                 // Logged out
