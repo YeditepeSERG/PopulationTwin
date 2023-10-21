@@ -14,7 +14,11 @@ let draw = new ol.interaction.Draw({
 
 draw.on('drawend', function (event) {
     if (!confirm("Do you want to add this building?")) {
-        //! BUG:  draws shape anyway
+        setTimeout(() => {
+            vectorSource.removeFeature(event.feature);
+        }, 100);
+
+        //! use existing save button (right side)
 
         return;
     }
@@ -41,14 +45,22 @@ editToggleButton.onclick = () => {
 
 let undoButton = document.getElementById("undoButton");
 undoButton.onclick = () => {
-    if (!editToggleButton.checked) return;
+    if (!editToggleButton.checked) {
+        alert("You need to toggle edit mode in order to use this function.")
+        return;   
+    }
+
     draw.removeLastPoint();
 };
 
 let saveButton = document.getElementById("saveButton");
 saveButton.onclick = () => {
-    let features = vectorLayer.getSource().getFeatures();
+    if (!editToggleButton.checked) {
+        alert("You need to toggle edit mode in order to use this function.")
+        return;   
+    }
 
+    let features = vectorLayer.getSource().getFeatures();
     features.forEach(feature => {
         featureProperties = feature.getProperties();
         featureBuildingType = featureProperties.buildingType;
@@ -62,16 +74,14 @@ saveButton.onclick = () => {
             xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
         });
 
-        console.log(featureProperties)
-        console.log(xy_coords)
-
         let newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
         addNewBuildingToJson(newBuilding, [xy_coords]);
 
-        //! BUG: only adds the last one
+        //! BUG: only adds the last building
     });
 
-    setTimeout(init, 100)
+    vectorSource.clear();
+    setTimeout(init, 100);
 };
 
 // helper function

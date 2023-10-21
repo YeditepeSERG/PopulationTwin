@@ -113,7 +113,7 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature=>{
-        if (document.getElementById("editToggle").checked){
+        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle").checked){
           return
         } 
 
