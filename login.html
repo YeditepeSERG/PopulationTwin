@@ -37,8 +37,6 @@
           <input type="password" id="form2Example2" class="form-control" />
         </div>
       
-        
-
         <!-- Submit button -->
         <button type="button" id="buttonLogin" class="btn btn-primary btn-block mb-4">Sign in</button>
       </form>
@@ -55,16 +53,9 @@
 </body>
 
 <script type="module">
-  // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-  //import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-analytics.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js";  
   import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  
   const firebaseConfig = {
     apiKey: "AIzaSyBYsmw1O8aEU9SnMPqwS4CNvaaRrLem-nI",
     authDomain: "populationtwin.firebaseapp.com",
@@ -76,10 +67,7 @@
     measurementId: "G-QZH8VMQ93P"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  //const analytics = getAnalytics(app);
-  const database = getDatabase(app);
   const auth = getAuth();
 
   buttonLogin.addEventListener('click', (e) => {
@@ -88,11 +76,10 @@
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        // Signed in 
+        // User loged in
         const user = userCredential.user;
         alert('User loged in!');
         window.location.href='index.html'
-        // ...
     })
     .catch((error) => {
       const errorCode = error.code;
