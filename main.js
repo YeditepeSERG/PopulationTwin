@@ -3,7 +3,12 @@ const map = createMap();
 
 window.onload = init;
 
+let lastID = 0;
 function init(){
+  getIDOfLastBuilding()
+  .then(id => {
+    lastID = id;
+  })
   const buildingsGeoJSON = loadGeoJSON(pathOfMap);
   
   map.addLayer(buildingsGeoJSON);
@@ -72,9 +77,6 @@ function createMap(){
         })
       })
     }
-    map.on('click',function(e){
-        console.log(e.coordinate)
-    });
 
     map.addLayer(baseLayerGroup);
 
@@ -120,6 +122,7 @@ function setPopup(map){
         if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
           closeEditNav();
           setPropertiesToFeature(feature);
+          deleteFeature(feature);
           overlay.setPosition(undefined);
           closer.blur();
           return false;

@@ -11,16 +11,18 @@ function saveNewDataInJson(data){
     })
 }
 
-function addNewBuildingToJson(newBuilding, coordinatesList){
-    return new Promise((resolve, reject) => {
-        fetch(pathOfMap)
-        .then(response => response.json())
-        .then(data => {
+function addNewBuildingToJsonByInfos(infos){
+    fetch(pathOfMap)
+    .then(response => response.json())
+    .then(data => {
+        infos.forEach(info => {
+            var coordinatesList = info.coordinatesList;
+            var newBuilding = info.newBuilding;
 
             const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
             const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
             newBuilding.setCenter(center_HDMS);
-
+    
             let newFeature = {
                 "type": "Feature",
                 "properties": newBuilding,
@@ -30,15 +32,13 @@ function addNewBuildingToJson(newBuilding, coordinatesList){
                 }
             };
             data.features.push(newFeature);
-            saveNewDataInJson(data); 
-            resolve("Added")
-        })
-        .catch(error => reject(error));
-    });
+        });
+        saveNewDataInJson(data); 
+    })
+    .catch(error => console.error(error));
 }
 
 async function downloadFileByType(fileType){
-    //window.location.href = `download-json/?path=${pathOfMap}`
     let filename = `information_of_buildings.${fileType}`;
     const cleanedJsonData = await getCleanedJsonData(pathOfMap);
 

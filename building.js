@@ -62,7 +62,8 @@ let buildingList = [
 
 class Building{
     constructor(buildingType, name, population){
-        this.setIDByLastBuilding();
+        this.id = lastID+1;
+        lastID++;
         this.buildingType = buildingType;
         this.name = name;
         this.population = population;

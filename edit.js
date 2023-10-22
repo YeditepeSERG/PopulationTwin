@@ -59,17 +59,13 @@ let saveButton = document.getElementById("saveButton");
 saveButton.style.display = 'none';
 saveButton.onclick = () => {
     let features = vectorLayer.getSource().getFeatures();
+    let infos = [];
     features.forEach(feature => {
-        let coords = feature.getGeometry().flatCoordinates;
-        let xy_coords = splitArrayIntoPairs(coords, 2);
-        xy_coords.pop();
-        xy_coords.forEach((element, i) => {
-            xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
-        });
-
-        var newBuilding = getNewBuildingByFeature(feature)
-        addNewBuildingToJson(newBuilding, [xy_coords]);
+        var info = getInfosByFeature(feature);
+        infos.push(info);
     });
+
+    addNewBuildingToJsonByInfos(infos);
 
     vectorSource.clear();
     setTimeout(init, 100);
@@ -117,7 +113,7 @@ function setPropertiesToFeature(feature){
     let saveProperties = document.getElementById("saveProperties");
     saveProperties.onclick = () => {
         try {
-            var buildingType = document.getElementById("building-type").value;
+            var buildingType = document.getElementById("building-type").value || "Apartment";
             var buildingName = document.getElementById("building-name").value;
             var buildingPopulation = parseInt(document.getElementById("building-population").value) || "";    
 
@@ -132,6 +128,7 @@ function setPropertiesToFeature(feature){
             if(feature.values_.id){
                 var id = feature.values_.id;
                 var building = getNewBuildingByFeature(feature);
+                lastID--;
                 updateToInfOfBuildingByID(id, building);
                 feature.setStyle(getStyleByColor(building.getColor()));
             }
@@ -164,4 +161,19 @@ function getNewBuildingByFeature(feature){
 
     const newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
     return newBuilding;
+}
+
+function getInfosByFeature(feature){
+    let coords = feature.getGeometry().flatCoordinates;
+    let xy_coords = splitArrayIntoPairs(coords, 2);
+    xy_coords.pop();
+    xy_coords.forEach((element, i) => {
+        xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
+    });
+
+    var newBuilding = getNewBuildingByFeature(feature);
+    return {
+        "newBuilding": newBuilding,
+        "coordinatesList": [xy_coords]
+    };
 }
