@@ -123,6 +123,7 @@ deleteBuildingButton.onclick = () => {
 
     vectorLayer.getSource().removeFeature(selectedFeature);
     closeEditNav();
+    location.reload();
 }
 
 let propertiesSidebar = document.getElementById("propertiesSidebar");
