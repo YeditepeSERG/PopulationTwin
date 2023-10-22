@@ -58,17 +58,18 @@
                         <button class="btn btn-success btn-block" type="button" id="undoButton">Undo the Last Point</button>
                     </div>
                     <div class="row m-3">
-                        <button class="btn btn-success btn-block" type="button" id="saveButton">Save to Json</button>
+                        <button class="btn btn-success btn-block" type="button" id="saveToJsonButton">Save to Json</button>
                     </div>
                     <div class="row m-3 form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="editToggle-update" checked>
                         <label class="form-check-label" for="editToggle-update">Edit Mode</label>
                     </div>
+                    <p class="row m-3" id="unsavedChangesText">INFO: You have unsaved building drawings!</p>
                 </div>
             </div>
             <div class="col-10">
                 <div id="js-map" class="map"></div>
-                <div id="mySidebar" class="editbar">
+                <div id="propertiesSidebar" class="editbar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeEditNav()"> × </a>
                     <div>
                         <h4 style="text-align: center; color: white; padding: 20px;">Properties</h4>
@@ -86,8 +87,8 @@
                                 <input type="number" min="0" step="1" id="building-population" class="form-control"/>
                             </div>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <button type="button" id="saveProperties" class="btn btn-success btn-block" >Save</button>
-                                <button type="button" id="delete" class="btn btn-danger btn-block" >Delete</button>
+                                <button type="button" id="savePropertiesButton" class="btn btn-success btn-block" >Save</button>
+                                <button type="button" id="deleteBuildingButton" class="btn btn-danger btn-block" >Delete</button>
                             </div>
                         </form>
                     </div>
@@ -161,7 +162,7 @@
         <script>
             function openNav() {
                 document.getElementById(
-                    "mySidebar").style.width = "300px";
+                    "propertiesSidebar").style.width = "300px";
                 document.getElementById(
                     "main").style.marginLeft = "200px";
             }
@@ -169,7 +170,7 @@
             and the left margin of the page content to 0 */
             function closeNav() {
                 document.getElementById(
-                    "mySidebar").style.width = "0";
+                    "propertiesSidebar").style.width = "0";
                 document.getElementById(
                     "main").style.marginLeft = "0";
             }

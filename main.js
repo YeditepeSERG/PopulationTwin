@@ -120,12 +120,12 @@ function setPopup(map){
         } 
 
         if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
-          closeEditNav();
-          setPropertiesToFeature(feature);
-          deleteFeature(feature);
-          overlay.setPosition(undefined);
-          closer.blur();
-          return false;
+            closeEditNav();
+            selectedFeature = feature; // update the selected feature
+            openEditNav();
+            overlay.setPosition(undefined);
+            closer.blur();
+            return;
         } 
 
         let infoTxt = `<p>`
