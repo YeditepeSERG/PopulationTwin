@@ -22,22 +22,21 @@ draw.on('drawend', function (event) {
 let editToggleUpdateButton = document.getElementById("editToggle-update"); 
 editToggleUpdateButton.checked = false;
 editToggleUpdateButton.onclick = () => {
-    if (editToggleUpdateButton.checked) {
-        editToggleButton.checked = false;
-        map.removeInteraction(draw);
-        undoButton.style.display = 'none';
-        saveButton.style.display = 'none';
-        closeEditNav();
-    } else {
-        closeEditNav();
+    if (editToggleUpdateButton.checked && editToggleButton.checked) {
+        editToggleButton.click();
     }
+
+    closeEditNav();
 };
 
 let editToggleButton = document.getElementById("editToggle"); 
 editToggleButton.checked = false;
 editToggleButton.onclick = () => {
     if (editToggleButton.checked) {
-        editToggleUpdateButton.checked = false;
+        if (editToggleUpdateButton.checked) {
+            editToggleUpdateButton.click();
+        }
+
         map.addInteraction(draw);
         undoButton.style.display = 'block';
         saveButton.style.display = 'block';
@@ -45,8 +44,9 @@ editToggleButton.onclick = () => {
         map.removeInteraction(draw);
         undoButton.style.display = 'none';
         saveButton.style.display = 'none';
-        closeEditNav();
     } 
+
+    closeEditNav();
 };
 
 let undoButton = document.getElementById("undoButton");
@@ -60,7 +60,6 @@ saveButton.style.display = 'none';
 saveButton.onclick = () => {
     let features = vectorLayer.getSource().getFeatures();
     features.forEach(feature => {
-
         let coords = feature.getGeometry().flatCoordinates;
         let xy_coords = splitArrayIntoPairs(coords, 2);
         xy_coords.pop();
@@ -76,7 +75,6 @@ saveButton.onclick = () => {
     setTimeout(init, 100);
 };
 
-// helper function
 function splitArrayIntoPairs(arr, chunkSize) {
     return arr.reduce(function (result, item, index) {
         if (index % chunkSize === 0) {
@@ -111,6 +109,10 @@ function closeEditNav() {
 
 function setPropertiesToFeature(feature){
     openEditNav(feature);
+
+    document.getElementById("building-type").value = feature.getProperties().buildingType || "";
+    document.getElementById("building-name").value = feature.getProperties().name || "";
+    document.getElementById("building-population").value = feature.getProperties().population || "";
 
     let saveProperties = document.getElementById("saveProperties");
     saveProperties.onclick = () => {
