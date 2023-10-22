@@ -1,5 +1,20 @@
 var selectedFeature = null;
 
+let editToggleButton = document.getElementById("editToggle"); 
+let undoButton = document.getElementById("undoButton");
+let saveToJsonButton = document.getElementById("saveToJsonButton");
+let editToggleUpdateButton = document.getElementById("editToggle-update"); 
+let unsavedChangesText = document.getElementById("unsavedChangesText");
+let propertiesSidebar = document.getElementById("propertiesSidebar");
+let savePropertiesButton = document.getElementById("savePropertiesButton");
+let deleteBuildingButton = document.getElementById("deleteBuildingButton");
+
+editToggleButton.checked = false;
+undoButton.style.display = 'none';
+saveToJsonButton.style.display = 'none';
+editToggleUpdateButton.checked = false;
+unsavedChangesText.style.display = 'none';
+
 const vectorSource = new ol.source.Vector({wrapX: false});
 const vectorLayer = new ol.layer.VectorImage({
     source: vectorSource,
@@ -20,11 +35,6 @@ draw.on('drawend', function (event) {
     openEditNav();
 });
 
-let unsavedChangesText = document.getElementById("unsavedChangesText");
-unsavedChangesText.style.display = 'none';
-
-let editToggleUpdateButton = document.getElementById("editToggle-update"); 
-editToggleUpdateButton.checked = false;
 editToggleUpdateButton.onclick = () => {
     if (editToggleUpdateButton.checked && editToggleButton.checked) {
         editToggleButton.click();
@@ -33,8 +43,6 @@ editToggleUpdateButton.onclick = () => {
     closeEditNav();
 };
 
-let editToggleButton = document.getElementById("editToggle"); 
-editToggleButton.checked = false;
 editToggleButton.onclick = () => {
     if (editToggleButton.checked) {
         if (editToggleUpdateButton.checked) {
@@ -53,14 +61,10 @@ editToggleButton.onclick = () => {
     closeEditNav();
 };
 
-let undoButton = document.getElementById("undoButton");
-undoButton.style.display = 'none';
 undoButton.onclick = () => {
     draw.removeLastPoint();
 };
 
-let saveToJsonButton = document.getElementById("saveToJsonButton");
-saveToJsonButton.style.display = 'none';
 saveToJsonButton.onclick = () => {
     let infos = [];
 
@@ -82,7 +86,6 @@ saveToJsonButton.onclick = () => {
     setTimeout(init, 100);
 };
 
-let savePropertiesButton = document.getElementById("savePropertiesButton");
 savePropertiesButton.onclick = () => {
     let buildingType = document.getElementById("building-type").value;
     let buildingName = document.getElementById("building-name").value;
@@ -113,20 +116,16 @@ savePropertiesButton.onclick = () => {
     closeEditNav();
 };
 
-let deleteBuildingButton = document.getElementById("deleteBuildingButton");
 deleteBuildingButton.onclick = () => {
     let id = selectedFeature.getProperties().id;
     if (id) {
         deleteBuildingByID(id);
-        setTimeout(init, 100);
     }
 
     vectorLayer.getSource().removeFeature(selectedFeature);
     closeEditNav();
     location.reload();
 }
-
-let propertiesSidebar = document.getElementById("propertiesSidebar");
 
 function openEditNav() {
     propertiesSidebar.style.width = "300px";
