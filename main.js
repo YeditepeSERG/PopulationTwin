@@ -1,4 +1,5 @@
 const pathOfMap = './data/map3.geojson';
+//const pathOfMap = './data/bbbike_example.geojson';
 const map = createMap();
 
 window.onload = init;
