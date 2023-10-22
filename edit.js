@@ -156,7 +156,10 @@ function closeEditNav() {
     if (selectedFeature) {
         let properties = selectedFeature.getProperties();
         let riskScale = determineRiskScale(properties.population);
-        let color = (riskScale) ? getColorByRiskScale(riskScale) : "white";
+        let color = getColorByRiskScale(riskScale);
+        if(!selectedFeature.getProperties().id){
+            color = "white";
+        }
         selectedFeature.setStyle(getStyleByColor(color));
     }
 }
