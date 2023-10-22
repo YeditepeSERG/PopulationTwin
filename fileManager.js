@@ -39,7 +39,7 @@ function addNewBuildingToJsonByInfos(infos){
 }
 
 async function downloadFileByType(fileType){
-    let filename = `information_of_buildings.${fileType}`;
+    let filename = `${pathOfMap.match(/\/([^\/]+)\.geojson$/)[1]}.${fileType}`;
     const cleanedJsonData = await getCleanedJsonData(pathOfMap);
 
     if(fileType == "json"){

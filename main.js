@@ -1,20 +1,20 @@
-const pathOfMap = './data/map3.geojson';
-//const pathOfMap = './data/bbbike_example.geojson';
+let pathOfMap = './data/yeditepe.geojson';
+let lastID = 0;
 const map = createMap();
-
+let buildingsGeoJSON = null;
 window.onload = init;
 
-let lastID = 0;
 function init(){
+  buildingsGeoJSON = loadGeoJSON(pathOfMap);
+  map.addLayer(buildingsGeoJSON);
+  drawShapesOnMap(buildingsGeoJSON);
+  
   getIDOfLastBuilding()
   .then(id => {
     lastID = id;
   })
-  const buildingsGeoJSON = loadGeoJSON(pathOfMap);
-  
-  map.addLayer(buildingsGeoJSON);
 
-  drawShapesOnMap(buildingsGeoJSON);
+  areaSelection();
   setPopup(map);
 }
 
@@ -68,16 +68,18 @@ function createMap(){
       layers: [ standartLayer, humaniterianLayer, roadLayer, aerialLayer]
     });
 
-    const baseLayerElements = document.querySelectorAll('.sidebar > select');
-    for(let baseLayerElement of baseLayerElements){
-      baseLayerElement.addEventListener('change',function(){
-        let baseLayerElementValue = this.value;
-        baseLayerGroup.getLayers().forEach(function(element,index,array){
-          let baseLayerTitle = element.get('title');
-          element.setVisible(baseLayerTitle === baseLayerElementValue);
-        })
-      })
-    }
+    const baseLayerElements = document.getElementById('maps');
+    baseLayerElements.addEventListener('change', function() {
+      var baseLayerElementValue = baseLayerElements.options[baseLayerElements.selectedIndex].value;
+      baseLayerGroup.getLayers().forEach(function(element,index,array){
+        let baseLayerTitle = element.get('title');
+        element.setVisible(baseLayerTitle === baseLayerElementValue);
+      });
+    });
+
+    map.on('click',function(e){
+      console.log(e.coordinate)
+    });
 
     map.addLayer(baseLayerGroup);
 
@@ -150,3 +152,28 @@ function setPopup(map){
     };
 }
 
+function areaSelection(){
+  const areasElements = document.getElementById('areas');
+  areasElements.addEventListener('change', function() {
+      var areaValue = areasElements.options[areasElements.selectedIndex].value;
+      areas.forEach(area => {
+        if(area.name == areaValue){
+          pathOfMap = area.path;
+          map.setView(area.view);
+          changeLayerByPath();
+        }
+      })
+  });
+}
+
+function changeLayerByPath(){
+  map.removeLayer(buildingsGeoJSON);
+  buildingsGeoJSON = loadGeoJSON(pathOfMap)
+  map.addLayer(buildingsGeoJSON);
+  drawShapesOnMap(buildingsGeoJSON);
+
+  getIDOfLastBuilding()
+  .then(id => {
+    lastID = id;
+  });
+}

@@ -1,0 +1,45 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": 1,
+                "buildingType": "Apartment",
+                "name": "Starbucks",
+                "population": 2000,
+                "center": "40° 59′ 26″ N 29° 01′ 25″ E",
+                "risk": 4,
+                "color": "red",
+                "imgPath": null
+            },
+            "geometry": {
+                "coordinates": [
+                    [
+                        [
+                            29.02341486147585,
+                            40.990584217034666
+                        ],
+                        [
+                            29.02347224283527,
+                            40.9906470682524
+                        ],
+                        [
+                            29.02359228805292,
+                            40.99058912862418
+                        ],
+                        [
+                            29.023492184717945,
+                            40.99044714063007
+                        ],
+                        [
+                            29.023382307049758,
+                            40.990516693645475
+                        ]
+                    ]
+                ],
+                "type": "Polygon"
+            }
+        }
+    ]
+}

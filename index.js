@@ -54,13 +54,4 @@ app.post('/update-json', (request, response) => {
     
 });
 
-/*
-app.get('/download-json/:path', (request, response) => {
-    const pathOfMap = request.params.path;
-    const file = `${__dirname}${pathOfMap}`;
-    response.download(file);
-    
-});
-*/
-
 app.listen(process.env.PORT || 3000, ()=> console.log('App avaliable on http://localhost:3000'))
