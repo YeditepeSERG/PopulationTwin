@@ -153,6 +153,10 @@ function openEditNav() {
     document.getElementById("building-type").value = buildingType;
     document.getElementById("building-name").value = name;
     document.getElementById("building-population").value = population;
+
+    focusElement = document.getElementById("building-name");
+    focusElement.focus();
+    focusElement.setSelectionRange(focusElement.value.length, focusElement.value.length);
 }
 
 function closeEditNav() {
