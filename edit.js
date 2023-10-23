@@ -72,12 +72,13 @@ saveToJsonButton.onclick = () => {
     features.forEach(feature => {
         let coords = getCoordinatesByFeature(feature);
         var newBuilding = getNewBuildingByFeature(feature);
-        let info = {
-            "newBuilding": newBuilding,
-            "coordinatesList": coords,
-        };
-
-        infos.push(info);
+        if (newBuilding) {
+            let info = {
+                "newBuilding": newBuilding,
+                "coordinatesList": coords,
+            };
+            infos.push(info);
+        }
     });
 
     addNewBuildingToJsonByInfos(infos)
@@ -168,8 +169,11 @@ function closeEditNav() {
 
     if (selectedFeature) {
         let properties = selectedFeature.getProperties();
-        let riskScale = determineRiskScale(properties.population);
-        let color = getColorByRiskScale(riskScale);
+        let color;
+        if (properties.population){
+            let riskScale = determineRiskScale(properties.population);
+            color = getColorByRiskScale(riskScale);
+        }
         if(!selectedFeature.getProperties().id){
             color = "white";
         }
@@ -183,8 +187,14 @@ function getNewBuildingByFeature(feature){
     featureName = featureProperties.name;
     featurePopulation = featureProperties.population;
 
-    const newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
-    return newBuilding;
+    try{
+        isPropertiesEmpty(featureProperties);
+        const newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
+        return newBuilding;
+    }
+    catch{
+        return null;
+    }
 }
 
 function getCoordinatesByFeature(feature){
