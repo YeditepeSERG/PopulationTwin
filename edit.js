@@ -70,11 +70,11 @@ saveToJsonButton.onclick = () => {
 
     let features = vectorLayer.getSource().getFeatures();
     features.forEach(feature => {
-        let xy_coords = getCoordinatesByFeature(feature);
+        let coords = getCoordinatesByFeature(feature);
         var newBuilding = getNewBuildingByFeature(feature);
         let info = {
             "newBuilding": newBuilding,
-            "coordinatesList": [xy_coords],
+            "coordinatesList": coords,
         };
 
         infos.push(info);
@@ -184,22 +184,14 @@ function getNewBuildingByFeature(feature){
 }
 
 function getCoordinatesByFeature(feature){
-    let coords = feature.getGeometry().flatCoordinates;
-    let xy_coords = splitArrayIntoPairs(coords, 2);
-    xy_coords.pop();
-    xy_coords.forEach((element, i) => {
-        xy_coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
+    let multiCoords = feature.getGeometry().getCoordinates();
+    multiCoords.forEach((coords, i) => {
+        coords.pop();
+        coords.forEach((element, i) => {
+            coords[i] = ol.proj.transform(element, 'EPSG:3857', 'EPSG:4326');
+        });
     });
-    return xy_coords;
-}
-
-function splitArrayIntoPairs(arr, chunkSize) {
-    return arr.reduce(function (result, item, index) {
-        if (index % chunkSize === 0) {
-            result.push(arr.slice(index, index + chunkSize));
-        }
-        return result;
-    }, []);
+    return multiCoords;
 }
 
 function isPropertiesEmpty(properties){
