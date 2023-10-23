@@ -83,7 +83,7 @@ const buildingList = [
         "ImgPath": null
     },
     {
-        "Type": "Cafe",
+        "Type": "School",
         "ImgPath": null
     }    
 ]

@@ -49,7 +49,7 @@
                               <option value='kadikoy'>Kadikoy</option>
                           </select>
                         </div>
-                      </div>
+                    </div>
                     <div class="dropdown">
                         <button class="export-button">Export Data</button>
                         <div class="dropdown-content">
@@ -83,8 +83,14 @@
                         <h4 style="text-align: center; color: white; padding: 20px;">Properties</h4>
                         <form>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <label class="form-label" for="building-type">Building Type</label>
-                                <input type="text" id="building-type" class="form-control"/>
+                                <div class="grid-2">
+                                    <div class="sidebar">
+                                      <select name="building-type" id="building-type">
+                                          <option value='Apartment'>Apartment</option>
+                                          <option value='School'>School</option>
+                                      </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
                                 <label class="form-label" for="building-name">Name</label>

@@ -142,7 +142,7 @@ function openEditNav() {
     propertiesSidebar.style.width = "300px";
 
     // default values
-    let buildingType = "Apartment";
+    let buildingType = document.getElementById("building-type").value;
     let name = "";
     let population = "";
 
