@@ -123,6 +123,7 @@ deleteBuildingButton.onclick = () => {
     }
 
     vectorLayer.getSource().removeFeature(selectedFeature);
+    selectedFeature = null;
 
     if (vectorLayer.getSource().getFeatures().length === 0) {
         unsavedChangesText.style.display = 'none';
