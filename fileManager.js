@@ -179,6 +179,7 @@ function deleteBuildingByID(id){
             listOfFeature.splice(id-1, 1);
             data = resetAllID(data);
             saveNewDataInJson(data);
+            lastID--;
             resolve("Deleted");
         })
         .catch(error => reject(error));

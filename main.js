@@ -160,10 +160,7 @@ function areaSelection(){
 }
 
 function changeLayerByPath(){
-  map.removeLayer(buildingsGeoJSON);
-  buildingsGeoJSON = loadGeoJSON(pathOfMap)
-  map.addLayer(buildingsGeoJSON);
-  drawShapesOnMap(buildingsGeoJSON);
+  reloadLayer();
 
   getIDOfLastBuilding()
   .then(id => {
@@ -179,4 +176,13 @@ function getInfosOfAreas(name){
     }
   }
   return null;
+}
+
+function reloadLayer(){
+  map.removeLayer(buildingsGeoJSON);
+  console.log('1: ',buildingsGeoJSON.getSource().getFeatures());
+  buildingsGeoJSON = loadGeoJSON(pathOfMap);
+  console.log('2: ',buildingsGeoJSON.getSource().getFeatures());
+  map.addLayer(buildingsGeoJSON);
+  drawShapesOnMap(buildingsGeoJSON);
 }
