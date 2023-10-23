@@ -80,10 +80,12 @@ saveToJsonButton.onclick = () => {
         infos.push(info);
     });
 
-    addNewBuildingToJsonByInfos(infos);
+    addNewBuildingToJsonByInfos(infos)
+    .then(message => {
+        reloadLayer();
+    });
     unsavedChangesText.style.display = 'none';
     vectorSource.clear();
-    setTimeout(init, 100);
 };
 
 savePropertiesButton.onclick = () => {
@@ -116,21 +118,23 @@ savePropertiesButton.onclick = () => {
     closeEditNav();
 };
 
-deleteBuildingButton.onclick = () => {
+deleteBuildingButton.onclick = async () => {
     let id = selectedFeature.getProperties().id;
     if (id) {
-        deleteBuildingByID(id);
+        deleteBuildingByID(id)
+        .then(message => {
+            reloadLayer();
+        });
     }
-
-    vectorLayer.getSource().removeFeature(selectedFeature);
-    selectedFeature = null;
-
-    if (vectorLayer.getSource().getFeatures().length === 0) {
-        unsavedChangesText.style.display = 'none';
+    else{
+        vectorLayer.getSource().removeFeature(selectedFeature);
+        selectedFeature = null;
+    
+        if (vectorLayer.getSource().getFeatures().length === 0) {
+            unsavedChangesText.style.display = 'none';
+        }
     }
-
     closeEditNav();
-    location.reload();
 }
 
 function openEditNav() {

@@ -180,9 +180,7 @@ function getInfosOfAreas(name){
 
 function reloadLayer(){
   map.removeLayer(buildingsGeoJSON);
-  console.log('1: ',buildingsGeoJSON.getSource().getFeatures());
   buildingsGeoJSON = loadGeoJSON(pathOfMap);
-  console.log('2: ',buildingsGeoJSON.getSource().getFeatures());
   map.addLayer(buildingsGeoJSON);
   drawShapesOnMap(buildingsGeoJSON);
 }

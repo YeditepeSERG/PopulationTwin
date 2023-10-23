@@ -12,30 +12,33 @@ function saveNewDataInJson(data){
 }
 
 function addNewBuildingToJsonByInfos(infos){
-    fetch(pathOfMap)
-    .then(response => response.json())
-    .then(data => {
-        infos.forEach(info => {
-            var coordinatesList = info.coordinatesList;
-            var newBuilding = info.newBuilding;
+    return new Promise((resolve, reject) => {
+        fetch(pathOfMap)
+        .then(response => response.json())
+        .then(data => {
+            infos.forEach(info => {
+                var coordinatesList = info.coordinatesList;
+                var newBuilding = info.newBuilding;
 
-            const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
-            const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
-            newBuilding.setCenter(center_HDMS);
-    
-            let newFeature = {
-                "type": "Feature",
-                "properties": newBuilding,
-                "geometry": {
-                    "coordinates": coordinatesList,
-                    "type":"Polygon"
-                }
-            };
-            data.features.push(newFeature);
-        });
-        saveNewDataInJson(data); 
-    })
-    .catch(error => console.error(error));
+                const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
+                const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
+                newBuilding.setCenter(center_HDMS);
+        
+                let newFeature = {
+                    "type": "Feature",
+                    "properties": newBuilding,
+                    "geometry": {
+                        "coordinates": coordinatesList,
+                        "type":"Polygon"
+                    }
+                };
+                data.features.push(newFeature);
+            });
+            saveNewDataInJson(data); 
+            resolve("Added");
+        })
+        .catch(error => reject(error));
+    });
 }
 
 async function downloadFileByType(fileType){
