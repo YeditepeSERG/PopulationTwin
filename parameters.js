@@ -1,3 +1,6 @@
+let pathOfMap = './data/yeditepe.geojson';
+let lastID = 0;
+
 const areas = [
     {
       "name": 'yeditepe',

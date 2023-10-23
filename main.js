@@ -1,5 +1,3 @@
-let pathOfMap = './data/yeditepe.geojson';
-let lastID = 0;
 const map = createMap();
 let buildingsGeoJSON = null;
 window.onload = init;
@@ -19,12 +17,10 @@ function init(){
 }
 
 function createMap(){
+    let name = pathOfMap.match(/\/([^\/]+)\.geojson$/)[1];
+    let view = getInfosOfAreas(name).view;
     const map = new ol.Map({
-        view : new ol.View({
-            center: [3245075.5956414873, 5008280.403576283],
-            zoom: 17,
-            maxZoom: 20
-        }),
+        view : view,
         target: 'js-map'
     });
 
@@ -156,13 +152,10 @@ function areaSelection(){
   const areasElements = document.getElementById('areas');
   areasElements.addEventListener('change', function() {
       var areaValue = areasElements.options[areasElements.selectedIndex].value;
-      areas.forEach(area => {
-        if(area.name == areaValue){
-          pathOfMap = area.path;
-          map.setView(area.view);
-          changeLayerByPath();
-        }
-      })
+      info = getInfosOfAreas(areaValue);
+      pathOfMap = info.path;
+      map.setView(info.view);
+      changeLayerByPath();
   });
 }
 
@@ -176,4 +169,14 @@ function changeLayerByPath(){
   .then(id => {
     lastID = id;
   });
+}
+
+function getInfosOfAreas(name){
+  for(var i=0 ; i<areas.length ; i++){
+    var area = areas[i];
+    if(area.name.match(name)){
+      return area;
+    }
+  }
+  return null;
 }
