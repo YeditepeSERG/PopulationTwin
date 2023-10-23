@@ -123,6 +123,11 @@ deleteBuildingButton.onclick = () => {
     }
 
     vectorLayer.getSource().removeFeature(selectedFeature);
+
+    if (vectorLayer.getSource().getFeatures().length === 0) {
+        unsavedChangesText.style.display = 'none';
+    }
+
     closeEditNav();
     location.reload();
 }
