@@ -160,6 +160,8 @@ function areaSelection(){
 }
 
 function changeLayerByPath(){
+  editToggleButton.checked = false;
+  map.removeInteraction(draw);
   reloadLayer();
 
   getIDOfLastBuilding()
