@@ -65,8 +65,8 @@ async function deleteUser(email) {
   return new Promise( async (resolve,reject) => {
     
     await checkUserExistence(email).then((check)=>{
-      if( check ){
-        resolve("User already exist in the database");
+      if( !check ){
+        resolve("User is not exist in database");
       }
     });
 
@@ -74,15 +74,10 @@ async function deleteUser(email) {
       const q = query(collection(db, "users"), where("email", "==", email));
       const querySnapshot = await getDocs(q);
   
-      if (querySnapshot.size === 0) {
-        resolve("No matching documents found.");
-      }
-  
       querySnapshot.forEach((doc) => {
         deleteDoc(doc.ref);
         resolve(`Document with email ${email} deleted successfully.`);
       });
-
     } catch (e) {
       reject(e);
     }
