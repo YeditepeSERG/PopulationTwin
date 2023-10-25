@@ -1,28 +1,53 @@
 import { app } from "./login.js";
-import { addDoc, collection, getFirestore, getDocs, deleteDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
-
+import { addDoc, collection, getFirestore, getDocs, deleteDoc, doc, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
 
 const db = getFirestore(app);
 
-async function createUser(email, view_list, edit_list){
-  checkUserExistence(email).then((check)=>{
-    console.log(check);
-    if( check ){
-      console.log("user already exist in the database");
-      console.log(email);
-      return;
+function checkUserExistence(email){
+  return new Promise( async (resolve,reject) => {
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.size === 0) {
+        resolve(false)
+        
+        console.log("No matching documents found.");
+      }
+
+      querySnapshot.forEach((doc) => {
+        console.log(`Document with email ${doc.data()}`);
+        resolve(true);
+      });
+
+    }catch (error) {
+      reject(error);
     }
+  });
+}
+
+async function createUser(email, view_list, edit_list){
+
+  return new Promise( async (resolve,reject) => {
+    
+    await checkUserExistence(email).then((check)=>{
+      if( check ){
+        resolve("User already exist in the database");
+      }
+    });
 
     try {
-          const docRef = addDoc(collection(db, "users"), {
-            email: email,
-            view_list: view_list,
-            edit_list: edit_list,
-          });
-        } catch (e) {
-          console.error("Error adding document: ", e);
-      }
-  })
+      const docRef = addDoc(collection(db, "users"), {
+        email: email,
+        view_list: view_list,
+        edit_list: edit_list,
+      });
+
+      resolve(`${email} is added.`);
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 async function getUsers(){
@@ -30,29 +55,6 @@ async function getUsers(){
     querySnapshot.forEach((doc) => {
       console.log(`${doc.id} => ${doc.data().email}`);
     });
-}
-
-function checkUserExistence(email){
-    return new Promise( async (resolve,reject)=> {
-      try {
-        const q = query(collection(db, "users"), where("email", "==", email));
-        const querySnapshot = await getDocs(q);
-    
-        if (querySnapshot.size === 0) {
-          resolve(false)
-          
-          console.log("No matching documents found.");
-        }
-
-        querySnapshot.forEach((doc) => {
-          console.log(`Document with email ${doc.data()} .`);
-          resolve(true);
-        });
-
-    } catch (error) {
-    }
-    })
-    
 }
 
 async function deleteUser(email) {
@@ -74,8 +76,179 @@ async function deleteUser(email) {
   }
 }
 
+async function getViewAreaListByAccount(email){
+ 
+  return new Promise( async (resolve,reject)=> {
+    await checkUserExistence(email).then((check)=>{
+      if( !check ){
+        resolve([]);
+      }
+    })
+    .catch(error => reject(error));
 
-createUser("emre@gmail.com", [1,2],[1,2])
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
 
+      querySnapshot.forEach((doc) => {
+        console.log("mail: ", email);
+        console.log("view_list: ", doc.data().view_list);
+        resolve(doc.data().view_list);
+      });
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+async function getEditAreaListByAccount(email){
+
+  return new Promise( async (resolve,reject)=> {
+    await checkUserExistence(email).then((check)=>{
+      if( !check ){
+        resolve([]);
+      }
+    })
+    .catch(error => reject(error));
+
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach((doc) => {
+        console.log("mail: ", email);
+        console.log("view_list: ", doc.data().edit_list);
+        resolve(doc.data().edit_list);
+      });
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+async function addViewAreaForAccount(email, listOfArea){
+
+  return new Promise( async (resolve,reject)=> {
+    await checkUserExistence(email).then((check)=>{
+      if( !check ){
+        resolve("User is not exist");
+      }
+    })
+    .catch(error => reject(error));
+
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);     
+
+      querySnapshot.forEach((doc) => {
+        var existinglist = doc.data().view_list;
+        listOfArea.forEach(area => {
+          if (! existinglist.includes(area)){
+            existinglist.push(area);
+          } 
+        });
+
+        updateDoc(doc.ref, {
+          view_list: existinglist
+        });
+      });
+
+      resolve(`Added new areas in view list.\nAccount: ${email}`)
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+async function addEditAreaForAccount(email, listOfArea){
+
+  return new Promise( async (resolve,reject)=> {
+    await checkUserExistence(email).then((check)=>{
+      if( !check ){
+        resolve("User is not exist");
+      }
+    })
+    .catch(error => reject(error));
+
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);     
+
+      querySnapshot.forEach((doc) => {
+        var existinglist = doc.data().edit_list;
+        listOfArea.forEach(area => {
+          if (! existinglist.includes(area)){
+            existinglist.push(area);
+          } 
+        });
+
+        updateDoc(doc.ref, {
+          edit_list: existinglist
+        });
+      });
+
+      resolve(`Added new areas in edit list.\nAccount: ${email}`)
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+function getViewerListByArea(area){
+
+  return new Promise( async (resolve,reject)=> {
+
+    try {
+      const q = query(collection(db, "users"));
+      const querySnapshot = await getDocs(q);     
+
+      var listOfAccount = [];
+
+      querySnapshot.forEach((doc) => {
+        var viewList = doc.data().view_list;
+        viewList.forEach(element => {
+          if (element === area) {
+            listOfAccount.push(doc.data().email);
+          }
+        })
+      });
+
+      resolve(listOfAccount);
+
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+function setSlideBarByAreaList(listOfArea){
+
+}
+
+
+createUser("emre@gmail.com", ["yeditepe"],["kadikoy"]);
+
+addViewAreaForAccount("emre@gmail.com", ["Besiktas", "Kayisdagi"])
+.then(() => {
+  getViewAreaListByAccount("emre@gmail.com")
+})
+
+addEditAreaForAccount("emre@gmail.com", ["Kartal", "Kayisdagi"])
+.then(() => {
+  getEditAreaListByAccount("emre@gmail.com")
+})
+
+addViewAreaForAccount("eren@gmail.com", ["Besiktas1"])
+.then(() => {
+  getViewAreaListByAccount("emre@gmail.com")
+  getViewerListByArea("Besiktas")
+  .then(list => {
+    console.log("list: ", list);
+  })
+})
 
 
