@@ -15,35 +15,36 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-        <a class="nav-item nav-link" href="#">Home</a>
-        <a class="nav-item nav-link" href="about.html">About</a>
-        <a class="nav-item nav-link active" href="login.html">Login</a>
+        <a class="nav-item nav-link" href="admin.html">Home</a>
         </div>
     </div>
   </nav>
 
   <div style="width: 100%; height: 82%;" class="d-flex align-items-center justify-content-center">
-    <div style="padding: 50px; border: 3px solid rgb(0, 2, 124); border-radius: 5px;">
-      <form>
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <label class="form-label" for="form2Example1">Email address</label>
-          <input type="email" id="form2Example1" class="form-control" />
-        </div>
-      
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <label class="form-label" for="form2Example2">Password</label>
-          <input type="password" id="form2Example2" class="form-control" />
-        </div>
-      
-        <!-- Submit button -->
-        <button type="button" id="buttonLogin" class="btn btn-primary btn-block mb-4">Sign in</button>
-      </form>
+    <div style="padding: 50px; border: 3px solid rgb(41, 206, 0); border-radius: 5px;">
+        <h5 style="text-align: center;"><b>Register a User</b></h5>
+        <br>
+        <form  class="align-items-center justify-content-center">
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+            <label class="form-label" for="form2Example1">Email address</label>
+            <input type="email" id="form2Example1" class="form-control" />
+            </div>
+            <div class="form-outline mb-4">
+                <label for="register-dropdown" style="margin-bottom: 5px;">Area</label>
+                <div class="register-dropdown">
+                    <select name="areas" id="areas">
+                        <option value='yeditepe'>Yeditepe</option>
+                        <option value='kadikoy'>Kadikoy</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Submit button -->
+            <button type="button" id="buttonRegister" class="btn btn-success btn-block mb-4">Register</button>
+        </form>
     </div>
   </div>
 
-  
   <footer class="bg-dark text-white flex-grow" style="text-align: center;">
     <div class="container p-3">
       <p>Population Map tool is a prototype tool developed by <a href="https://sites.google.com/view/yeditepeserg" target="_blank" style="color: antiquewhite;">SERG at Yeditepe University</a></p>
@@ -52,8 +53,4 @@
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
-
-  <script type="module" src= "userRepository.js"></script>
-
-  <script type="module" src= "login.js"></script>
 </html>
