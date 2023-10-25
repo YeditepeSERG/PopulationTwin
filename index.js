@@ -42,6 +42,17 @@ app.get('/login.html', (request, response) => {
 
 });
 
+app.get('/register.html', (request, response) => {
+
+    fs.readFile('./register.html', 'utf8', (err,html) => {
+        if (err){
+            response.status(500).send(':(');
+        }
+        response.send(html);
+    })
+
+});
+
 app.post('/update-json', (request, response) => {
     const { newData, jsonFilePath } = request.body; 
     const jsonData = JSON.stringify(newData);

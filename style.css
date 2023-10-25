@@ -66,7 +66,6 @@ body {
   border-radius: 3px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
-  margin: 5px;
   width: 100%;
 }
 
@@ -76,6 +75,23 @@ body {
   color: white;
 }
 
+.register-dropdown select {
+  background: transparent;
+  color: #518f4b;
+  border: 2px solid #518f4b;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100%;
+}
+
+/* Add a hover effect to the select element */
+.register-dropdown  select:hover {
+  background-color: #518f4b;
+  color: white;
+}
 /* Style the dropdown container */
 .dropdown {
   position: relative;
