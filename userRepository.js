@@ -5,16 +5,24 @@ import { addDoc, collection, getFirestore, getDocs, deleteDoc, doc, query, where
 const db = getFirestore(app);
 
 async function createUser(email, view_list, edit_list){
-    console.log(view_list)
+  checkUserExistence(email).then((check)=>{
+    console.log(check);
+    if( check ){
+      console.log("user already exist in the database");
+      console.log(email);
+      return;
+    }
+
     try {
-        const docRef = await addDoc(collection(db, "users"), {
-          email: email,
-          view_list: view_list,
-          edit_list: edit_list,
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
+          const docRef = addDoc(collection(db, "users"), {
+            email: email,
+            view_list: view_list,
+            edit_list: edit_list,
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
       }
+  })
 }
 
 async function getUsers(){
@@ -24,23 +32,27 @@ async function getUsers(){
     });
 }
 
-async function checkUserExistence(email){
-    try {
+function checkUserExistence(email){
+    return new Promise( async (resolve,reject)=> {
+      try {
         const q = query(collection(db, "users"), where("email", "==", email));
         const querySnapshot = await getDocs(q);
     
         if (querySnapshot.size === 0) {
+          resolve(false)
+          
           console.log("No matching documents found.");
-          return;
         }
-
 
         querySnapshot.forEach((doc) => {
           console.log(`Document with email ${doc.data()} .`);
+          resolve(true);
         });
+
     } catch (error) {
-      
     }
+    })
+    
 }
 
 async function deleteUser(email) {
@@ -62,6 +74,8 @@ async function deleteUser(email) {
   }
 }
 
+
+createUser("emre@gmail.com", [1,2],[1,2])
 
 
 
