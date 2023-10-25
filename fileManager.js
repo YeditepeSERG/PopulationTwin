@@ -1,13 +1,36 @@
 const listOfNotTranferred = ["id", "color", "imgPath"];
 
-function saveNewDataInJson(data){
+function sendDataChunk(path, data, startIndex, chunkSize, isLastData) {
+    const endIndex = startIndex + chunkSize;
+    const chunk = data.slice(startIndex, endIndex);
+    const body = {
+        isLastData: isLastData,
+        path: path,
+        data: chunk,
+    };
+
+    fetch('/save-chunk', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+        body: JSON.stringify(body),
+    })
+    .then(response => {
+    })
+    .catch(error => {
+        console.error('Error sending chunk:', error);
+    });
+}
+
+function saveNewDataInJson(data, path){
     fetch('/update-json', 
     {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ newData:data, jsonFilePath:pathOfMap })
+        body: JSON.stringify({ newData:data, jsonFilePath:path })
     })
 }
 
@@ -34,7 +57,7 @@ function addNewBuildingToJsonByInfos(infos){
                 };
                 data.features.push(newFeature);
             });
-            saveNewDataInJson(data); 
+            saveNewDataInJson(data, pathOfMap); 
             resolve("Added");
         })
         .catch(error => reject(error));
@@ -181,7 +204,7 @@ function deleteBuildingByID(id){
             let listOfFeature = data.features;
             listOfFeature.splice(id-1, 1);
             data = resetAllID(data);
-            saveNewDataInJson(data);
+            saveNewDataInJson(data, pathOfMap);
             lastID--;
             resolve("Deleted");
         })
@@ -200,7 +223,7 @@ function updateToInfOfBuildingByID(id, building){
             building.setCenter(listOfFeature[id-1].properties.center);
     
             listOfFeature[id-1].properties = building;
-            saveNewDataInJson(data); 
+            saveNewDataInJson(data, pathOfMap); 
             resolve("Updated");
         })
         .catch(error => reject(error));
