@@ -4,19 +4,20 @@ import { addDoc, collection, getFirestore, getDocs, deleteDoc, doc, query, where
 const db = getFirestore(app);
 
 function checkUserExistence(email){
+
   return new Promise( async (resolve,reject) => {
+
     try {
       const q = query(collection(db, "users"), where("email", "==", email));
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.size === 0) {
-        resolve(false)
-        
         console.log("No matching documents found.");
+        resolve(false)
       }
 
       querySnapshot.forEach((doc) => {
-        console.log(`Document with email ${doc.data()}`);
+        console.log(`Document with email ${doc.data().email}`);
         resolve(true);
       });
 
@@ -26,27 +27,30 @@ function checkUserExistence(email){
   });
 }
 
-async function createUser(email, view_list, edit_list){
+function createUser(email, view_list, edit_list){
 
   return new Promise( async (resolve,reject) => {
     
-    await checkUserExistence(email).then((check)=>{
+    await checkUserExistence(email)
+    .then((check)=>{
       if( check ){
+        console.log(`check: ${check}`);
         resolve("User already exist in the database");
       }
-    });
-
-    try {
-      const docRef = addDoc(collection(db, "users"), {
-        email: email,
-        view_list: view_list,
-        edit_list: edit_list,
-      });
-
-      resolve(`${email} is added.`);
-    } catch (e) {
-      reject(e);
-    }
+      else{
+        try {
+          const docRef = addDoc(collection(db, "users"), {
+            email: email,
+            view_list: view_list,
+            edit_list: edit_list,
+          });
+    
+          resolve(`${email} is added.`);
+        } catch (e) {
+          reject(e);
+        }
+      }
+    })
   });
 }
 
@@ -58,22 +62,31 @@ async function getUsers(){
 }
 
 async function deleteUser(email) {
-  try {
-    const q = query(collection(db, "users"), where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.size === 0) {
-      console.log("No matching documents found.");
-      return;
-    }
-
-    querySnapshot.forEach((doc) => {
-      deleteDoc(doc.ref);
-      console.log(`Document with email ${email} deleted successfully.`);
+  return new Promise( async (resolve,reject) => {
+    
+    await checkUserExistence(email).then((check)=>{
+      if( check ){
+        resolve("User already exist in the database");
+      }
     });
-  } catch (e) {
-    console.error("Error deleting document: ", e);
-  }
+
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.size === 0) {
+        resolve("No matching documents found.");
+      }
+  
+      querySnapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+        resolve(`Document with email ${email} deleted successfully.`);
+      });
+
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 async function getViewAreaListByAccount(email){
@@ -228,27 +241,5 @@ function getViewerListByArea(area){
 function setSlideBarByAreaList(listOfArea){
 
 }
-
-
-createUser("emre@gmail.com", ["yeditepe"],["kadikoy"]);
-
-addViewAreaForAccount("emre@gmail.com", ["Besiktas", "Kayisdagi"])
-.then(() => {
-  getViewAreaListByAccount("emre@gmail.com")
-})
-
-addEditAreaForAccount("emre@gmail.com", ["Kartal", "Kayisdagi"])
-.then(() => {
-  getEditAreaListByAccount("emre@gmail.com")
-})
-
-addViewAreaForAccount("eren@gmail.com", ["Besiktas1"])
-.then(() => {
-  getViewAreaListByAccount("emre@gmail.com")
-  getViewerListByArea("Besiktas")
-  .then(list => {
-    console.log("list: ", list);
-  })
-})
 
 
