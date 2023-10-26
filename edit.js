@@ -1,4 +1,4 @@
-import userRepository from './userRepository.js'
+import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userRepository.js";
 
 var selectedFeature = null;
 
@@ -16,6 +16,7 @@ undoButton.style.display = 'none';
 saveToJsonButton.style.display = 'none';
 editToggleUpdateButton.checked = false;
 unsavedChangesText.style.display = 'none';
+setUpAccordingToEditor();
 
 const vectorSource = new ol.source.Vector({wrapX: false});
 const vectorLayer = new ol.layer.VectorImage({
@@ -218,19 +219,24 @@ function isPropertiesEmpty(properties){
     }
 }
 
-function setUpAccordingToEditor(){
+async function setUpAccordingToEditor(){
     const email = window.sessionStorage.getItem("email");
-    console.log(email);
     var listOfAreas = [];
 
-    userRepository.getViewAreaListByAccount(email)
+    await getViewAreaListByAccount(email)
     .then(viewList => {
-        listOfAreas.push(viewList)
+        viewList.forEach(area => {
+            listOfAreas.push(area);
+        })
     })
 
-    userRepository.getEditAreaListByAccount(email)
+    await getEditAreaListByAccount(email)
     .then(editList => {
-        listOfAreas.push(editList)
+        editList.forEach(area => {
+            listOfAreas.push(area);
+        })
     })
-    addOptionToSelectByID('areas', viewList);
+
+    listOfAreas = Array.from(new Set(listOfAreas));
+    addOptionToSelectByID('areas', listOfAreas);
 }

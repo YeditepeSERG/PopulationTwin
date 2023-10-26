@@ -12,12 +12,10 @@ function checkUserExistence(email){
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.size === 0) {
-        console.log("No matching documents found.");
         resolve(false)
       }
 
       querySnapshot.forEach((doc) => {
-        console.log(`Document with email ${doc.data().email}`);
         resolve(true);
       });
 
@@ -34,7 +32,6 @@ function createUser(email, view_list, edit_list){
     await checkUserExistence(email)
     .then((check)=>{
       if( check ){
-        console.log(`check: ${check}`);
         resolve("User already exist in the database");
       }
       else{
@@ -84,7 +81,7 @@ async function deleteUser(email) {
   });
 }
 
-async function getViewAreaListByAccount(email){
+export function getViewAreaListByAccount(email){
  
   return new Promise( async (resolve,reject)=> {
     await checkUserExistence(email).then((check)=>{
@@ -99,8 +96,6 @@ async function getViewAreaListByAccount(email){
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        console.log("mail: ", email);
-        console.log("view_list: ", doc.data().view_list);
         resolve(doc.data().view_list);
       });
 
@@ -110,7 +105,7 @@ async function getViewAreaListByAccount(email){
   });
 }
 
-async function getEditAreaListByAccount(email){
+export function getEditAreaListByAccount(email){
 
   return new Promise( async (resolve,reject)=> {
     await checkUserExistence(email).then((check)=>{
@@ -125,8 +120,6 @@ async function getEditAreaListByAccount(email){
       const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
-        console.log("mail: ", email);
-        console.log("view_list: ", doc.data().edit_list);
         resolve(doc.data().edit_list);
       });
 

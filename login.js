@@ -15,7 +15,7 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-buttonLogin.addEventListener('click', (e) => {
+function sigIn(){
   var email = document.getElementById('form2Example1').value;
   var password = document.getElementById('form2Example2').value;
 
@@ -32,4 +32,4 @@ buttonLogin.addEventListener('click', (e) => {
     const errorMessage = error.message;
     alert('Invalid email and password!');
   });
-});
+}

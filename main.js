@@ -190,15 +190,12 @@ function reloadLayer(){
 }
 
 function addOptionToSelectByID(id, listOfOption){
-  console.log('Hereeee');
   var select = document.getElementById(id);
-  console.log("select: ", select);
   select.innerHTML = "";
 
   listOfOption.forEach(newOption => {
-    console.log(`newOption; `, newOption);
     var option = document.createElement("option");
-    option.value = newOption.toLowerCase();
+    option.value = newOption.toLowerCase;
     option.text = newOption;
     select.add(option);
   })
