@@ -12,13 +12,17 @@ function init(){
     lastID = id;
   })
 
-  areaSelection();
-  setPopup(map);
 }
 
 function createMap(){
-    let name = pathOfMap.match(/\/([^\/]+)\.geojson$/)[1];
-    let view = getInfosOfAreas(name).view;
+    //let name = pathOfMap.match(/\/([^\/]+)\.geojson$/)[1];
+    //let view = getInfosOfAreas(name).view;
+    let view = new ol.View({
+      center: [3245075.5956414873, 5008280.403576283],
+      zoom: 1,
+      maxZoom: 20,
+    })
+
     const map = new ol.Map({
         view : view,
         target: 'js-map'
@@ -96,100 +100,6 @@ function loadGeoJSON(path){
     return buildingsGeoJSON;
 }
 
-function setPopup(map){
-    let container = document.getElementById('popup');
-    let content = document.getElementById('popup-content');
-    let closer = document.getElementById('popup-closer');
-    
-    let overlay = new ol.Overlay({
-      element: container,
-      autoPan: {
-        animation: {
-          duration: 250,
-        },
-      },
-    });
-
-    map.addOverlay(overlay)
-
-    map.on('click', (e)=>{
-      map.forEachFeatureAtPixel(e.pixel, feature => {
-        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle").checked){
-          return;
-        } 
-
-        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
-            closeEditNav();
-            selectedFeature = feature; // update the selected feature
-            openEditNav();
-            overlay.setPosition(undefined);
-            closer.blur();
-            return;
-        } 
-
-        let infoTxt = `<p>`
-        for (var key in feature.values_){
-          if(listOfNotTranferred.includes(key) || key == "geometry"){
-            continue;
-          }
-          infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
-        }
-        infoTxt = infoTxt + `</p><code>`;
-
-        content.innerHTML = infoTxt;
-        overlay.setPosition(e.coordinate);
-      });
-    });
-
-    closer.onclick = function () {
-      overlay.setPosition(undefined);
-      closer.blur();
-      return false;
-    };
-}
-
-function areaSelection(){
-
-  const areasElements = document.getElementById('areas');
-  areasElements.addEventListener('change', function() {
-      var areaValue = areasElements.options[areasElements.selectedIndex].value;
-      info = getInfosOfAreas(areaValue);
-      pathOfMap = info.path;
-      map.setView(info.view);
-      changeLayerByPath();
-  });
-}
-
-function changeLayerByPath(){
-  if (window.location.pathname === "/admin.html"){
-    editToggleButton.checked = false;
-    map.removeInteraction(draw);
-    reloadLayer();
-  
-    getIDOfLastBuilding()
-    .then(id => {
-      lastID = id;
-    });
-  }
-}
-
-function getInfosOfAreas(name){
-  for(var i=0 ; i<areas.length ; i++){
-    var area = areas[i];
-    if(area.name.match(name)){
-      return area;
-    }
-  }
-  return null;
-}
-
-function reloadLayer(){
-  map.removeLayer(buildingsGeoJSON);
-  buildingsGeoJSON = loadGeoJSON(pathOfMap);
-  map.addLayer(buildingsGeoJSON);
-  drawShapesOnMap(buildingsGeoJSON);
-}
-
 function addOptionToSelectByID(id, listOfOption){
   var select = document.getElementById(id);
   select.innerHTML = "";
@@ -202,3 +112,12 @@ function addOptionToSelectByID(id, listOfOption){
   })
 }
 
+function getInfosOfAreas(name){
+  for(var i=0 ; i<areas.length ; i++){
+    var area = areas[i];
+    if(area.name.match(name)){
+      return area;
+    }
+  }
+  return null;
+}

@@ -1,4 +1,4 @@
-let pathOfMap = './data/yeditepe.geojson';
+let pathOfMap = './data/empty.geojson';
 let lastID = 0;
 
 const areas = [

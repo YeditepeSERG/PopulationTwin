@@ -33,12 +33,14 @@ authorizationBtn.addEventListener('click', async (e) => {
   await checkUserExistence(email)
   .then(async (check)=>{
     if( !check ){
+      alert(`There are no users belonging to the mail ${email}\nYou can create a membership for this user in the registration section`);
       window.location.href=`register.html`
     }
     else{
       const areasElements = document.getElementById('areas');
       var areaValue = areasElements.options[areasElements.selectedIndex].value;
       await addViewAreaForAccount(email, [areaValue]);
+      alert(`User ${email} is allowed to view ${areaValue} area`);
     }
   })
 })

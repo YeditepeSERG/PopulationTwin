@@ -1,6 +1,9 @@
 import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userRepository.js";
 
 var selectedFeature = null;
+let featureProperties;
+
+let areasElements = document.getElementById('areas');
 
 let editToggleButton = document.getElementById("editToggle"); 
 let undoButton = document.getElementById("undoButton");
@@ -17,6 +20,9 @@ saveToJsonButton.style.display = 'none';
 editToggleUpdateButton.checked = false;
 unsavedChangesText.style.display = 'none';
 setUpAccordingToEditor();
+
+areaSelection();
+setPopup(map);
 
 const vectorSource = new ol.source.Vector({wrapX: false});
 const vectorLayer = new ol.layer.VectorImage({
@@ -152,7 +158,7 @@ function openEditNav() {
     if (selectedFeature) {
         selectedFeature.setStyle(getStyleForEditing());
         
-        let featureProperties = selectedFeature.getProperties();
+        featureProperties = selectedFeature.getProperties();
         buildingType = featureProperties.buildingType ?? buildingType;
         name = featureProperties.name ?? name;
         population = featureProperties.population ?? population;
@@ -162,12 +168,12 @@ function openEditNav() {
     document.getElementById("building-name").value = name;
     document.getElementById("building-population").value = population;
 
-    focusElement = document.getElementById("building-name");
+    let focusElement = document.getElementById("building-name");
     focusElement.focus();
     focusElement.setSelectionRange(focusElement.value.length, focusElement.value.length);
 }
 
-export function closeEditNav() {
+function closeEditNav() {
     propertiesSidebar.style.width = "0px";
 
     if (selectedFeature) {
@@ -186,9 +192,9 @@ export function closeEditNav() {
 
 function getNewBuildingByFeature(feature){
     featureProperties = feature.getProperties();
-    featureBuildingType = featureProperties.buildingType;
-    featureName = featureProperties.name;
-    featurePopulation = featureProperties.population;
+    let featureBuildingType = featureProperties.buildingType;
+    let featureName = featureProperties.name;
+    let featurePopulation = featureProperties.population;
 
     try{
         isPropertiesEmpty(featureProperties);
@@ -262,4 +268,97 @@ async function setUpAccordingToEditor(){
     listOfAreas = Array.from(new Set(listOfAreas));
     addOptionToSelectByID('areas', listOfAreas);
     editConstraint();
+}
+
+function setPopup(map){
+    let container = document.getElementById('popup');
+    let content = document.getElementById('popup-content');
+    let closer = document.getElementById('popup-closer');
+    
+    let overlay = new ol.Overlay({
+      element: container,
+      autoPan: {
+        animation: {
+          duration: 250,
+        },
+      },
+    });
+
+    map.addOverlay(overlay)
+
+    map.on('click', (e)=>{
+      map.forEachFeatureAtPixel(e.pixel, feature => {
+        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle").checked){
+          return;
+        } 
+
+        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
+            closeEditNav();
+            selectedFeature = feature; // update the selected feature
+            openEditNav();
+            overlay.setPosition(undefined);
+            closer.blur();
+            return;
+        } 
+
+        let infoTxt = `<p>`
+        for (var key in feature.values_){
+          if(listOfNotTranferred.includes(key) || key == "geometry"){
+            continue;
+          }
+          infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+        }
+        infoTxt = infoTxt + `</p><code>`;
+
+        content.innerHTML = infoTxt;
+        overlay.setPosition(e.coordinate);
+      });
+    });
+
+    closer.onclick = function () {
+      overlay.setPosition(undefined);
+      closer.blur();
+      return false;
+    };
+}
+
+function areaSelection(){
+
+    areasElements.addEventListener('click', function() {
+        let areaValue = areasElements.options[areasElements.selectedIndex].value;
+        let info = getInfosOfAreas(areaValue);
+        pathOfMap = info.path;
+        map.setView(info.view);
+        changeLayerByPath();
+    });
+} 
+
+function changeLayerByPath(){
+if (window.location.pathname === "/admin.html"){
+    editToggleButton.checked = false;
+    map.removeInteraction(draw);
+    reloadLayer();
+
+    getIDOfLastBuilding()
+    .then(id => {
+        lastID = id;
+    });
+    }
+}
+
+function getInfosOfAreas(name){
+    for(var i=0 ; i<areas.length ; i++){
+      var area = areas[i];
+      if(area.name.match(name)){
+        return area;
+      }
+    }
+    return null;
+}
+  
+function reloadLayer(){
+    map.removeLayer(buildingsGeoJSON);
+    buildingsGeoJSON = loadGeoJSON(pathOfMap);
+    map.addLayer(buildingsGeoJSON);
+    drawShapesOnMap(buildingsGeoJSON);
 }
