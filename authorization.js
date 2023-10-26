@@ -37,7 +37,6 @@ authorizationBtn.addEventListener('click', async (e) => {
     }
     else{
       const areasElements = document.getElementById('areas');
-      console.log("element: ", areasElements);
       var areaValue = areasElements.options[areasElements.selectedIndex].value;
       await addViewAreaForAccount(email, [areaValue]);
     }

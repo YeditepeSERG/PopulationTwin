@@ -167,7 +167,7 @@ function openEditNav() {
     focusElement.setSelectionRange(focusElement.value.length, focusElement.value.length);
 }
 
-function closeEditNav() {
+export function closeEditNav() {
     propertiesSidebar.style.width = "0px";
 
     if (selectedFeature) {
@@ -219,6 +219,28 @@ function isPropertiesEmpty(properties){
     }
 }
 
+function editConstraint(){
+    const email = window.sessionStorage.getItem("email")
+    
+    getEditAreaListByAccount(email).then(data=>{
+        const areasElements = document.getElementById('areas');
+        // var areaValue = areasElements.options[areasElements.selectedIndex].value;
+        console.log(data)
+        areasElements.addEventListener("change", ()=>{
+            var areaValue = areasElements.options[areasElements.selectedIndex].value;
+            let editPermission = data.includes(areaValue)
+            if(!editPermission){
+                document.getElementById("editDiv").style.display = "none"
+                document.getElementById("drawDiv").style.display = "none"
+            }else{
+                document.getElementById("editDiv").style.display = "block"
+                document.getElementById("drawDiv").style.display = "block"
+            }
+            
+        })
+    })
+  }
+
 async function setUpAccordingToEditor(){
     const email = window.sessionStorage.getItem("email");
     var listOfAreas = [];
@@ -239,4 +261,5 @@ async function setUpAccordingToEditor(){
 
     listOfAreas = Array.from(new Set(listOfAreas));
     addOptionToSelectByID('areas', listOfAreas);
+    editConstraint();
 }

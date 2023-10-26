@@ -149,6 +149,7 @@ function setPopup(map){
 }
 
 function areaSelection(){
+
   const areasElements = document.getElementById('areas');
   areasElements.addEventListener('change', function() {
       var areaValue = areasElements.options[areasElements.selectedIndex].value;
@@ -195,8 +196,9 @@ function addOptionToSelectByID(id, listOfOption){
 
   listOfOption.forEach(newOption => {
     var option = document.createElement("option");
-    option.value = newOption.toLowerCase;
+    option.value = newOption;
     option.text = newOption;
     select.add(option);
   })
 }
+
