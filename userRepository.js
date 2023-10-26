@@ -232,9 +232,3 @@ function getViewerListByArea(area){
     }
   });
 }
-
-function setSlideBarByAreaList(listOfArea){
-
-}
-
-

@@ -20,11 +20,12 @@ buttonLogin.addEventListener('click', (e) => {
   var password = document.getElementById('form2Example2').value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      console.log(user.uid);
-      alert('User logged in!');
-      window.location.href='admin.html'
+  .then((userCredential) => {
+    const user = userCredential.user;
+    console.log(user.uid);
+    alert('User logged in!');
+    window.sessionStorage.setItem(`email`,email);
+    window.location.href=`admin.html`
   })
   .catch((error) => {
     const errorCode = error.code;

@@ -160,14 +160,16 @@ function areaSelection(){
 }
 
 function changeLayerByPath(){
-  editToggleButton.checked = false;
-  map.removeInteraction(draw);
-  reloadLayer();
-
-  getIDOfLastBuilding()
-  .then(id => {
-    lastID = id;
-  });
+  if (window.location.pathname === "/admin.html"){
+    editToggleButton.checked = false;
+    map.removeInteraction(draw);
+    reloadLayer();
+  
+    getIDOfLastBuilding()
+    .then(id => {
+      lastID = id;
+    });
+  }
 }
 
 function getInfosOfAreas(name){
@@ -185,4 +187,19 @@ function reloadLayer(){
   buildingsGeoJSON = loadGeoJSON(pathOfMap);
   map.addLayer(buildingsGeoJSON);
   drawShapesOnMap(buildingsGeoJSON);
+}
+
+function addOptionToSelectByID(id, listOfOption){
+  console.log('Hereeee');
+  var select = document.getElementById(id);
+  console.log("select: ", select);
+  select.innerHTML = "";
+
+  listOfOption.forEach(newOption => {
+    console.log(`newOption; `, newOption);
+    var option = document.createElement("option");
+    option.value = newOption.toLowerCase();
+    option.text = newOption;
+    select.add(option);
+  })
 }

@@ -1,3 +1,5 @@
+import userRepository from './userRepository.js'
+
 var selectedFeature = null;
 
 let editToggleButton = document.getElementById("editToggle"); 
@@ -214,4 +216,21 @@ function isPropertiesEmpty(properties){
             throw new Error(`${key} field not entered!`);
         }
     }
+}
+
+function setUpAccordingToEditor(){
+    const email = window.sessionStorage.getItem("email");
+    console.log(email);
+    var listOfAreas = [];
+
+    userRepository.getViewAreaListByAccount(email)
+    .then(viewList => {
+        listOfAreas.push(viewList)
+    })
+
+    userRepository.getEditAreaListByAccount(email)
+    .then(editList => {
+        listOfAreas.push(editList)
+    })
+    addOptionToSelectByID('areas', viewList);
 }
