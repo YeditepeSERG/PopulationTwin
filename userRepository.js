@@ -1,9 +1,23 @@
-import { app } from "./login.js";
 import { addDoc, collection, getFirestore, getDocs, deleteDoc, doc, query, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBYsmw1O8aEU9SnMPqwS4CNvaaRrLem-nI",
+  authDomain: "populationtwin.firebaseapp.com",
+  databaseURL: "https://populationtwin-default-rtdb.firebaseio.com",
+  projectId: "populationtwin",
+  storageBucket: "populationtwin.appspot.com",
+  messagingSenderId: "155599784115",
+  appId: "1:155599784115:web:44434bcf2eedb72c13c8c6",
+  measurementId: "G-QZH8VMQ93P",
+}
+
+export const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
-function checkUserExistence(email){
+export function checkUserExistence(email){
 
   return new Promise( async (resolve,reject) => {
 
@@ -25,7 +39,7 @@ function checkUserExistence(email){
   });
 }
 
-function createUser(email, view_list, edit_list){
+export function createUser(email, view_list, edit_list){
 
   return new Promise( async (resolve,reject) => {
     
@@ -129,7 +143,7 @@ export function getEditAreaListByAccount(email){
   });
 }
 
-async function addViewAreaForAccount(email, listOfArea){
+export async function addViewAreaForAccount(email, listOfArea){
 
   return new Promise( async (resolve,reject)=> {
     await checkUserExistence(email).then((check)=>{
@@ -147,6 +161,7 @@ async function addViewAreaForAccount(email, listOfArea){
         var existinglist = doc.data().view_list;
         listOfArea.forEach(area => {
           if (! existinglist.includes(area)){
+            console.log("Area: ", area);
             existinglist.push(area);
           } 
         });
