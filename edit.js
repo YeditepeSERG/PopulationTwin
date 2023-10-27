@@ -41,6 +41,7 @@ const draw = new ol.interaction.Draw({
 draw.on('drawend', function (event) {
     unsavedChangesText.style.display = 'block';
     selectedFeature = event.feature;    // update the selected feature
+    setMapInteraction("remove");
     openEditNav();
 });
 
@@ -189,12 +190,10 @@ function setMapInteraction(mode) {
 
     if (mode === "add" && !isInteractionOn) {
         map.addInteraction(draw);
-        console.log("draw on")
     }
     else if (mode === "remove" && isInteractionOn) {
         draw.abortDrawing();
         map.removeInteraction(draw);
-        console.log("draw off")
     }
     else if (mode === "toggle") {
         if (isInteractionOn) {
@@ -300,14 +299,15 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature => {
-        let isDrawFeature = feature.getGeometry().getType() !== "Polygon";
-        if (isDrawFeature) return;
+        let isDrawing = feature.getStyle() === null;
+        if (isDrawing) return;
+
         setMapInteraction("remove");
 
-        // feature
+        // polygon feature
         if (window.location.pathname === "/admin.html" && editToggleButton.checked){
             closeEditNav();
-            selectedFeature = feature; // update the selected feature
+            selectedFeature = feature;
             openEditNav();
             overlay.setPosition(undefined);
             closer.blur();
