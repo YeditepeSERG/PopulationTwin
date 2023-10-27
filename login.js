@@ -11,8 +11,8 @@ logInBtn.addEventListener('click', (e) => {
   signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     const user = userCredential.user;
-    console.log(user.uid);
-    alert('User logged in!');
+    //console.log(user.uid);
+    //alert('User logged in!');
     window.sessionStorage.setItem(`email`,email);
     window.location.href=`admin.html`
   })

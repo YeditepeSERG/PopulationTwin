@@ -3,6 +3,9 @@ import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userReposito
 var selectedFeature = null;
 let featureProperties;
 
+document.getElementById("editDiv").style.display = "none"
+document.getElementById("drawDiv").style.display = "none"
+
 let areasElements = document.getElementById('areas');
 
 let editToggleButton = document.getElementById("editToggle"); 
@@ -19,8 +22,8 @@ undoButton.style.display = 'none';
 saveToJsonButton.style.display = 'none';
 editToggleUpdateButton.checked = false;
 unsavedChangesText.style.display = 'none';
-setUpAccordingToEditor();
 
+setUpAccordingToEditor();
 areaSelection();
 setPopup(map);
 
@@ -231,8 +234,7 @@ function editConstraint(){
     getEditAreaListByAccount(email).then(data=>{
         const areasElements = document.getElementById('areas');
         // var areaValue = areasElements.options[areasElements.selectedIndex].value;
-        console.log(data)
-        areasElements.addEventListener("change", ()=>{
+        areasElements.addEventListener("click", ()=>{
             var areaValue = areasElements.options[areasElements.selectedIndex].value;
             let editPermission = data.includes(areaValue)
             if(!editPermission){
@@ -336,6 +338,7 @@ function areaSelection(){
 function changeLayerByPath(){
 if (window.location.pathname === "/admin.html"){
     editToggleButton.checked = false;
+    editToggleUpdateButton.checked = false;
     map.removeInteraction(draw);
     reloadLayer();
 
