@@ -40,7 +40,7 @@ const overlay = new ol.Overlay({
     },
 });
 
-editDiv.style.display = "none"
+editDiv.classList.add('d-none');
 saveToJsonButton.style.display = 'none';
 editToggleButton.checked = false;
 unsavedChangesText.style.display = 'none';
@@ -302,9 +302,9 @@ function editConstraint(){
             var areaValue = areasElements.options[areasElements.selectedIndex].value;
             let editPermission = data.includes(areaValue)
             if(editPermission){
-                editDiv.style.display = "block"
+                editDiv.classList.remove('d-none');
             }else{
-                editDiv.style.display = "none"
+                editDiv.classList.add('d-none');
             }
         })
     })
