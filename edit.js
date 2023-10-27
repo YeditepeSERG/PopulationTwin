@@ -5,7 +5,6 @@ let featureProperties;
 
 const areasElements = document.getElementById('areas');
 const editDiv = document.getElementById("editDiv");
-const undoButton = document.getElementById("undoButton");
 const saveToJsonButton = document.getElementById("saveToJsonButton");
 const editToggleButton = document.getElementById("editToggle"); 
 const unsavedChangesText = document.getElementById("unsavedChangesText");
@@ -13,16 +12,9 @@ const propertiesSidebar = document.getElementById("propertiesSidebar");
 const savePropertiesButton = document.getElementById("savePropertiesButton");
 const deleteBuildingButton = document.getElementById("deleteBuildingButton");
 const closePropertiesButton = document.getElementById("closebtn");
-
-editDiv.style.display = "none"
-undoButton.style.display = 'none';
-saveToJsonButton.style.display = 'none';
-editToggleButton.checked = false;
-unsavedChangesText.style.display = 'none';
-
-setUpAccordingToEditor();
-areaSelection();
-setPopup(map);
+const popupContainer = document.getElementById('popup');
+const popupContent = document.getElementById('popup-content');
+const popupCloser = document.getElementById('popup-closer');
 
 const vectorSource = new ol.source.Vector({wrapX: false});
 const vectorLayer = new ol.layer.VectorImage({
@@ -31,34 +23,95 @@ const vectorLayer = new ol.layer.VectorImage({
     visible: true,
     zIndex: 1,
 });
-map.addLayer(vectorLayer);
-
 const draw = new ol.interaction.Draw({
     source: vectorSource,
     type: 'Polygon',
+    condition: function (event) {
+        const pointerEvent = event.activePointers[0];
+        return pointerEvent.button === 0;
+    },
 });
+const overlay = new ol.Overlay({
+    element: popupContainer,
+    autoPan: {
+      animation: {
+        duration: 250,
+      },
+    },
+});
+
+editDiv.style.display = "none"
+saveToJsonButton.style.display = 'none';
+editToggleButton.checked = false;
+unsavedChangesText.style.display = 'none';
+
+map.addLayer(vectorLayer);
+map.addOverlay(overlay)
+setUpAccordingToEditor();
+areaSelection();
+
+map.on('click', (e)=>{
+    map.forEachFeatureAtPixel(e.pixel, feature => {
+      let isDrawing = feature.getStyle() === null;
+      if (isDrawing) return;
+
+      setMapInteraction("remove");
+
+      // polygon feature
+      if (window.location.pathname === "/admin.html" && editToggleButton.checked){
+          closeEditNav();
+          selectedFeature = feature;
+          openEditNav();
+          overlay.setPosition(undefined);
+          popupCloser.blur();
+      } 
+      // edit button off
+      else {
+          let infoTxt = `<p>`
+          for (var key in feature.values_){
+            if(listOfNotTranferred.includes(key) || key == "geometry"){
+              continue;
+            }
+            infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+          }
+          infoTxt = infoTxt + `</p><code>`;
+  
+          popupContent.innerHTML = infoTxt;
+          overlay.setPosition(e.coordinate);
+      }
+    });
+});
+
+// on right mouse click
+map.getViewport().addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+    if (event.button === 2) {
+        draw.removeLastPoint();
+    }
+});
+
+popupCloser.onclick = function () {
+    overlay.setPosition(undefined);
+    popupCloser.blur();
+    return false;
+};
 
 draw.on('drawend', function (event) {
     unsavedChangesText.style.display = 'block';
-    selectedFeature = event.feature;    // update the selected feature
+    selectedFeature = event.feature;
+    setMapInteraction("remove");
     openEditNav();
 });
 
 editToggleButton.onclick = () => {
     setMapInteraction("toggle");
     if (editToggleButton.checked) {
-        undoButton.style.display = 'block';
         saveToJsonButton.style.display = 'block';
     }
     else {
-        undoButton.style.display = 'none';
         saveToJsonButton.style.display = 'none';
         closeEditNav();
     }
-};
-
-undoButton.onclick = () => {
-    draw.removeLastPoint();
 };
 
 saveToJsonButton.onclick = () => {
@@ -189,12 +242,10 @@ function setMapInteraction(mode) {
 
     if (mode === "add" && !isInteractionOn) {
         map.addInteraction(draw);
-        console.log("draw on")
     }
     else if (mode === "remove" && isInteractionOn) {
         draw.abortDrawing();
         map.removeInteraction(draw);
-        console.log("draw off")
     }
     else if (mode === "toggle") {
         if (isInteractionOn) {
@@ -280,60 +331,6 @@ async function setUpAccordingToEditor(){
     listOfAreas = Array.from(new Set(listOfAreas));
     addOptionToSelectByID('areas', listOfAreas);
     editConstraint();
-}
-
-function setPopup(map){
-    let container = document.getElementById('popup');
-    let content = document.getElementById('popup-content');
-    let closer = document.getElementById('popup-closer');
-    
-    let overlay = new ol.Overlay({
-      element: container,
-      autoPan: {
-        animation: {
-          duration: 250,
-        },
-      },
-    });
-
-    map.addOverlay(overlay)
-
-    map.on('click', (e)=>{
-      map.forEachFeatureAtPixel(e.pixel, feature => {
-        let isDrawFeature = feature.getGeometry().getType() !== "Polygon";
-        if (isDrawFeature) return;
-        setMapInteraction("remove");
-
-        // feature
-        if (window.location.pathname === "/admin.html" && editToggleButton.checked){
-            closeEditNav();
-            selectedFeature = feature; // update the selected feature
-            openEditNav();
-            overlay.setPosition(undefined);
-            closer.blur();
-        } 
-        // edit button off
-        else {
-            let infoTxt = `<p>`
-            for (var key in feature.values_){
-              if(listOfNotTranferred.includes(key) || key == "geometry"){
-                continue;
-              }
-              infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
-            }
-            infoTxt = infoTxt + `</p><code>`;
-    
-            content.innerHTML = infoTxt;
-            overlay.setPosition(e.coordinate);
-        }
-      });
-    });
-
-    closer.onclick = function () {
-      overlay.setPosition(undefined);
-      closer.blur();
-      return false;
-    };
 }
 
 function areaSelection(){
