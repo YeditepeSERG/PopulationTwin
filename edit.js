@@ -3,24 +3,21 @@ import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userReposito
 var selectedFeature = null;
 let featureProperties;
 
-document.getElementById("editDiv").style.display = "none"
-document.getElementById("drawDiv").style.display = "none"
+const areasElements = document.getElementById('areas');
+const editDiv = document.getElementById("editDiv");
+const undoButton = document.getElementById("undoButton");
+const saveToJsonButton = document.getElementById("saveToJsonButton");
+const editToggleButton = document.getElementById("editToggle"); 
+const unsavedChangesText = document.getElementById("unsavedChangesText");
+const propertiesSidebar = document.getElementById("propertiesSidebar");
+const savePropertiesButton = document.getElementById("savePropertiesButton");
+const deleteBuildingButton = document.getElementById("deleteBuildingButton");
+const closePropertiesButton = document.getElementById("closebtn");
 
-let areasElements = document.getElementById('areas');
-
-let editToggleButton = document.getElementById("editToggle"); 
-let undoButton = document.getElementById("undoButton");
-let saveToJsonButton = document.getElementById("saveToJsonButton");
-let editToggleUpdateButton = document.getElementById("editToggle-update"); 
-let unsavedChangesText = document.getElementById("unsavedChangesText");
-let propertiesSidebar = document.getElementById("propertiesSidebar");
-let savePropertiesButton = document.getElementById("savePropertiesButton");
-let deleteBuildingButton = document.getElementById("deleteBuildingButton");
-
-editToggleButton.checked = false;
+editDiv.style.display = "none"
 undoButton.style.display = 'none';
 saveToJsonButton.style.display = 'none';
-editToggleUpdateButton.checked = false;
+editToggleButton.checked = false;
 unsavedChangesText.style.display = 'none';
 
 setUpAccordingToEditor();
@@ -36,7 +33,7 @@ const vectorLayer = new ol.layer.VectorImage({
 });
 map.addLayer(vectorLayer);
 
-let draw = new ol.interaction.Draw({
+const draw = new ol.interaction.Draw({
     source: vectorSource,
     type: 'Polygon',
 });
@@ -47,30 +44,17 @@ draw.on('drawend', function (event) {
     openEditNav();
 });
 
-editToggleUpdateButton.onclick = () => {
-    if (editToggleUpdateButton.checked && editToggleButton.checked) {
-        editToggleButton.click();
-    }
-
-    closeEditNav();
-};
-
 editToggleButton.onclick = () => {
+    setMapInteraction("toggle");
     if (editToggleButton.checked) {
-        if (editToggleUpdateButton.checked) {
-            editToggleUpdateButton.click();
-        }
-
-        map.addInteraction(draw);
         undoButton.style.display = 'block';
         saveToJsonButton.style.display = 'block';
-    } else {
-        map.removeInteraction(draw);
+    }
+    else {
         undoButton.style.display = 'none';
         saveToJsonButton.style.display = 'none';
-    } 
-
-    closeEditNav();
+        closeEditNav();
+    }
 };
 
 undoButton.onclick = () => {
@@ -129,6 +113,7 @@ savePropertiesButton.onclick = () => {
     }
 
     closeEditNav();
+    setMapInteraction("add");
 };
 
 deleteBuildingButton.onclick = async () => {
@@ -148,7 +133,13 @@ deleteBuildingButton.onclick = async () => {
         }
     }
     closeEditNav();
+    setMapInteraction("add");
 }
+
+closePropertiesButton.onclick = () => {
+    closeEditNav();
+    setMapInteraction("add");
+};
 
 function openEditNav() {
     propertiesSidebar.style.width = "300px";
@@ -190,6 +181,28 @@ function closeEditNav() {
             color = "white";
         }
         selectedFeature.setStyle(getStyleByColor(color));
+    }
+}
+
+function setMapInteraction(mode) {
+    let isInteractionOn = map.getInteractions().getArray().includes(draw);
+
+    if (mode === "add" && !isInteractionOn) {
+        map.addInteraction(draw);
+        console.log("draw on")
+    }
+    else if (mode === "remove" && isInteractionOn) {
+        draw.abortDrawing();
+        map.removeInteraction(draw);
+        console.log("draw off")
+    }
+    else if (mode === "toggle") {
+        if (isInteractionOn) {
+            setMapInteraction("remove");
+        }
+        else {
+            setMapInteraction("add");
+        }
     }
 }
 
@@ -237,17 +250,14 @@ function editConstraint(){
         areasElements.addEventListener("click", ()=>{
             var areaValue = areasElements.options[areasElements.selectedIndex].value;
             let editPermission = data.includes(areaValue)
-            if(!editPermission){
-                document.getElementById("editDiv").style.display = "none"
-                document.getElementById("drawDiv").style.display = "none"
+            if(editPermission){
+                editDiv.style.display = "block"
             }else{
-                document.getElementById("editDiv").style.display = "block"
-                document.getElementById("drawDiv").style.display = "block"
+                editDiv.style.display = "none"
             }
-            
         })
     })
-  }
+}
 
 async function setUpAccordingToEditor(){
     const email = window.sessionStorage.getItem("email");
@@ -290,30 +300,32 @@ function setPopup(map){
 
     map.on('click', (e)=>{
       map.forEachFeatureAtPixel(e.pixel, feature => {
-        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle").checked){
-          return;
-        } 
+        let isDrawFeature = feature.getGeometry().getType() !== "Polygon";
+        if (isDrawFeature) return;
+        setMapInteraction("remove");
 
-        if (window.location.pathname === "/admin.html" && document.getElementById("editToggle-update").checked){
+        // feature
+        if (window.location.pathname === "/admin.html" && editToggleButton.checked){
             closeEditNav();
             selectedFeature = feature; // update the selected feature
             openEditNav();
             overlay.setPosition(undefined);
             closer.blur();
-            return;
         } 
-
-        let infoTxt = `<p>`
-        for (var key in feature.values_){
-          if(listOfNotTranferred.includes(key) || key == "geometry"){
-            continue;
-          }
-          infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+        // edit button off
+        else {
+            let infoTxt = `<p>`
+            for (var key in feature.values_){
+              if(listOfNotTranferred.includes(key) || key == "geometry"){
+                continue;
+              }
+              infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+            }
+            infoTxt = infoTxt + `</p><code>`;
+    
+            content.innerHTML = infoTxt;
+            overlay.setPosition(e.coordinate);
         }
-        infoTxt = infoTxt + `</p><code>`;
-
-        content.innerHTML = infoTxt;
-        overlay.setPosition(e.coordinate);
       });
     });
 
@@ -325,7 +337,6 @@ function setPopup(map){
 }
 
 function areaSelection(){
-
     areasElements.addEventListener('click', function() {
         let areaValue = areasElements.options[areasElements.selectedIndex].value;
         let info = getInfosOfAreas(areaValue);
@@ -336,16 +347,15 @@ function areaSelection(){
 } 
 
 function changeLayerByPath(){
-if (window.location.pathname === "/admin.html"){
-    editToggleButton.checked = false;
-    editToggleUpdateButton.checked = false;
-    map.removeInteraction(draw);
-    reloadLayer();
+    if (window.location.pathname === "/admin.html"){
+        editToggleButton.checked = false;
+        map.removeInteraction(draw);
+        reloadLayer();
 
-    getIDOfLastBuilding()
-    .then(id => {
-        lastID = id;
-    });
+        getIDOfLastBuilding()
+        .then(id => {
+            lastID = id;
+        });
     }
 }
 

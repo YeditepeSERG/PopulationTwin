@@ -77,12 +77,7 @@ function createMap(){
       });
     });
 
-    map.on('click',function(e){
-      console.log(e.coordinate)
-    });
-
     map.addLayer(baseLayerGroup);
-
     return map;
 }
 
