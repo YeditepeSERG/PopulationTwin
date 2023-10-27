@@ -8,70 +8,79 @@
     <link rel="stylesheet" href="./lib/dist/ol.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
-<body>
+<body style="overflow: hidden;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100">
-        <a class="navbar-brand p-2" href="#">Population Map</a>
+        <a class="navbar-brand p-2" href="#"><i class="bi bi-globe-europe-africa"></i> Population Map</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
             aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-            <a class="nav-item nav-link" href="register.html">Register a User</a>
-            <a class="nav-item nav-link" href="authorization.html">Authorization a User</a>
-            <button type="button" id="buttonLogout" class="nav-item nav-link">Logout</button>
+        <div class="dropdown navbar-nav">
+            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-binoculars"></i> Viewer
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="authorization.html">Subscribe a Viewer</a></li>
+                <li><a class="dropdown-item" href="register.html">Create a Viewer</a></li>
+            </ul>
+            <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-download"></i> Export
+            </button>
+            <ul class="dropdown-menu">
+                <a class="dropdown-item" onclick="downloadFileByType('json')">as JSON</a>
+                <a class="dropdown-item" onclick="downloadFileByType('xml')">as XML</a>
+            </ul>
+            <button id="buttonLogout" type="button" class="btn btn-secondary btn-dark"><i
+                    class="bi bi-box-arrow-right"></i> Logout</button>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary w-100">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="dropdown navbar-nav">
+            <h6 style="margin: 8px; color: white;"><i class="bi bi-map"></i> Map Style: </h6>
+            <div class="form-group">
+                <select class="form-control bg-secondary text-white" name="maps" id="maps">
+                    <option value="OSMStandard">Standard</option>
+                    <option value="OSMHumanitarian">Humaniterian</option>
+                    <option value="XYZRoad">Road</option>
+                    <option value="XYZAeriel">Aerial</option>
+                </select>
+            </div>
+            <h6 style="margin: 8px; color: white;"><i class="bi bi-geo-alt"></i> Area: </h6>
+            <div class="form-group">
+                <select class="form-control bg-secondary text-white" name="areas" id="areas">
+                </select>
+            </div>
+            <div id="editDiv" class="d-flex justify-content-start">
+                <div class="form-check form-switch" style="margin: 8px;">
+                    <label class="form-check-label text-white" for="editToggle"> <i class="bi bi-pencil-square"></i>
+                        Edit Mode</label>
+                    <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
+                </div>
+                <div style="padding-right: 5px;">
+                    <button class="btn btn-warning btn-block" type="button" id="undoButton"><i
+                            class="bi bi-arrow-90deg-left"></i> Undo</button>
+                </div>
+                <div style="padding-left: 5px;">
+                    <button class="btn btn-success btn-block" type="button" id="saveToJsonButton"><i
+                            class="bi bi-check-lg"></i> Save</button>
+                </div>
+                <p id="unsavedChangesText">INFO: You have unsaved building drawings!</p>
             </div>
         </div>
     </nav>
-
-    <div style="height: 82%;">
+    <div style="height: 45rem;">
         <div class="row h-100">
-            <div class="col-2 d-flex justify-content-center">
-                <div style="margin-top: 5%;">
-                    <h4 class="p-1" style="text-align: center;">Tools</h4>
-                    <div class="grid-1">
-                        <div class="sidebar">
-                            <select name="maps" id="maps">
-                                <option value="OSMStandard">Standard</option>
-                                <option value="OSMHumanitarian">Humaniterian</option>
-                                <option value="XYZRoad">Road</option>
-                                <option value="XYZAeriel">Aerial</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="grid-2">
-                        <div class="sidebar">
-                          <select name="areas" id="areas">
-                          </select>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="export-button">Export Data</button>
-                        <div class="dropdown-content">
-                            <a class="export-option" onclick="downloadFileByType('json')">Export as JSON</a>
-                            <a class="export-option" onclick="downloadFileByType('xml')">Export as XML</a>
-                        </div>
-                    </div>
-                    <!-- <button class="btn btn-warning" onclick="openEditNav()">Edit Menu</button> -->
-                    <div id = "editDiv" class="row m-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
-                        <label class="form-check-label" for="editToggle">Edit Mode</label>
-                    </div>
-                    <div class="row m-3">
-                        <button class="btn btn-success btn-block" type="button" id="undoButton">Undo the Last Point</button>
-                    </div>
-                    <div class="row m-3">
-                        <button class="btn btn-success btn-block" type="button" id="saveToJsonButton">Save to Json</button>
-                    </div>
-                    <p class="row m-3" id="unsavedChangesText">INFO: You have unsaved building drawings!</p>
-                </div>
-            </div>
-            <div class="col-10">
+            <div class="col-12">
                 <div id="js-map" class="map"></div>
                 <div id="propertiesSidebar" class="editbar">
                     <a href="javascript:void(0)" class="closebtn" id="closebtn"> × </a>
@@ -81,24 +90,26 @@
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
                                 <div class="grid-2">
                                     <div class="sidebar">
-                                      <select name="building-type" id="building-type">
-                                          <option value='Apartment'>Apartment</option>
-                                          <option value='School'>School</option>
-                                      </select>
+                                        <select name="building-type" id="building-type">
+                                            <option value='Apartment'>Apartment</option>
+                                            <option value='School'>School</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
                                 <label class="form-label" for="building-name">Name</label>
-                                <input type="text" id="building-name" class="form-control"/>
+                                <input type="text" id="building-name" class="form-control" />
                             </div>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
                                 <label class="form-label" for="building-population">Population</label>
-                                <input type="number" min="0" step="1" id="building-population" class="form-control"/>
+                                <input type="number" min="0" step="1" id="building-population" class="form-control" />
                             </div>
                             <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <button type="button" id="savePropertiesButton" class="btn btn-success btn-block" >Save</button>
-                                <button type="button" id="deleteBuildingButton" class="btn btn-danger btn-block" >Delete</button>
+                                <button type="button" id="savePropertiesButton"
+                                    class="btn btn-success btn-block">Save</button>
+                                <button type="button" id="deleteBuildingButton"
+                                    class="btn btn-danger btn-block">Delete</button>
                             </div>
                         </form>
                     </div>
@@ -115,7 +126,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
         import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-        
+
         const firebaseConfig = {
             apiKey: "AIzaSyBYsmw1O8aEU9SnMPqwS4CNvaaRrLem-nI",
             authDomain: "populationtwin.firebaseapp.com",
@@ -144,7 +155,7 @@
             signOut(auth).then(() => {
                 // Logged out
                 alert('Succesfully logged out!');
-                window.location.href='index.html'
+                window.location.href = 'index.html'
             }).catch((error) => {
                 alert(error);
             });
@@ -158,7 +169,7 @@
     <script src="./userRepository.js" type="module"></script>
     <script src="./fileManager.js"></script>
     <script src="./building.js"></script>
-    <script src="./main.js" ></script>
+    <script src="./main.js"></script>
     <script src="./edit.js" type="module"></script>
 
     <footer class="bg-dark text-white flex-grow" style="text-align: center; height: 13.20vh;">
