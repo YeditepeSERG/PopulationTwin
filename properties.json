@@ -68,32 +68,41 @@
             ]
         },
         {
-            "type": "input",
-            "typeOfInput": "number",
-            "class": ["form-control"],
+            "type": "select",
+            "class": ["form-select"],
             "label": "Construction Date of the Building",
-            "id": "constructionDate"
+            "id": "constructionDate",
+            "options": [
+                {"value": "1960-1970", "text": "1960-1970"},
+                {"value": "1971-1980", "text": "1971-1980"},
+                {"value": "1981-1990", "text": "1981-1990"},
+                {"value": "1991-2000", "text": "1991-2000"},
+                {"value": "2001-2010", "text": "2001-2010"},
+                {"value": "2011-2020", "text": "2011-2020"},
+                {"value": "2020-2023", "text": "2020-2023"}
+            ]
         },
         {
-            "type": "input",
-            "typeOfInput": "number",
-            "class": ["form-control"],
+            "type": "select",
+            "class": ["form-select"],
             "label": "Number of Floor",
-            "id": "numberOfFloor"
+            "id": "numberOfFloor",
+            "options": [
+                {"value": "0-3", "text": "0-3 Floor"},
+                {"value": "3-6", "text": "'3-6 Floor"},
+                {"value": "6-19", "text": "6-19 Floor"},
+                {"value": "20-inf", "text": "More Than 20 Floor"}
+            ]
         },
         {
-            "type": "input",
-            "typeOfInput": "number",
-            "class": ["form-control"],
+            "type": "select",
+            "class": ["form-select"],
             "label": "Persons/m²",
-            "id": "personsM2"
-        },
-        {
-            "type": "input",
-            "typeOfInput": "number",
-            "class": ["form-control"],
-            "label": "Road Width",
-            "id": "roadWidth"
+            "id": "personsM2",
+            "options": [
+                {"value": 1, "text": "1"},
+                {"value": 2, "text": "2"}
+            ]
         },
         {
             "type": "select",
@@ -102,7 +111,41 @@
             "id": "roadType",
             "options": [
                 {"value": "street", "text": "Street"},
-                {"value": "boulevard", "text": "Boulevard"}
+                {"value": "highway", "text": "Highway"},
+                {"value": "boulevard", "text": "Boulevard"},
+                {"value": "intersection", "text": "Intersection"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Road Width",
+            "id": "roadWidth",
+            "options": [
+                {"value": "1-25", "text": "1-25 Meter"},
+                {"value": "25-40", "text": "25-40 Meter"},
+                {"value": "50-100", "text": "50-100 Meter"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Is There Basement ",
+            "id": "basement",
+            "options": [
+                {"value": "true", "text": "Yes"},
+                {"value": "false", "text": "No"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Percentage of Humidity",
+            "id": "percentageOfHumidity",
+            "options": [
+                {"value": "0", "text": "%0"},
+                {"value": "50", "text": "%50"},
+                {"value": "100", "text": "%100"}
             ]
         }
     ],

@@ -21,6 +21,8 @@ class Building{
         this.personsM2 = properties.personsM2;
         this.roadWidth = properties.roadWidth;
         this.roadType = properties.roadType;
+        this.basement = properties.basement;
+        this.percentageOfHumidity = properties.percentageOfHumidity;
 
 
         this.coordinate = null;

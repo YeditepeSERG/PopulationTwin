@@ -80,10 +80,22 @@ const listOfColorByRisk = [
 const buildingList = [
     {
         "Type": "Apartment",
-        "ImgPath": null
+        "ImgPath": 'icons/apartment.png'
     },
     {
         "Type": "School",
-        "ImgPath": null
+        "ImgPath": 'icons/school.png'
+    },
+    {
+        "Type": "Hospital",
+        "ImgPath": 'icons/hospital.png'
+    },
+    {
+        "Type": "Shopping Mall",
+        "ImgPath": 'icons/shooping_mall.png'
+    },
+    {
+        "Type": "Business Center",
+        "ImgPath": 'icons/business_center.png'
     }    
 ]

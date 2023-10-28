@@ -58,7 +58,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
     areaSelection();
     
     map.on('click', (e)=>{
-        map.forEachFeatureAtPixel(e.pixel, feature => {
+        map.forEachFeatureAtPixel(e.pixel, async feature => {
           let isDrawing = feature.getStyle() === null;
           if (isDrawing) return;
     
@@ -79,7 +79,14 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
                 if(listOfNotTranferred.includes(key) || key == "geometry"){
                   continue;
                 }
-                infoTxt = infoTxt + `${key}: ${feature.values_[key]}<br>`;
+                let label = await getLabelOfTheFieldsByID(pathOfPropertiesConfig, key);
+                
+                if (label === "") {
+                    infoTxt = infoTxt + `<span style="color: #c40d09;">${key}:</span> ${feature.values_[key]}<br>`;
+                }
+                else{
+                    infoTxt = infoTxt + `<span style="color: #c40d09;">${label}:</span> ${feature.values_[key]}<br>`;
+                }
               }
               infoTxt = infoTxt + `</p><code>`;
       
@@ -311,7 +318,6 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
         
         getEditAreaListByAccount(email).then(data=>{
             const areasElements = document.getElementById('areas');
-            // var areaValue = areasElements.options[areasElements.selectedIndex].value;
             areasElements.addEventListener("click", ()=>{
                 var areaValue = areasElements.options[areasElements.selectedIndex].value;
                 let editPermission = data.includes(areaValue)

@@ -15,8 +15,6 @@ function init(){
 }
 
 function createMap(){
-    //let name = pathOfMap.match(/\/([^\/]+)\.geojson$/)[1];
-    //let view = getInfosOfAreas(name).view;
     let view = new ol.View({
       center: [3245075.5956414873, 5008280.403576283],
       zoom: 1,
@@ -211,6 +209,25 @@ function getIDListOfPropertiesForm(path){
       });
 
       resolve(idList); 
+    })
+    .catch(error => {
+      reject(error);
+    });
+  })
+}
+
+function getLabelOfTheFieldsByID(path, id){
+  return new Promise ((resolve, reject) => {
+    fetch(path)
+    .then(response => response.json())
+    .then(data => {
+
+      data.fields.forEach(fieldConfig => {
+          if(id === fieldConfig.id){
+            resolve(fieldConfig.label);
+          }
+      });
+      resolve("");
     })
     .catch(error => {
       reject(error);
