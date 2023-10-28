@@ -94,11 +94,11 @@ function getBuildingsData(extentCoordinates) {
     });
 }
 
-function saveBuildingsData(area) {
+export async function saveBuildingsData(area) {
     let geojsonPath = area.path;
     let extentCoordinates = area.view.getProperties().extent;
 
-    getBuildingsData(extentCoordinates)
+    await getBuildingsData(extentCoordinates)
         .then(ways => {
             let data = {
                 "type": "FeatureCollection",

@@ -1,4 +1,5 @@
 import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userRepository.js";
+import {saveBuildingsData} from "./data.js"
 
 var selectedFeature = null;
 let featureProperties;
@@ -8,6 +9,7 @@ const editDiv = document.getElementById("editDiv");
 const saveToJsonButton = document.getElementById("saveToJsonButton");
 const editToggleButton = document.getElementById("editToggle"); 
 const unsavedChangesText = document.getElementById("unsavedChangesText");
+const getOSMDataButton = document.getElementById("getOSMData");
 const propertiesSidebar = document.getElementById("propertiesSidebar");
 const savePropertiesButton = document.getElementById("savePropertiesButton");
 const deleteBuildingButton = document.getElementById("deleteBuildingButton");
@@ -44,6 +46,7 @@ editDiv.classList.add('d-none');
 saveToJsonButton.style.display = 'none';
 editToggleButton.checked = false;
 unsavedChangesText.style.display = 'none';
+getOSMDataButton.style.display = 'none';
 
 map.addLayer(vectorLayer);
 map.addOverlay(overlay)
@@ -107,9 +110,11 @@ editToggleButton.onclick = () => {
     setMapInteraction("toggle");
     if (editToggleButton.checked) {
         saveToJsonButton.style.display = 'block';
+        getOSMDataButton.style.display = 'block';
     }
     else {
         saveToJsonButton.style.display = 'none';
+        getOSMDataButton.style.display = 'none';
         closeEditNav();
     }
 };
@@ -136,6 +141,19 @@ saveToJsonButton.onclick = () => {
     });
     unsavedChangesText.style.display = 'none';
     vectorSource.clear();
+};
+
+getOSMDataButton.onclick = async () => {
+    if(!confirm("This will delete your existing data and get OSM building coordinates.\nDo you want to continue?")) {
+        return;
+    }
+
+    const areaOption = areasElements.options[areasElements.selectedIndex];
+    const area = getInfosOfAreas(areaOption);
+    await saveBuildingsData(area)
+    .then(() => {
+        location.reload();
+    });
 };
 
 savePropertiesButton.onclick = () => {
