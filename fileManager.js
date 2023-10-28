@@ -1,44 +1,43 @@
 const listOfNotTranferred = ["id", "color", "imgPath"];
 
-function sendDataChunk(path, data, startIndex, chunkSize, isLastData) {
-    const endIndex = startIndex + chunkSize;
-    const chunk = data.slice(startIndex, endIndex);
+async function sendDataChunkByChunk(path, data, chunkSize = 50000) {
+    const stringifiedData = JSON.stringify(data);
+
+    for (let i = 0; i < stringifiedData.length; i += chunkSize) {
+        const chunkData = stringifiedData.slice(i, i + chunkSize);
+        await sendDataChunk(path, chunkData, false);
+    }
+    await sendDataChunk(path, "", true);
+}
+
+// do not use this, use sendDataChunkByChunk instead
+async function sendDataChunk(path, chunkData, isLastData) {
     const body = {
         isLastData: isLastData,
         path: path,
-        data: chunk,
+        data: chunkData,
     };
 
-    fetch('/save-chunk', {
+    await fetch('/save-chunk', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
           },
         body: JSON.stringify(body),
     })
-    .then(response => {
+    .then(response => response.json())
+    .then(data => {
     })
     .catch(error => {
         console.error('Error sending chunk:', error);
     });
 }
 
-function saveNewDataInJson(data, path){
-    fetch('/update-json', 
-    {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ newData:data, jsonFilePath:path })
-    })
-}
-
 function addNewBuildingToJsonByInfos(infos){
     return new Promise((resolve, reject) => {
         fetch(pathOfMap)
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             infos.forEach(info => {
                 var coordinatesList = info.coordinatesList;
                 var newBuilding = info.newBuilding;
@@ -57,7 +56,7 @@ function addNewBuildingToJsonByInfos(infos){
                 };
                 data.features.push(newFeature);
             });
-            saveNewDataInJson(data, pathOfMap); 
+            await sendDataChunkByChunk(pathOfMap, data)
             resolve("Added");
         })
         .catch(error => reject(error));
@@ -200,11 +199,11 @@ function deleteBuildingByID(id){
     return new Promise((resolve, reject) => {
         fetch(pathOfMap)
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             let listOfFeature = data.features;
             listOfFeature.splice(id-1, 1);
             data = resetAllID(data);
-            saveNewDataInJson(data, pathOfMap);
+            await sendDataChunkByChunk(pathOfMap, data);
             lastID--;
             resolve("Deleted");
         })
@@ -216,14 +215,14 @@ function updateToInfOfBuildingByID(id, building){
     return new Promise((resolve, reject) => {
         fetch(pathOfMap)
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             let listOfFeature = data.features;
     
             building.setID(id);
             building.setCenter(listOfFeature[id-1].properties.center);
     
             listOfFeature[id-1].properties = building;
-            saveNewDataInJson(data, pathOfMap); 
+            await sendDataChunkByChunk(pathOfMap, data)
             resolve("Updated");
         })
         .catch(error => reject(error));

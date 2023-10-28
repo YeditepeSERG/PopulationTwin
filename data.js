@@ -99,16 +99,18 @@ export async function saveBuildingsData(area) {
     let extentCoordinates = area.view.getProperties().extent;
 
     await getBuildingsData(extentCoordinates)
-        .then(ways => {
+        .then(async ways => {
             let data = {
                 "type": "FeatureCollection",
                 "features": [],
             };
+            let id = 1;
 
             ways.forEach(way => {
                 let wayData = {
                     "type": "Feature",
                     "properties": {
+                        "id": id++,
                         "name": undefined,
                     },
                     "geometry": {
@@ -122,12 +124,7 @@ export async function saveBuildingsData(area) {
                 data.features.push(wayData);
             });
 
-            let stringifiedData = JSON.stringify(data);
-            let chunkSize = 50000;
-            for (let i = 0; i < stringifiedData.length; i += chunkSize) {
-                let isLastData = (i + chunkSize >= stringifiedData.length);
-                sendDataChunk(geojsonPath, stringifiedData, i, chunkSize, isLastData);
-            }
+            await sendDataChunkByChunk(geojsonPath, data);
         })
         .catch(error => {
             console.error('Data fetch error:', error);

@@ -53,33 +53,26 @@ app.get('/register.html', (request, response) => {
 
 });
 
-app.post('/update-json', (request, response) => {
-    const { newData, jsonFilePath } = request.body; 
-    const jsonData = JSON.stringify(newData);
-
-    fs.writeFile(jsonFilePath, jsonData, (err) => {
-        if (err) {
-            console.error('Error writing file:', err);
-        } 
-    });
-    
-});
-
 const dataChunks = [];
 app.post('/save-chunk', (req, res) => {
-    let isLastData = req.body.isLastData;
-    let path = req.body.path;
-    let data = req.body.data;
-    dataChunks.push(data);
-
+    const isLastData = req.body.isLastData;
+    const path = req.body.path;
+    const data = req.body.data;
+    const responseData = {
+        message: "",
+    };
+    
     if (isLastData) {
         const completeData = dataChunks.join('');
         fs.writeFileSync(path, completeData);
         dataChunks.length = 0;
-        res.send('Data received and saved.');
+        responseData.message = "Data received and saved.";
     } else {
-        res.send('Chunk received.');
+        dataChunks.push(data);
+        responseData.message = "Chunk received.";
     }
+
+    res.send(responseData);
 });
 
 app.listen(process.env.PORT || 3000, ()=> console.log('App avaliable on http://localhost:3000'))
