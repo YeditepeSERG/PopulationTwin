@@ -56,16 +56,40 @@ const populationRanges = [
 
 const listOfColorByRisk = [
     {
-        "Risk": 4,
+        "Risk": 10,
         "Color": "red"
     },
     {
-        "Risk": 3,
+        "Risk": 9,
+        "Color": "red"
+    },
+    {
+        "Risk": 8,
+        "Color": "red"
+    },
+    {
+        "Risk": 7,
         "Color": "orange"
     },
     {
-        "Risk": 2,
+        "Risk": 6,
+        "Color": "orange"
+    },
+    {
+        "Risk": 5,
         "Color": "yellow"
+    },
+    {
+        "Risk": 4,
+        "Color": "yellow"
+    },
+    {
+        "Risk": 3,
+        "Color": "yellow"
+    },
+    {
+        "Risk": 2,
+        "Color": "green"
     },
     {
         "Risk": 1,
@@ -73,7 +97,7 @@ const listOfColorByRisk = [
     },
     {
         "Risk": 0,
-        "Color": "grey"
+        "Color": "green"
     }
 ]
 

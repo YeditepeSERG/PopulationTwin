@@ -142,6 +142,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
         features.forEach(feature => {
             let coords = getCoordinatesByFeature(feature);
             var newBuilding = getNewBuildingByFeature(feature);
+
             if (newBuilding) {
                 let info = {
                     "newBuilding": newBuilding,
