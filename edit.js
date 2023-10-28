@@ -122,14 +122,15 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
     });
     
     editToggleButton.onclick = () => {
-        setMapInteraction("toggle");
         if (editToggleButton.checked) {
             saveToJsonButton.style.display = 'block';
             getOSMDataButton.style.display = 'block';
+            setMapInteraction("add");
         }
         else {
             saveToJsonButton.style.display = 'none';
             getOSMDataButton.style.display = 'none';
+            setMapInteraction("remove");
             closeEditNav();
         }
     };
@@ -274,14 +275,6 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
         else if (mode === "remove" && isInteractionOn) {
             draw.abortDrawing();
             map.removeInteraction(draw);
-        }
-        else if (mode === "toggle") {
-            if (isInteractionOn) {
-                setMapInteraction("remove");
-            }
-            else {
-                setMapInteraction("add");
-            }
         }
     }
     

@@ -7,8 +7,8 @@ const app = express();
 app.use(express.static('.'));
 app.use(express.static('inputPopup'));
 
-app.use(bodyparser.urlencoded({ extended: true }))
-app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.json({limit: '10mb'}));
 
 app.get('/', (request, response) => {
     fs.readFile('./index.html', 'utf8', (err,html) => {

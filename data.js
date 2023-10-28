@@ -111,7 +111,7 @@ export async function saveBuildingsData(area) {
                     "type": "Feature",
                     "properties": {
                         "id": id++,
-                        "name": undefined,
+                        "buildingName": undefined,
                     },
                     "geometry": {
                         "coordinates": undefined,
@@ -119,12 +119,12 @@ export async function saveBuildingsData(area) {
                     },
                 };
 
-                wayData.properties.name = way.tags.name;
+                wayData.properties.buildingName = way.tags.name;
                 wayData.geometry.coordinates = way.getCooords();
                 data.features.push(wayData);
             });
 
-            await sendDataChunkByChunk(geojsonPath, data);
+            await HTTPDataHandling.sendDataChunkByChunk(geojsonPath, data);
         })
         .catch(error => {
             console.error('Data fetch error:', error);
@@ -140,18 +140,4 @@ function switchLatLon(coordinateArray) {
     [switchedCoords[0], switchedCoords[1]] = [coordinateArray[1], coordinateArray[0]];
     [switchedCoords[2], switchedCoords[3]] = [coordinateArray[3], coordinateArray[2]];
     return switchedCoords;
-}
-
-
-function test() {
-    return {
-        "name": 'test',
-        "path": './data/test.geojson',
-        "view": new ol.View({
-            center: [3245075.5956414873, 5008280.403576283],
-            zoom: 17,
-            maxZoom: 20,
-            extent: [3243765.5304893167, 5007166.253738531, 3246089.254809256, 5009211.711301061]
-        }),
-    };
 }

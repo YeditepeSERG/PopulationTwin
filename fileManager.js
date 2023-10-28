@@ -1,36 +1,39 @@
 const listOfNotTranferred = ["id", "color", "imgPath"];
 
-async function sendDataChunkByChunk(path, data, chunkSize = 50000) {
-    const stringifiedData = JSON.stringify(data);
+class HTTPDataHandling {
+    static #jsonDataLimit = 10 * 1048576;   // 10MB
 
-    for (let i = 0; i < stringifiedData.length; i += chunkSize) {
-        const chunkData = stringifiedData.slice(i, i + chunkSize);
-        await sendDataChunk(path, chunkData, false);
+    static async #sendDataChunk(path, chunkData, isLastData) {
+        const body = {
+            isLastData: isLastData,
+            path: path,
+            data: chunkData,
+        };
+    
+        await fetch('/save-chunk', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+            body: JSON.stringify(body),
+        })
+        .then(response => response.json())
+        .then(data => {
+        })
+        .catch(error => {
+            console.error('Error sending chunk:', error);
+        });
     }
-    await sendDataChunk(path, "", true);
-}
 
-// do not use this, use sendDataChunkByChunk instead
-async function sendDataChunk(path, chunkData, isLastData) {
-    const body = {
-        isLastData: isLastData,
-        path: path,
-        data: chunkData,
-    };
-
-    await fetch('/save-chunk', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify(body),
-    })
-    .then(response => response.json())
-    .then(data => {
-    })
-    .catch(error => {
-        console.error('Error sending chunk:', error);
-    });
+    static async sendDataChunkByChunk(path, data, chunkSize = this.#jsonDataLimit / 2) {
+        const stringifiedData = JSON.stringify(data);
+    
+        for (let i = 0; i < stringifiedData.length; i += chunkSize) {
+            const chunkData = stringifiedData.slice(i, i + chunkSize);
+            await this.#sendDataChunk(path, chunkData, false);
+        }
+        await this.#sendDataChunk(path, "", true);
+    }
 }
 
 function addNewBuildingToJsonByInfos(infos){
@@ -56,7 +59,7 @@ function addNewBuildingToJsonByInfos(infos){
                 };
                 data.features.push(newFeature);
             });
-            await sendDataChunkByChunk(pathOfMap, data)
+            await HTTPDataHandling.sendDataChunkByChunk(pathOfMap, data)
             resolve("Added");
         })
         .catch(error => reject(error));
@@ -203,7 +206,7 @@ function deleteBuildingByID(id){
             let listOfFeature = data.features;
             listOfFeature.splice(id-1, 1);
             data = resetAllID(data);
-            await sendDataChunkByChunk(pathOfMap, data);
+            await HTTPDataHandling.sendDataChunkByChunk(pathOfMap, data);
             lastID--;
             resolve("Deleted");
         })
@@ -222,7 +225,7 @@ function updateToInfOfBuildingByID(id, building){
             building.setCoordinate(listOfFeature[id-1].properties.center);
     
             listOfFeature[id-1].properties = building;
-            await sendDataChunkByChunk(pathOfMap, data)
+            await HTTPDataHandling.sendDataChunkByChunk(pathOfMap, data)
             resolve("Updated");
         })
         .catch(error => reject(error));
