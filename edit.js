@@ -164,7 +164,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
         }
     
         const areaOption = areasElements.options[areasElements.selectedIndex];
-        const area = getInfosOfAreas(areaOption);
+        const area = getInfosOfAreas(areaOption.value);
         await saveBuildingsData(area)
         .then(() => {
             location.reload();
