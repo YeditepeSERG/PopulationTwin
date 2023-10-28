@@ -23,7 +23,7 @@ class Building{
         this.roadType = properties.roadType;
 
 
-        this.center = null;
+        this.coordinate = null;
         this.risk = determineRiskScale(this.buildingPopulation);
         this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
@@ -41,12 +41,12 @@ class Building{
         return this.id;
     }
 
-    setCenter(center){
-        this.center = center;
+    setCoordinate(coordinate){
+        this.coordinate = coordinate;
     }
 
-    getCenter(){
-        return this.center;
+    getCoordinate(){
+        return this.coordinate;
     }
  
     setRisk(risk){

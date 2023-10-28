@@ -44,7 +44,7 @@ function addNewBuildingToJsonByInfos(infos){
 
                 const centerOfBuilding = getCenterOfBuilding(coordinatesList[0]);
                 const center_HDMS = ol.coordinate.toStringHDMS(centerOfBuilding);
-                newBuilding.setCenter(center_HDMS);
+                newBuilding.setCoordinate(center_HDMS);
         
                 let newFeature = {
                     "type": "Feature",
