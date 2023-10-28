@@ -58,7 +58,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
     areaSelection();
     
     map.on('click', (e)=>{
-        map.forEachFeatureAtPixel(e.pixel, async feature => {
+        map.forEachFeatureAtPixel(e.pixel, feature => {
           let isDrawing = feature.getStyle() === null;
           if (isDrawing) return;
     
@@ -74,28 +74,32 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
           } 
           // edit button off
           else {
-              let infoTxt = `<p>`
-              for (var key in feature.values_){
-                if(listOfNotTranferred.includes(key) || key == "geometry"){
-                  continue;
-                }
-                let label = await getLabelOfTheFieldsByID(pathOfPropertiesConfig, key);
-                
-                if (label === "") {
-                    infoTxt = infoTxt + `<span style="color: #c40d09;">${key}:</span> ${feature.values_[key]}<br>`;
-                }
-                else{
-                    infoTxt = infoTxt + `<span style="color: #c40d09;">${label}:</span> ${feature.values_[key]}<br>`;
-                }
-              }
-              infoTxt = infoTxt + `</p><code>`;
-      
-              popupContent.innerHTML = infoTxt;
-              overlay.setPosition(e.coordinate);
+            generatePopUp(feature, e);
           }
         });
     });
     
+    async function generatePopUp(feature, e){
+        let infoTxt = `<p>`
+        for (var key in feature.values_){
+            if(listOfNotTranferred.includes(key) || key == "geometry"){
+                continue;
+            }
+            let label = await getLabelOfTheFieldsByID(pathOfPropertiesConfig, key);
+            
+            if (label === "") {
+                infoTxt = infoTxt + `<span style="color: #c40d09;">${key}:</span> ${feature.values_[key]}<br>`;
+            }
+            else{
+                infoTxt = infoTxt + `<span style="color: #c40d09;">${label}:</span> ${feature.values_[key]}<br>`;
+            }
+        }
+        infoTxt = infoTxt + `</p><code>`;
+
+        popupContent.innerHTML = infoTxt;
+        overlay.setPosition(e.coordinate);
+    }
+
     // on right mouse click
     map.getViewport().addEventListener('contextmenu', function (event) {
         event.preventDefault();

@@ -219,7 +219,7 @@ function updateToInfOfBuildingByID(id, building){
             let listOfFeature = data.features;
     
             building.setID(id);
-            building.setCenter(listOfFeature[id-1].properties.center);
+            building.setCoordinate(listOfFeature[id-1].properties.center);
     
             listOfFeature[id-1].properties = building;
             await sendDataChunkByChunk(pathOfMap, data)
