@@ -77,39 +77,19 @@
             </div>
         </div>
     </nav>
-    <div style="height: 45rem;">
+    <div style="height: 62.5rem;">
         <div class="row h-100">
             <div class="col-12">
                 <div id="js-map" class="map"></div>
                 <div id="propertiesSidebar" class="editbar">
                     <a href="javascript:void(0)" class="closebtn" id="closebtn"> × </a>
                     <div>
-                        <h4 style="text-align: center; color: white; padding: 20px;">Properties</h4>
-                        <form>
-                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <div class="grid-2">
-                                    <div class="sidebar">
-                                        <select name="building-type" id="building-type">
-                                            <option value='Apartment'>Apartment</option>
-                                            <option value='School'>School</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <label class="form-label" for="building-name">Name</label>
-                                <input type="text" id="building-name" class="form-control" />
-                            </div>
-                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <label class="form-label" for="building-population">Population</label>
-                                <input type="number" min="0" step="1" id="building-population" class="form-control" />
-                            </div>
-                            <div class="form-outline mb-4" style="color: white; padding: 20px;">
-                                <button type="button" id="savePropertiesButton"
-                                    class="btn btn-success btn-block">Save</button>
-                                <button type="button" id="deleteBuildingButton"
-                                    class="btn btn-danger btn-block">Delete</button>
-                            </div>
+
+                        <h4 class="text-center text-white p-4">Properties</h4>
+
+                        <form id="properties-form">
+
+
                         </form>
                     </div>
                 </div>

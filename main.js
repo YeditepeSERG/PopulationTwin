@@ -95,6 +95,16 @@ function loadGeoJSON(path){
     return buildingsGeoJSON;
 }
 
+function getInfosOfAreas(name){
+  for(var i=0 ; i<areas.length ; i++){
+    var area = areas[i];
+    if(area.name.match(name)){
+      return area;
+    }
+  }
+  return null;
+}
+
 function addOptionToSelectByID(id, listOfOption){
   var select = document.getElementById(id);
   select.innerHTML = "";
@@ -107,12 +117,71 @@ function addOptionToSelectByID(id, listOfOption){
   })
 }
 
-function getInfosOfAreas(name){
-  for(var i=0 ; i<areas.length ; i++){
-    var area = areas[i];
-    if(area.name.match(name)){
-      return area;
-    }
-  }
-  return null;
+function generatePropertiesFormByConfig(path, formId){
+  return new Promise ((resolve, reject) => {
+    fetch(path)
+    .then(response => response.json())
+    .then(data => {
+        let formElement = document.getElementById(formId);
+
+        data.fields.forEach(fieldConfig => {
+            let formDiv = document.createElement('div');
+            formDiv.classList.add('form-outline', 'bg-dark', 'mb-4', 'p-3');
+
+            let labelElement = document.createElement('label');
+            labelElement.classList.add('form-label', 'text-white');
+            labelElement.innerText = fieldConfig.label;
+
+            let fieldElement = document.createElement(fieldConfig.type);
+            fieldElement.id = fieldConfig.id;
+
+            fieldConfig.class.forEach(element => {
+              fieldElement.classList.add(element);
+            })
+
+            if (fieldConfig.type === 'select') {
+                fieldConfig.options.forEach(option => {
+                    let optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.text = option.text;
+                    fieldElement.appendChild(optionElement);
+                });
+            }
+            else{
+              let input = document.createElement('input');
+              input.type =fieldConfig.typeOfInput;
+              input.id = fieldConfig.id;
+              fieldElement.appendChild(input);
+            }
+
+            formDiv.appendChild(labelElement);
+            formDiv.appendChild(fieldElement);
+            formElement.appendChild(formDiv);
+        });
+
+        let buttonDiv = document.createElement('div');
+        buttonDiv.classList.add('form-outline', 'mb-4', 'p-3');
+
+        data.buttons.forEach(buttonConfig => {
+
+            let buttonElement = document.createElement('button');
+            buttonElement.type = buttonConfig.type;
+            buttonElement.id = buttonConfig.id;
+            
+            buttonConfig.class.forEach(element => {
+              buttonElement.classList.add(element);
+            })
+            buttonElement.innerText = buttonConfig.text;
+
+            buttonDiv.appendChild(buttonElement);
+        });
+          
+        formElement.appendChild(buttonDiv);
+
+        resolve(formElement);
+    })
+    .catch(error => {
+      reject(error);
+  });
+  })
 }

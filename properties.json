@@ -1,0 +1,123 @@
+{
+    "fields": [
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Building Type",
+            "id": "building-type",
+            "options": [
+                {"value": "Apartment", "text": "Apartment"},
+                {"value": "School", "text": "School"},
+                {"value": "Hospital", "text": "Hospital"},
+                {"value": "Shopping Mall", "text": "Shopping Mall"},
+                {"value": "Business Center", "text": "Business Center"}
+            ]
+        },
+        {
+            "type": "input",
+            "typeOfInput": "text",
+            "class": ["form-control"],
+            "label": "Building Name",
+            "id": "building-name"
+        },
+        {
+            "type": "input",
+            "typeOfInput": "number",
+            "class": ["form-control"],
+            "label": "Building Population",
+            "id": "building-population"
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Fire Escape",
+            "id": "fire-escape",
+            "options": [
+                {"value": "True", "text": "True"},
+                {"value": "False", "text": "False"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Shop",
+            "id": "shop",
+            "options": [
+                {"value": "True", "text": "True"},
+                {"value": "False", "text": "False"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Elevator",
+            "id": "elevator",
+            "options": [
+                {"value": "True", "text": "True"},
+                {"value": "False", "text": "False"}
+            ]
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Building Risk Analyse",
+            "id": "building-risk-analyse",
+            "options": [
+                {"value": "True", "text": "True"},
+                {"value": "False", "text": "False"}
+            ]
+        },
+        {
+            "type": "input",
+            "typeOfInput": "number",
+            "class": ["form-control"],
+            "label": "Construction Date of the Building",
+            "id": "construction-date"
+        },
+        {
+            "type": "input",
+            "typeOfInput": "number",
+            "class": ["form-control"],
+            "label": "Number of Floor",
+            "id": "number-of-floor"
+        },
+        {
+            "type": "input",
+            "typeOfInput": "number",
+            "class": ["form-control"],
+            "label": "Persons/m²",
+            "id": "persons-m²"
+        },
+        {
+            "type": "input",
+            "typeOfInput": "number",
+            "class": ["form-control"],
+            "label": "Road Width",
+            "id": "road-width"
+        },
+        {
+            "type": "select",
+            "class": ["form-select"],
+            "label": "Road Type",
+            "id": "road-type",
+            "options": [
+                {"value": "street", "text": "Street"},
+                {"value": "boulevard", "text": "Boulevard"}
+            ]
+        }
+    ],
+    "buttons": [
+        {
+            "type": "button",
+            "id": "savePropertiesButton",
+            "class": ["btn", "btn-success", "btn-block", "mx-2"],
+            "text": "Save"
+        },
+        {
+            "type": "button",
+            "id": "deleteBuildingButton",
+            "class": ["btn", "btn-danger", "btn-block", "mx-2"],
+            "text": "Delete"
+        }
+    ]
+}
