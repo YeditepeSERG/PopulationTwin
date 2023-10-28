@@ -4,7 +4,7 @@
             "type": "select",
             "class": ["form-select"],
             "label": "Building Type",
-            "id": "building-type",
+            "id": "buildingType",
             "options": [
                 {"value": "Apartment", "text": "Apartment"},
                 {"value": "School", "text": "School"},
@@ -18,20 +18,20 @@
             "typeOfInput": "text",
             "class": ["form-control"],
             "label": "Building Name",
-            "id": "building-name"
+            "id": "buildingName"
         },
         {
             "type": "input",
             "typeOfInput": "number",
             "class": ["form-control"],
             "label": "Building Population",
-            "id": "building-population"
+            "id": "buildingPopulation"
         },
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Fire Escape",
-            "id": "fire-escape",
+            "label": "Is There a Fire Escape",
+            "id": "isThereFireEscape",
             "options": [
                 {"value": "True", "text": "True"},
                 {"value": "False", "text": "False"}
@@ -40,8 +40,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Shop",
-            "id": "shop",
+            "label": "Is There a Shop Under the Building",
+            "id": "isThereShop",
             "options": [
                 {"value": "True", "text": "True"},
                 {"value": "False", "text": "False"}
@@ -50,8 +50,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Elevator",
-            "id": "elevator",
+            "label": "Is There a Elevator",
+            "id": "isThereElevator",
             "options": [
                 {"value": "True", "text": "True"},
                 {"value": "False", "text": "False"}
@@ -60,8 +60,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Building Risk Analyse",
-            "id": "building-risk-analyse",
+            "label": "Is There Building Risk Analyse",
+            "id": "isThereBuildingRiskAnalyse",
             "options": [
                 {"value": "True", "text": "True"},
                 {"value": "False", "text": "False"}
@@ -72,34 +72,34 @@
             "typeOfInput": "number",
             "class": ["form-control"],
             "label": "Construction Date of the Building",
-            "id": "construction-date"
+            "id": "constructionDate"
         },
         {
             "type": "input",
             "typeOfInput": "number",
             "class": ["form-control"],
             "label": "Number of Floor",
-            "id": "number-of-floor"
+            "id": "numberOfFloor"
         },
         {
             "type": "input",
             "typeOfInput": "number",
             "class": ["form-control"],
             "label": "Persons/m²",
-            "id": "persons-m²"
+            "id": "personsM2"
         },
         {
             "type": "input",
             "typeOfInput": "number",
             "class": ["form-control"],
             "label": "Road Width",
-            "id": "road-width"
+            "id": "roadWidth"
         },
         {
             "type": "select",
             "class": ["form-select"],
             "label": "Road Type",
-            "id": "road-type",
+            "id": "roadType",
             "options": [
                 {"value": "street", "text": "Street"},
                 {"value": "boulevard", "text": "Boulevard"}

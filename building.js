@@ -1,12 +1,30 @@
 class Building{
-    constructor(buildingType, name, population){
+    constructor(properties){
+        getIDListOfPropertiesForm("./properties.json")
+        .then((idList) => {
+            idList.forEach(element => {
+                let id = element.id;
+            })
+        })
         this.id = lastID+1;
         lastID++;
-        this.buildingType = buildingType;
-        this.name = name;
-        this.population = population;
+
+        this.buildingType = properties.buildingType;
+        this.buildingName = properties.buildingName;
+        this.buildingPopulation = properties.buildingPopulation;
+        this.isThereFireEscape = properties.isThereFireEscape;
+        this.isThereShop = properties.isThereShop;
+        this.isThereElevator = properties.isThereElevator;
+        this.isThereBuildingRiskAnalyse = properties.isThereBuildingRiskAnalyse;
+        this.constructionDate = properties.constructionDate;
+        this.numberOfFloor = properties.numberOfFloor;
+        this.personsM2 = properties.personsM2;
+        this.roadWidth = properties.roadWidth;
+        this.roadType = properties.roadType;
+
+
         this.center = null;
-        this.risk = determineRiskScale(this.population);
+        this.risk = determineRiskScale(this.buildingPopulation);
         this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
     }
@@ -21,30 +39,6 @@ class Building{
 
     getID(){
         return this.id;
-    }
-
-    setBuildingType(buildingType){
-        this.buildingType = buildingType;
-    }
-
-    getBuildingType(){
-        return this.buildingType;
-    }
-
-    setName(name){
-        this.name = name;
-    }
-
-    getName(){
-        return this.name;
-    }
-
-    setPopulation(population){
-        population = this.population;
-    }
-
-    getPopulation(){
-        return this.population;
     }
 
     setCenter(center){
@@ -77,10 +71,6 @@ class Building{
 
     getImgPath(){
         return this.imgPath;
-    }
-
-    display(){
-        console.log("Type: ", this.getBuildingType, "\nName: ", this.getName, "\nPopulation: ", this.getPopulation, "\nRisk: ", this.getRisk, "\nColor: ", this.getColor, "\nImgPath: ", this.getImgPath);
     }
 }
 

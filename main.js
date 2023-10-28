@@ -185,3 +185,35 @@ function generatePropertiesFormByConfig(path, formId){
   });
   })
 }
+
+function getIDListOfPropertiesForm(path){
+  return new Promise ((resolve, reject) => {
+    fetch(path)
+    .then(response => response.json())
+    .then(data => {
+      let idList = [];
+
+      data.fields.forEach(fieldConfig => {
+          let type;
+          if(fieldConfig.type === "select"){
+            type = "text";
+          }
+          else{
+            type = fieldConfig.typeOfInput;
+          }
+
+          let element = {
+            "id": fieldConfig.id,
+            "type": type
+          }
+
+          idList.push(element);
+      });
+
+      resolve(idList); 
+    })
+    .catch(error => {
+      reject(error);
+    });
+  })
+}

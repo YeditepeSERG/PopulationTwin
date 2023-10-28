@@ -1,7 +1,9 @@
 import {getEditAreaListByAccount, getViewAreaListByAccount} from "./userRepository.js";
 import {saveBuildingsData} from "./data.js"
 
-generatePropertiesFormByConfig("./properties.json", "properties-form")
+const pathOfPropertiesConfig = "./properties.json";
+
+generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
 .then((message) => {
     var selectedFeature = null;
     let featureProperties;
@@ -159,34 +161,39 @@ generatePropertiesFormByConfig("./properties.json", "properties-form")
     };
     
     savePropertiesButton.onclick = () => {
-        let buildingType = document.getElementById("building-type").value;
-        let buildingName = document.getElementById("building-name").value;
-        let buildingPopulation = parseInt(document.getElementById("building-population").value) || "";    
-    
-        let rawProperties = {
-            "buildingType": buildingType,
-            "name": buildingName,
-            "population": buildingPopulation,
-        };
-    
-        try {
-            isPropertiesEmpty(rawProperties);
-        } catch (error) {
-            alert(error.message);
-            return;
-        }
-    
-        selectedFeature.setProperties(rawProperties);
-        if(selectedFeature.getProperties().id){
-            let id = selectedFeature.getProperties().id;
-            let building = getNewBuildingByFeature(selectedFeature);
-            lastID--;
-            updateToInfOfBuildingByID(id, building);
-            selectedFeature.setStyle(getStyleByColor(building.getColor()));
-        }
-    
-        closeEditNav();
-        setMapInteraction("add");
+        getIDListOfPropertiesForm(pathOfPropertiesConfig)
+        .then((idList) => {
+            let rawProperties = {};
+            idList.forEach(element => {
+                let id = element.id;
+                let newProperty = document.getElementById(id).value;
+                if(element.type === "number"){
+                    newProperty = parseInt(newProperty) || "";
+                }
+                rawProperties[id] = newProperty;
+            })
+            return rawProperties;
+        })
+        .then((rawProperties) => {
+            try {
+                isPropertiesEmpty(rawProperties);
+            } catch (error) {
+                alert(error.message);
+                return;
+            }
+        
+            selectedFeature.setProperties(rawProperties);
+            if(selectedFeature.getProperties().id){
+                let id = selectedFeature.getProperties().id;
+                let building = getNewBuildingByFeature(selectedFeature);
+                lastID--;
+                updateToInfOfBuildingByID(id, building);
+                selectedFeature.setStyle(getStyleByColor(building.getColor()));
+            }
+        
+            closeEditNav();
+            setMapInteraction("add");
+        })
     };
     
     deleteBuildingButton.onclick = async () => {
@@ -217,25 +224,12 @@ generatePropertiesFormByConfig("./properties.json", "properties-form")
     function openEditNav() {
         propertiesSidebar.style.width = "300px";
     
-        // default values
-        let buildingType = document.getElementById("building-type").value;
-        let name = "";
-        let population = "";
-    
         if (selectedFeature) {
             selectedFeature.setStyle(getStyleForEditing());
-            
             featureProperties = selectedFeature.getProperties();
-            buildingType = featureProperties.buildingType ?? buildingType;
-            name = featureProperties.name ?? name;
-            population = featureProperties.population ?? population;
         }
     
-        document.getElementById("building-type").value = buildingType;
-        document.getElementById("building-name").value = name;
-        document.getElementById("building-population").value = population;
-    
-        let focusElement = document.getElementById("building-name");
+        let focusElement = document.getElementById("buildingName");
         focusElement.focus();
         focusElement.setSelectionRange(focusElement.value.length, focusElement.value.length);
     }
@@ -279,13 +273,10 @@ generatePropertiesFormByConfig("./properties.json", "properties-form")
     
     function getNewBuildingByFeature(feature){
         featureProperties = feature.getProperties();
-        let featureBuildingType = featureProperties.buildingType;
-        let featureName = featureProperties.name;
-        let featurePopulation = featureProperties.population;
     
         try{
             isPropertiesEmpty(featureProperties);
-            const newBuilding = new Building(featureBuildingType, featureName, featurePopulation);
+            const newBuilding = new Building(featureProperties);
             return newBuilding;
         }
         catch{
