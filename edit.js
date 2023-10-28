@@ -170,6 +170,9 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
                 if(element.type === "number"){
                     newProperty = parseInt(newProperty) || "";
                 }
+                else if (newProperty === "true" || newProperty === "false"){
+                    newProperty = (newProperty === "true")
+                }
                 rawProperties[id] = newProperty;
             })
             return rawProperties;

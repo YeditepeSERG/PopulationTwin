@@ -33,8 +33,8 @@
             "label": "Is There a Fire Escape",
             "id": "isThereFireEscape",
             "options": [
-                {"value": "True", "text": "True"},
-                {"value": "False", "text": "False"}
+                {"value": "true", "text": "Yes"},
+                {"value": "false", "text": "No"}
             ]
         },
         {
@@ -43,8 +43,8 @@
             "label": "Is There a Shop Under the Building",
             "id": "isThereShop",
             "options": [
-                {"value": "True", "text": "True"},
-                {"value": "False", "text": "False"}
+                {"value": "true", "text": "Yes"},
+                {"value": "false", "text": "No"}
             ]
         },
         {
@@ -53,8 +53,8 @@
             "label": "Is There a Elevator",
             "id": "isThereElevator",
             "options": [
-                {"value": "True", "text": "True"},
-                {"value": "False", "text": "False"}
+                {"value": "true", "text": "Yes"},
+                {"value": "false", "text": "No"}
             ]
         },
         {
@@ -63,8 +63,8 @@
             "label": "Is There Building Risk Analyse",
             "id": "isThereBuildingRiskAnalyse",
             "options": [
-                {"value": "True", "text": "True"},
-                {"value": "False", "text": "False"}
+                {"value": "true", "text": "Yes"},
+                {"value": "false", "text": "No"}
             ]
         },
         {
