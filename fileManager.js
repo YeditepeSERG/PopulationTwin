@@ -146,24 +146,35 @@ function getXMLDataByJsonData(jsonData){
     var serializer = new XMLSerializer();
 
     var xmlDoc = document.implementation.createDocument(null, 'root', null);
-    var list = xmlDoc.createElement('ListOfBuilding');
+    var list = xmlDoc.createElement('ListOfProblem');
     xmlDoc.documentElement.appendChild(list);
     
     const listOfBuilding = jsonData.ListOfBuilding;
-    
+
     listOfBuilding.forEach(building => {
 
-        var item = xmlDoc.createElement('Building');
+        var problem = xmlDoc.createElement('problem');
+        problem.setAttribute('name', 'Building');
 
         for (let key in building){
 
-            var newItem = xmlDoc.createElement(key);
-            newItem.textContent = building[key];
-            item.appendChild(newItem);
+            var variable = xmlDoc.createElement('variable');
 
+            var identifier = xmlDoc.createElement(`identifier`);
+            var type = xmlDoc.createElement(`type`);
+            var value = xmlDoc.createElement(`value`);
+
+            identifier.textContent = key;
+            type.textContent = typeof building[key];
+            value.textContent = building[key];
+
+            variable.appendChild(identifier);
+            variable.appendChild(type);
+            variable.appendChild(value);
+            problem.appendChild(variable);
         }
 
-        list.appendChild(item);
+        list.appendChild(problem);
     });
 
     var xmlString = serializer.serializeToString(xmlDoc);
