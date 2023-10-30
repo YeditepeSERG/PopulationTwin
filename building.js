@@ -12,32 +12,29 @@ class Building{
         this.buildingType = properties.buildingType;
         this.buildingName = properties.buildingName;
         this.buildingPopulation = properties.buildingPopulation;
-        this.isThereFireEscape = properties.isThereFireEscape;
-        this.isThereShop = properties.isThereShop;
-        this.isThereElevator = properties.isThereElevator;
-        this.isThereBuildingRiskAnalyse = properties.isThereBuildingRiskAnalyse;
-        this.constructionDate = properties.constructionDate;
+        this.fireEscapeAvailability = properties.fireEscapeAvailability;
+        this.groundFloorShopAvailability = properties.groundFloorShopAvailability;
+        this.elevatorAvailability = properties.elevatorAvailability;
+        this.riskAnalysisReportAvailability = properties.riskAnalysisReportAvailability;
+        this.buildingConstructionDate = properties.buildingConstructionDate;
         this.numberOfFloor = properties.numberOfFloor;
         this.personsM2 = properties.personsM2;
         this.roadWidth = properties.roadWidth;
         this.roadType = properties.roadType;
-        this.basement = properties.basement;
+        this.basementAvailability = properties.basementAvailability;
         this.percentageOfHumidity = properties.percentageOfHumidity;
 
-
         this.coordinate = null;
-        // this.risk = determineRiskScale(this.buildingPopulation);
-        //this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
 
         this.vul_buildingType = getBuildingVul(this.buildingType)
-        this.vul_escapeStairs = fireEscapeVul(this.isThereFireEscape)
-        this.vul_buildingDate = getConsturctionDateVul(this.constructionDate)
-        this.vul_shopUnderBuilding = shopVul(this.isThereShop)
-        this.vul_elevator = elevatorVul(this.isThereElevator)
-        this.vul_riskAnalyse = riskAnalyzeVul(this.isThereBuildingRiskAnalyse)
+        this.vul_escapeStairs = fireEscapeVul(this.fireEscapeAvailability)
+        this.vul_buildingDate = getConsturctionDateVul(this.buildingConstructionDate)
+        this.vul_shopUnderBuilding = shopVul(this.groundFloorShopAvailability)
+        this.vul_elevator = elevatorVul(this.elevatorAvailability)
+        this.vul_riskAnalyse = riskAnalyzeVul(this.riskAnalysisReportAvailability)
         this.vul_numOfFloors = numberOfFloorVul(this.numberOfFloor) 
-        this.vul_basement  = getBasementVul(this.basement) 
+        this.vul_basement  = getBasementVul(this.basementAvailability) 
         this.vul_humidity = getHumidityVul(this.percentageOfHumidity)
 
         this.risk = determineRiskScale(this.vul_buildingType, this.vul_escapeStairs, this.vul_buildingDate, this.vul_shopUnderBuilding, this.vul_elevator, this.vul_riskAnalyse, this.vul_numOfFloors, this.vul_basement, this.vul_humidity);
@@ -106,8 +103,8 @@ function getBuildingVul(buildingType){
     }
 } 
 
-function getConsturctionDateVul(constructionDate){
-    switch(constructionDate){
+function getConsturctionDateVul(buildingConstructionDate){
+    switch(buildingConstructionDate){
         case "1960-1970":
             return 10;
         case "1971-1980":
@@ -134,8 +131,8 @@ function getHumidityVul(humidity){
     }
 }
 
-function getBasementVul(basement){
-    switch(basement){
+function getBasementVul(basementAvailability){
+    switch(basementAvailability){
         case true:
             return 2;
         case false:
@@ -143,8 +140,8 @@ function getBasementVul(basement){
     }
 }
 
-function riskAnalyzeVul(isThereBuildingRiskAnalyse){
-    switch(isThereBuildingRiskAnalyse){
+function riskAnalyzeVul(riskAnalysisReportAvailability){
+    switch(riskAnalysisReportAvailability){
         case true:
             return 2;
         case false:
@@ -166,9 +163,8 @@ function numberOfFloorVul(numberOfFloor){
     }
 }
 
-function fireEscapeVul(isThereFireEscape){
-    console.log(isThereFireEscape)
-    switch(isThereFireEscape){
+function fireEscapeVul(fireEscapeAvailability){
+    switch(fireEscapeAvailability){
         case true:
             return 0;
         case false:
@@ -176,8 +172,8 @@ function fireEscapeVul(isThereFireEscape){
     }
 }
 
-function elevatorVul(isThereElevator){
-    switch(isThereElevator){
+function elevatorVul(elevatorAvailability){
+    switch(elevatorAvailability){
         case true:
             return 2;
         case false:
@@ -185,8 +181,8 @@ function elevatorVul(isThereElevator){
     }
 }
 
-function shopVul(isThereShop){
-    switch(isThereShop){
+function shopVul(groundFloorShopAvailability){
+    switch(groundFloorShopAvailability){
         case true:
             return 10;
         case false:
@@ -206,21 +202,7 @@ function determineRiskScale(vul_buildingType, vul_buildingDate, vul_escapeStairs
         vul_x = 5;
     }else if(x <= 3){
         vul_x = 2;
-    }
-
-    console.log("vul_buildingDate: " + vul_buildingDate )
-    console.log("vul_riskAnalyse: " + vul_riskAnalyse )
-    console.log("vul_numOfFloors: " + vul_numOfFloors )
-    console.log("vul_escapeStairs: " + vul_escapeStairs )
-    console.log("vul_elevator: " + vul_elevator )
-    console.log("vul_shopUnderBuilding: " + vul_shopUnderBuilding )
-    console.log("vul_buildingType: " + vul_buildingType )
-    console.log("vul_basement: " + vul_basement )
-    console.log("vul_humidity: " + vul_humidity )
-
-    
-
-
+    }    
 
     vul_z = [(vul_buildingDate + vul_riskAnalyse + vul_numOfFloors + vul_escapeStairs + vul_elevator + vul_shopUnderBuilding) / 6] * (vul_buildingType/10)
 
@@ -233,18 +215,6 @@ function determineRiskScale(vul_buildingType, vul_buildingDate, vul_escapeStairs
     }
     
 }
-
-
-// function determineRiskScale(population){
-//     for(var i=0; i<=populationRanges.length; i++){
-//         if(population >= populationRanges[i].MinPop){
-//             return populationRanges[i].Risk;
-//         }
-//     }
-//     return null;
-// }
-
-
 
 function getColorByRiskScale(risk) {
     listOfColorByRisk.sort((a, b) => b.Risk - a.Risk);

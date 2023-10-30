@@ -1,4 +1,4 @@
-const listOfNotTranferred = ["id", "color", "imgPath"];
+//const listOfNotTranferred = ["id", "color", "imgPath"];
 
 class HTTPDataHandling {
     static #jsonDataLimit = 10 * 1048576;   // 10MB

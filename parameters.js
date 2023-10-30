@@ -1,3 +1,4 @@
+const listOfNotTranferred = ["id", "color", "imgPath", 'vul_buildingType', 'vul_escapeStairs', 'vul_buildingDate', 'vul_shopUnderBuilding', 'vul_elevator', 'vul_riskAnalyse', 'vul_numOfFloors', 'vul_basement', 'vul_humidity']
 let pathOfMap = './data/empty.geojson';
 let lastID = 0;
 

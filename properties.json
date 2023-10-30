@@ -30,8 +30,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Is There a Fire Escape",
-            "id": "isThereFireEscape",
+            "label": "Fire Escape Availability",
+            "id": "fireEscapeAvailability",
             "options": [
                 {"value": "true", "text": "Yes"},
                 {"value": "false", "text": "No"}
@@ -40,8 +40,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Is There a Shop Under the Building",
-            "id": "isThereShop",
+            "label": "Ground Floor Shop Availability",
+            "id": "groundFloorShopAvailability",
             "options": [
                 {"value": "true", "text": "Yes"},
                 {"value": "false", "text": "No"}
@@ -50,8 +50,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Is There a Elevator",
-            "id": "isThereElevator",
+            "label": "Elevator Availability",
+            "id": "elevatorAvailability",
             "options": [
                 {"value": "true", "text": "Yes"},
                 {"value": "false", "text": "No"}
@@ -60,8 +60,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Is There Building Risk Analyse",
-            "id": "isThereBuildingRiskAnalyse",
+            "label": "Risk Analysis Report Availability",
+            "id": "riskAnalysisReportAvailability",
             "options": [
                 {"value": "true", "text": "Yes"},
                 {"value": "false", "text": "No"}
@@ -70,8 +70,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Construction Date of the Building",
-            "id": "constructionDate",
+            "label": "Building Construction Date",
+            "id": "buildingConstructionDate",
             "options": [
                 {"value": "1960-1970", "text": "1960-1970"},
                 {"value": "1971-1980", "text": "1971-1980"},
@@ -130,8 +130,8 @@
         {
             "type": "select",
             "class": ["form-select"],
-            "label": "Is There Basement ",
-            "id": "basement",
+            "label": "Basement Availability",
+            "id": "basementAvailability",
             "options": [
                 {"value": "true", "text": "Yes"},
                 {"value": "false", "text": "No"}
