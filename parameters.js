@@ -105,22 +105,22 @@ const listOfColorByRisk = [
 const buildingList = [
     {
         "Type": "Apartment",
-        "ImgPath": 'icons/apartment.png'
+        "ImgPath": "🏢"
     },
     {
         "Type": "School",
-        "ImgPath": 'icons/school.png'
+        "ImgPath": "🎓"
     },
     {
         "Type": "Hospital",
-        "ImgPath": 'icons/hospital.png'
+        "ImgPath": "🇨🇭"
     },
     {
         "Type": "Shopping Mall",
-        "ImgPath": 'icons/shooping_mall.png'
+        "ImgPath": "🛒"
     },
     {
         "Type": "Business Center",
-        "ImgPath": 'icons/business_center.png'
+        "ImgPath": "💼"
     }    
 ]

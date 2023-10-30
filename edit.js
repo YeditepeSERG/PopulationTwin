@@ -204,7 +204,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
                 let building = getNewBuildingByFeature(selectedFeature);
                 lastID--;
                 updateToInfOfBuildingByID(id, building);
-                selectedFeature.setStyle(getStyleByColor(building.getColor()));
+                selectedFeature.setStyle(getStyleByColor(building.getColor(),building.getImgPath()));
             }
         
             closeEditNav();
@@ -256,14 +256,17 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
         if (selectedFeature) {
             let properties = selectedFeature.getProperties();
             let color;
+            let imgPath;
             if (properties.population){
                 let riskScale = determineRiskScale(properties.population);
                 color = getColorByRiskScale(riskScale);
+                imgPath = properties.imgPath;
             }
             if(!selectedFeature.getProperties().id){
                 color = "white";
+                imgPath = "";
             }
-            selectedFeature.setStyle(getStyleByColor(color));
+            selectedFeature.setStyle(getStyleByColor(color,imgPath));
         }
     }
     

@@ -25,7 +25,6 @@ class Building{
         this.percentageOfHumidity = properties.percentageOfHumidity;
 
         this.coordinate = null;
-        this.imgPath = getImageByType(this.buildingType);
 
         this.vul_buildingType = getBuildingVul(this.buildingType)
         this.vul_escapeStairs = fireEscapeVul(this.fireEscapeAvailability)
@@ -239,10 +238,10 @@ function getImageByType(buildingType){
     return null;
 }
 
-function getStyleByColor(fillColor){
+function getStyleByColor(fillColor, text){
     var strokeColor = "black";
     var strokeWidth = 1.2;
-
+    console.log("get style by color ",text);
     const style = new ol.style.Style({
         fill: new ol.style.Fill({
             color: fillColor,
@@ -251,6 +250,10 @@ function getStyleByColor(fillColor){
             color: strokeColor,
             width: strokeWidth
         }),
+        text : new ol.style.Text({
+            text: text,
+            font: "24px Arial",
+        })
     });
     return style;
 }
@@ -277,7 +280,8 @@ function drawShapesOnMap(layer){
     setTimeout(() => {
         features = layer.getSource().getFeatures();
         features.forEach((feature) => {
-            const style = getStyleByColor(feature.values_.color)
+            console.log("draw", feature.values_.imgPath);
+            const style = getStyleByColor(feature.values_.color, feature.values_.imgPath)
             feature.setStyle(style)
         });  
     }, delayTime); 
