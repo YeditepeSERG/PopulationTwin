@@ -26,8 +26,10 @@
                 <i class="bi bi-binoculars"></i> Viewer
             </button>
             <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="authorization.html"><i class="bi bi-person-plus-fill"></i> Subscribe a Viewer</a></li>
-                <li><a class="dropdown-item" href="register.html"><i class="bi bi-plus-circle"></i> Create a Viewer</a></li>
+                <li><a class="dropdown-item" href="authorization.html"><i class="bi bi-person-plus-fill"></i> Subscribe
+                        a Viewer</a></li>
+                <li><a class="dropdown-item" href="register.html"><i class="bi bi-plus-circle"></i> Create a Viewer</a>
+                </li>
             </ul>
             <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-download"></i> Export
@@ -39,6 +41,11 @@
             <button id="buttonLogout" type="button" class="btn btn-secondary btn-dark"><i
                     class="bi bi-box-arrow-right"></i> Logout</button>
         </div>
+        <p style="color: white; margin: 5px;"><i class="bi bi-person-circle"></i></p>
+        <p id="loggedInUser" style="color: white; margin: 5px;"></p>
+        <script>
+            document.getElementById("loggedInUser").textContent = window.sessionStorage.getItem("email");
+        </script>
     </nav>
     <nav class="navbar navbar-expand-lg navbar-light bg-secondary w-100">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -67,12 +74,14 @@
                     <input class="form-check-input" type="checkbox" role="switch" id="editToggle" checked>
                 </div>
                 <div style="padding-left: 5px;">
-                    <button class="btn btn-success btn-block" type="button" id="saveToJsonButton"><i class="bi bi-floppy"></i> Save</button>
+                    <button class="btn btn-success btn-block" type="button" id="saveToJsonButton"><i
+                            class="bi bi-floppy"></i> Save</button>
                 </div>
                 <div style="padding-left: 5px;">
                     <button class="btn btn-primary" id="getOSMData">Get OSM Building Data</button>
                 </div>
-                <p id="unsavedChangesText" style="margin: 5px; color: yellow;"><i class="bi bi-exclamation-triangle"></i> Unsaved buildings exists.</p>
+                <p id="unsavedChangesText" style="margin: 5px; color: yellow;"><i
+                        class="bi bi-exclamation-triangle"></i> Unsaved buildings exists.</p>
             </div>
         </div>
     </nav>

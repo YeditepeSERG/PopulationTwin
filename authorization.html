@@ -24,6 +24,11 @@
         <a class="nav-item nav-link" href="register.html"><i class="bi bi-plus-circle"></i> Create a User</a>
       </div>
     </div>
+    <p style="color: white; margin: 5px;"><i class="bi bi-person-circle"></i></p>
+    <p id="loggedInUser" style="color: white; margin: 5px;"></p>
+    <script>
+      document.getElementById("loggedInUser").textContent = window.sessionStorage.getItem("email");
+    </script>
   </nav>
 
   <div style="width: 100%; height: 82%;" class="d-flex align-items-center justify-content-center">

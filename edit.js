@@ -330,7 +330,7 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
             })
         })
     }
-    
+
     async function setUpAccordingToEditor(){
         const email = window.sessionStorage.getItem("email");
         var listOfAreas = [];
