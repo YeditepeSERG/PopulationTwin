@@ -313,18 +313,24 @@ generatePropertiesFormByConfig(pathOfPropertiesConfig, "properties-form")
             }
         }
     }
-    
+
     function editConstraint(){
         const email = window.sessionStorage.getItem("email")
         
         getEditAreaListByAccount(email).then(data=>{
+            
+            const editMod = document.getElementById('userMod');
+            
+
             const areasElements = document.getElementById('areas');
             areasElements.addEventListener("click", ()=>{
                 var areaValue = areasElements.options[areasElements.selectedIndex].value;
                 let editPermission = data.includes(areaValue)
                 if(editPermission){
+                    editMod.textContent = "(Editor)"
                     editDiv.classList.remove('d-none');
                 }else{
+                    editMod.textContent = "(Viewer)"
                     editDiv.classList.add('d-none');
                 }
             })
