@@ -35,8 +35,9 @@ class Building{
         this.vul_numOfFloors = numberOfFloorVul(this.numberOfFloor) 
         this.vul_basement  = getBasementVul(this.basementAvailability) 
         this.vul_humidity = getHumidityVul(this.percentageOfHumidity)
+        this.vul_population = getPopulationVul(this.buildingPopulation)
 
-        this.risk = determineRiskScale(this.vul_buildingType, this.vul_escapeStairs, this.vul_buildingDate, this.vul_shopUnderBuilding, this.vul_elevator, this.vul_riskAnalyse, this.vul_numOfFloors, this.vul_basement, this.vul_humidity);
+        this.risk = determineRiskScale(this.vul_buildingType, this.vul_escapeStairs, this.vul_buildingDate, this.vul_shopUnderBuilding, this.vul_elevator, this.vul_riskAnalyse, this.vul_numOfFloors, this.vul_basement, this.vul_humidity,this.vul_population);
         this.color = getColorByRiskScale(this.risk);
         this.imgPath = getImageByType(this.buildingType);
 
@@ -100,7 +101,11 @@ function getBuildingVul(buildingType){
         case "Shopping Mall":
             return 4;
     }
-} 
+}
+
+function getPopulationVul(population){
+    return Math.exp(population/1000);
+}
 
 function getConsturctionDateVul(buildingConstructionDate){
     switch(buildingConstructionDate){
@@ -188,7 +193,7 @@ function shopVul(groundFloorShopAvailability){
             return 0;
     }
 }
-function determineRiskScale(vul_buildingType, vul_buildingDate, vul_escapeStairs, vul_shopUnderBuilding, vul_elevator, vul_riskAnalyse, vul_numOfFloors, vul_basement, vul_humidity){
+function determineRiskScale(vul_buildingType, vul_buildingDate, vul_escapeStairs, vul_shopUnderBuilding, vul_elevator, vul_riskAnalyse, vul_numOfFloors, vul_basement, vul_humidity, vul_population){
     var x, vul_x, vul_z, buildingRisk;
 
 
@@ -203,7 +208,7 @@ function determineRiskScale(vul_buildingType, vul_buildingDate, vul_escapeStairs
         vul_x = 2;
     }    
 
-    vul_z = [(vul_buildingDate + vul_riskAnalyse + vul_numOfFloors + vul_escapeStairs + vul_elevator + vul_shopUnderBuilding) / 6] * (vul_buildingType/10)
+    vul_z = [(vul_buildingDate + vul_riskAnalyse + vul_numOfFloors + vul_escapeStairs + vul_elevator + vul_shopUnderBuilding + vul_population) / 6] * (vul_buildingType/10)
 
     if(vul_basement === 10){
         return (vul_z / 2);
